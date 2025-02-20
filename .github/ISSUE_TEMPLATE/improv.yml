@@ -1,0 +1,10 @@
+name: Melhoria
+description: Alterações necessárias para melhorar algo
+labels: ['improv']
+body:
+  - type: textarea
+    attributes:
+      label: Descrição da melhoria
+      description: Descreva o que devemos melhorar e como.
+    validations:
+      required: true

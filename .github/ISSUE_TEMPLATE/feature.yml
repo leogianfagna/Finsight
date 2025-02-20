@@ -1,0 +1,10 @@
+name: Feature
+description: Adição de novos recursos e funcionalidades
+labels: ['feature']
+body:
+  - type: textarea
+    attributes:
+      label: Descrição da feature
+      description: Descreva o que devemos implementar.
+    validations:
+      required: true

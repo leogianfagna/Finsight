@@ -1,0 +1,10 @@
+name: Alterações em estilos
+description: Melhorias em design e visuais
+labels: ['style']
+body:
+  - type: textarea
+    attributes:
+      label: Descrição das mudanças
+      description: Descreva o que devemos mudar no visual final.
+    validations:
+      required: true
