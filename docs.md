@@ -2,7 +2,6 @@ pip install django djangorestframework pymongo
 pip install python-dotenv
 
 Ligar servidor:
-`cd backend`
 `python manage.py runserver`
 
 .env:
