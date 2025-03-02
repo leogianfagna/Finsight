@@ -13,7 +13,27 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+from mongoengine import connect
+import pymongo
 load_dotenv()
+
+# Configuração do MongoDB
+MONGO_URI = "mongodb+srv://pi5:8Mt7LufwcOKOzcw8@investia.k9cc5.mongodb.net/?retryWrites=true&w=majority&appName=investia"
+MONGO_DB_NAME = "users"
+
+# Conexão com o MongoDB
+mongo_client = pymongo.MongoClient(MONGO_URI)
+db = mongo_client[MONGO_DB_NAME]
+
+"""
+connect(
+    db='users',
+    username='pi5',
+    password='8Mt7LufwcOKOzcw8',
+    host='mongodb+srv://pi5:8Mt7LufwcOKOzcw8@investia.k9cc5.mongodb.net/users?retryWrites=true&w=majority'
+)
+"""
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -82,10 +102,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'djongo',
         'NAME': 'users',
-        'ENFORCE_SCHEMA': False,
         'CLIENT': {
-            'host': os.getenv("MONGODB_CONNECTION", default="")
-        }  
+            'host': 'mongodb+srv://pi5:8Mt7LufwcOKOzcw8@investia.k9cc5.mongodb.net/users?retryWrites=true&w=majority',
+        }
     }
 }
 
