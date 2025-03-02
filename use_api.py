@@ -1,6 +1,5 @@
 import requests
 
-# URL base da sua API (ajuste conforme necessário)
 base_url = "http://localhost:8000/api/"
 
 def add_user(username, password):

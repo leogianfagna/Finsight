@@ -18,7 +18,6 @@ class User(models.Model):
 
     @staticmethod
     def add_user(username, password):
-        # Função para adicionar um usuário no MongoDB
         user_data = {"username": username, "password": password}
         collection.insert_one(user_data)
 

@@ -25,11 +25,9 @@ def get_user_tickers(request):
         return JsonResponse({"message": "Username is required"}, status=400)
 
 def get_all_users(request):
-    # Recuperando todos os usuários como uma lista
     users = User.get_all_users()
-    
-    # Convertendo o cursor para uma lista de documentos
     user_list = []
+    
     for user in users:
         user_list.append({"username": user.get("username"), "password": user.get("password")})
     

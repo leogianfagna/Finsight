@@ -16,11 +16,9 @@ import pymongo
 import os
 load_dotenv()
 
-# Configuração do MongoDB
+# Configuração do MongoDB a parte, já que o Django não suporta manualmente nosso backend para Kotlin
 MONGO_URI = os.getenv("MONGODB_CONNECTION", default="")
 MONGO_DB_NAME = "users"
-
-# Conexão com o MongoDB
 mongo_client = pymongo.MongoClient(MONGO_URI)
 db = mongo_client[MONGO_DB_NAME]
 
@@ -33,7 +31,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$n$(%va0bc*fir^#ch5u*q^dv%g&rw&fs@jhdvxh=996(b2jh^'
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", default="")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
