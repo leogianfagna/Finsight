@@ -60,6 +60,5 @@ if __name__ == "__main__":
     get_all_users()
     """
 
-    print("\nFetching todas as ações de bruno:")
-    add_user("Leonardo", "fdfgsf")
-    add_user_ticker("Leonardo", "VALE3")
+    add_user("Teste", "testpass")
+    add_user_ticker("Teste", "VALE3")

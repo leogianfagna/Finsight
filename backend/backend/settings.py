@@ -13,10 +13,11 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 from dotenv import load_dotenv
 import pymongo
+import os
 load_dotenv()
 
 # Configuração do MongoDB
-MONGO_URI = "mongodb+srv://pi5:8Mt7LufwcOKOzcw8@investia.k9cc5.mongodb.net/?retryWrites=true&w=majority&appName=investia"
+MONGO_URI = os.getenv("MONGODB_CONNECTION", default="")
 MONGO_DB_NAME = "users"
 
 # Conexão com o MongoDB
@@ -92,7 +93,7 @@ DATABASES = {
         'ENGINE': 'djongo',
         'NAME': 'users',
         'CLIENT': {
-            'host': 'mongodb+srv://pi5:8Mt7LufwcOKOzcw8@investia.k9cc5.mongodb.net/users?retryWrites=true&w=majority',
+            'host': os.getenv("MONGODB_CONNECTION", default=""),
         }
     }
 }

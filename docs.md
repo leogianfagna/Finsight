@@ -8,6 +8,4 @@ pip install djongo
 Ligar servidor:
 `python manage.py runserver`
 
-.env:
-1. Criar em /backend
-2. Chave: `MONGODB_CONNECTION`
+.env: Chave: `MONGODB_CONNECTION`

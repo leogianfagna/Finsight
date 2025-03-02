@@ -2,8 +2,12 @@ from django.db import models
 import pymongo
 from django.conf import settings
 
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
 # Conexão com o MongoDB
-client = pymongo.MongoClient("mongodb+srv://pi5:8Mt7LufwcOKOzcw8@investia.k9cc5.mongodb.net/?retryWrites=true&w=majority&appName=investia")
+client = pymongo.MongoClient(os.getenv("MONGODB_CONNECTION", default=""))
 db = client['users']
 collection = db['users']
 
