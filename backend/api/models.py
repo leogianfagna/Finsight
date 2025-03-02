@@ -16,26 +16,12 @@ class User(models.Model):
     password = models.CharField(max_length=100)
     tickers = models.JSONField(default=list)
 
+    # Manipulação de usuários
+
     @staticmethod
     def add_user(username, password):
         user_data = {"username": username, "password": password}
         collection.insert_one(user_data)
-
-    @staticmethod
-    def add_user_ticker(username, ticker):
-        collection.update_one(
-            {'username': username},
-            {'$addToSet': {'tickers': ticker}}  # $addToSet garante que não há duplicados na lista
-    )
-
-    @staticmethod
-    def get_user_tickers(username):
-        user_data = collection.find_one({"username": username})
-
-        if user_data:
-            return user_data.get("tickers", [])
-        else:
-            return None
 
     @staticmethod
     def get_all_users():
@@ -48,3 +34,54 @@ class User(models.Model):
     @staticmethod
     def delete_user(username):
         collection.delete_one({'username': username})
+
+
+    # Manipulação de papéis na conta do usuário
+
+    @staticmethod
+    def add_user_ticker(username, ticker):
+        user_data = collection.find_one({"username": username})
+        
+        if user_data:
+            collection.update_one(
+                {"username": username},
+                {"$addToSet": {"tickers": ticker}}
+            )
+            return "Ticker added successfully"
+        else:
+            return "User not found"
+        
+    @staticmethod
+    def delete_user_ticker(username, ticker):
+        user_data = collection.find_one({"username": username})
+        
+        if user_data:
+            collection.update_one(
+                {"username": username},
+                {"$pull": {"tickers": ticker}}
+            )
+            return "Ticker removed successfully"
+        else:
+            return "User not found"
+        
+    @staticmethod
+    def clear_user_tickers(username):
+        user_data = collection.find_one({"username": username})
+        
+        if user_data:
+            collection.update_one(
+                {"username": username},
+                {"$unset": {"tickers": ""}}
+            )
+            return "Tickers cleared successfully"
+        else:
+            return "User not found"
+
+    @staticmethod
+    def get_user_tickers(username):
+        user_data = collection.find_one({"username": username})
+
+        if user_data:
+            return user_data.get("tickers", [])
+        else:
+            return None

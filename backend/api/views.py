@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from .models import User
 
+# Manipulação de usuários
 def add_user(request):
     username = request.GET.get('username')
     password = request.GET.get('password')
@@ -10,19 +11,6 @@ def add_user(request):
         return JsonResponse({"message": "User added successfully"})
     else:
         return JsonResponse({"message": "Invalid data"}, status=400)
-
-def get_user_tickers(request):
-    username = request.GET.get('username')
-    if username:
-        tickers = User.get_user_tickers(username)
-        print(tickers)
-
-        if tickers is not None:
-            return JsonResponse({"username": username, "tickers": tickers})
-        else:
-            return JsonResponse({"message": "User not found"}, status=404)
-    else:
-        return JsonResponse({"message": "Username is required"}, status=400)
 
 def get_all_users(request):
     users = User.get_all_users()
@@ -42,16 +30,6 @@ def update_user(request):
         return JsonResponse({"message": "User updated successfully"})
     else:
         return JsonResponse({"message": "Invalid data"}, status=400)
-    
-def update_user_ticker(request):
-    username = request.GET.get('username')
-    ticker = request.GET.get('ticker')
-    
-    if username and ticker:
-        User.add_user_ticker(username, ticker)
-        return JsonResponse({"message": "User updated successfully"})
-    else:
-        return JsonResponse({"message": "Invalid data"}, status=400)
 
 def delete_user(request):
     username = request.GET.get('username')
@@ -59,5 +37,57 @@ def delete_user(request):
     if username:
         User.delete_user(username)
         return JsonResponse({"message": "User deleted successfully"})
+    else:
+        return JsonResponse({"message": "Invalid data"}, status=400)
+
+# Manipulação de papéis na conta do usuário
+def get_user_tickers(request):
+    username = request.GET.get('username')
+    if username:
+        tickers = User.get_user_tickers(username)
+        print(tickers)
+
+        if tickers is not None:
+            return JsonResponse({"username": username, "tickers": tickers})
+        else:
+            return JsonResponse({"message": "User not found"}, status=404)
+    else:
+        return JsonResponse({"message": "Username is required"}, status=400)
+    
+def add_user_ticker(request):
+    username = request.GET.get('username')
+    ticker = request.GET.get('ticker')
+    
+    if username and ticker:
+        result = User.add_user_ticker(username, ticker)
+        if result == "Ticker added successfully":
+            return JsonResponse({"message": "Ticker added successfully"})
+        else:
+            return JsonResponse({"message": "User not found"}, status=404)
+    else:
+        return JsonResponse({"message": "Invalid data"}, status=400)
+
+def delete_user_ticker(request):
+    username = request.GET.get('username')
+    ticker = request.GET.get('ticker')
+    
+    if username and ticker:
+        result = User.delete_user_ticker(username, ticker)
+        if result == "Ticker removed successfully":
+            return JsonResponse({"message": "Ticker removed successfully"})
+        else:
+            return JsonResponse({"message": "User not found"}, status=404)
+    else:
+        return JsonResponse({"message": "Invalid data"}, status=400)
+
+def clear_user_tickers(request):
+    username = request.GET.get('username')
+    
+    if username:
+        result = User.clear_user_tickers(username)
+        if result == "Tickers cleared successfully":
+            return JsonResponse({"message": "Ticker cleared successfully"})
+        else:
+            return JsonResponse({"message": "User not found"}, status=404)
     else:
         return JsonResponse({"message": "Invalid data"}, status=400)

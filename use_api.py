@@ -31,6 +31,18 @@ def add_user_ticker(username, ticker):
     response = requests.get(url, params=params)
     print(f"Update User Response: {response.json()}")
 
+def delete_user_ticker(username, ticker):
+    url = f"{base_url}delete_user_ticker/"
+    params = {'username': username, 'ticker': ticker}
+    response = requests.get(url, params=params)
+    print(f"Update User Response: {response.json()}")
+
+def clear_user_tickers(username):
+    url = f"{base_url}clear_user_tickers/"
+    params = {'username': username}
+    response = requests.get(url, params=params)
+    print(f"Update User Response: {response.json()}")
+
 def delete_user(username):
     url = f"{base_url}delete_user/"
     params = {'username': username}
@@ -38,26 +50,7 @@ def delete_user(username):
     print(f"Delete User Response: {response.json()}")
 
 if __name__ == "__main__":
-    """
-    # Testando as funções
-    add_user("Bruno", "aabb")
-    add_user("Leticia", "jjg")
-    
-    print("\nFetching all users:")
-    get_all_users()
-    
-    print("\nUpdating user Bruno's password:")
-    update_user("Bruno", "newpassword123")
-    
-    print("\nFetching all users again:")
-    get_all_users()
-    
-    print("\nDeleting user Leticia:")
-    delete_user("Leticia")
-    
-    print("\nFetching all users after deletion:")
-    get_all_users()
-    """
-
-    add_user("Teste", "testpass")
-    add_user_ticker("Teste", "VALE3")
+    add_user_ticker("Teste", "GGBR4")
+    add_user_ticker("Teste", "PETR3")
+    add_user_ticker("Teste", "POMO4")
+    clear_user_tickers("Teste")

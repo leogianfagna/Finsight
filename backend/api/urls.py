@@ -7,5 +7,7 @@ urlpatterns = [
     path('update_user/', views.update_user, name='update_user'),
     path('delete_user/', views.delete_user, name='delete_user'),
     path('get_user_tickers/', views.get_user_tickers, name='get_user_tickers'),
-    path('add_user_ticker/', views.update_user_ticker, name='add_user_ticker'),
+    path('add_user_ticker/', views.add_user_ticker, name='add_user_ticker'),
+    path('delete_user_ticker/', views.delete_user_ticker, name='delete_user_ticker'),
+    path('clear_user_tickers/', views.clear_user_tickers, name='clear_user_tickers'),
 ]
