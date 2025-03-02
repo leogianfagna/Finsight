@@ -26,6 +26,12 @@ def update_user(username, new_password):
     response = requests.get(url, params=params)
     print(f"Update User Response: {response.json()}")
 
+def add_user_ticker(username, ticker):
+    url = f"{base_url}add_user_ticker/"
+    params = {'username': username, 'ticker': ticker}
+    response = requests.get(url, params=params)
+    print(f"Update User Response: {response.json()}")
+
 def delete_user(username):
     url = f"{base_url}delete_user/"
     params = {'username': username}
@@ -55,4 +61,5 @@ if __name__ == "__main__":
     """
 
     print("\nFetching todas as ações de bruno:")
-    get_user_tickers("Bruno")
+    add_user("Leonardo", "fdfgsf")
+    add_user_ticker("Leonardo", "VALE3")

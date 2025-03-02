@@ -15,6 +15,7 @@ def get_user_tickers(request):
     username = request.GET.get('username')
     if username:
         tickers = User.get_user_tickers(username)
+        print(tickers)
 
         if tickers is not None:
             return JsonResponse({"username": username, "tickers": tickers})
@@ -40,6 +41,16 @@ def update_user(request):
     
     if username and password:
         User.update_user(username, password)
+        return JsonResponse({"message": "User updated successfully"})
+    else:
+        return JsonResponse({"message": "Invalid data"}, status=400)
+    
+def update_user_ticker(request):
+    username = request.GET.get('username')
+    ticker = request.GET.get('ticker')
+    
+    if username and ticker:
+        User.add_user_ticker(username, ticker)
         return JsonResponse({"message": "User updated successfully"})
     else:
         return JsonResponse({"message": "Invalid data"}, status=400)
