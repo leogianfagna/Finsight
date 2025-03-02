@@ -9,6 +9,12 @@ def add_user(username, password):
     response = requests.get(url, params=params)
     print(f"Add User Response: {response.json()}")
 
+def get_user_tickers(username):
+    url = f"{base_url}get_user_tickers/"
+    params = {'username': username}
+    response = requests.get(url, params=params)
+    print(f"Ações encontradas: {response.json()}")
+
 def get_all_users():
     url = f"{base_url}get_all_users/"
     response = requests.get(url)
@@ -27,6 +33,7 @@ def delete_user(username):
     print(f"Delete User Response: {response.json()}")
 
 if __name__ == "__main__":
+    """
     # Testando as funções
     add_user("Bruno", "aabb")
     add_user("Leticia", "jjg")
@@ -45,3 +52,7 @@ if __name__ == "__main__":
     
     print("\nFetching all users after deletion:")
     get_all_users()
+    """
+
+    print("\nFetching todas as ações de bruno:")
+    get_user_tickers("Bruno")

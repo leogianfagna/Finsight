@@ -10,12 +10,26 @@ collection = db['users']
 class User(models.Model):
     username = models.CharField(max_length=100)
     password = models.CharField(max_length=100)
+    tickers = models.JSONField(default=list)
 
     @staticmethod
     def add_user(username, password):
         # Função para adicionar um usuário no MongoDB
         user_data = {"username": username, "password": password}
         collection.insert_one(user_data)
+
+    # To-do: add_tickers
+
+    # To-do: get_tickers
+    @staticmethod
+    def get_user_tickers(username):
+        user_data = collection.find_one({"username": username})
+        
+        if user_data:
+            # Retornando os tickers do usuário
+            return user_data.get("tickers", [])
+        else:
+            return None
 
     @staticmethod
     def get_all_users():

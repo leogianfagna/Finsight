@@ -11,6 +11,18 @@ def add_user(request):
     else:
         return JsonResponse({"message": "Invalid data"}, status=400)
 
+def get_user_tickers(request):
+    username = request.GET.get('username')
+    if username:
+        tickers = User.get_user_tickers(username)
+
+        if tickers is not None:
+            return JsonResponse({"username": username, "tickers": tickers})
+        else:
+            return JsonResponse({"message": "User not found"}, status=404)
+    else:
+        return JsonResponse({"message": "Username is required"}, status=400)
+
 def get_all_users(request):
     # Recuperando todos os usuários como uma lista
     users = User.get_all_users()
