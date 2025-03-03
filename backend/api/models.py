@@ -20,8 +20,14 @@ class User(models.Model):
 
     @staticmethod
     def add_user(username, password):
-        user_data = {"username": username, "password": password}
-        collection.insert_one(user_data)
+        user_data = collection.find_one({"username": username})
+
+        if user_data:
+            return "Username already in use"
+        else:
+            user_data = {"username": username, "password": password}
+            collection.insert_one(user_data)
+            return "User registred successfully"
 
     @staticmethod
     def get_all_users():

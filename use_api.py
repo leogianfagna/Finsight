@@ -50,7 +50,6 @@ def delete_user(username):
     print(f"Delete User Response: {response.json()}")
 
 if __name__ == "__main__":
-    add_user_ticker("Teste", "GGBR4")
-    add_user_ticker("Teste", "PETR3")
-    add_user_ticker("Teste", "POMO4")
-    clear_user_tickers("Teste")
+    add_user("novoteste", "pass123")
+    add_user("maisumteste", "fsd43i4")
+    add_user("Teste", "kakads")

@@ -7,10 +7,15 @@ def add_user(request):
     password = request.GET.get('password')
     
     if username and password:
-        User.add_user(username, password)
-        return JsonResponse({"message": "User added successfully"})
+        result = User.add_user(username, password)
+        
+        # Checa se já existe um username com esse nome
+        if result == "User registred successfully":
+            return JsonResponse({"message": "User registered successfully"})
+        else:
+            return JsonResponse({"message": result}, status=400)
     else:
-        return JsonResponse({"message": "Invalid data"}, status=400)
+        return JsonResponse({"message": "Username and password are required"}, status=400)
 
 def get_all_users(request):
     users = User.get_all_users()
@@ -45,7 +50,6 @@ def get_user_tickers(request):
     username = request.GET.get('username')
     if username:
         tickers = User.get_user_tickers(username)
-        print(tickers)
 
         if tickers is not None:
             return JsonResponse({"username": username, "tickers": tickers})
