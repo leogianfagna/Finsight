@@ -12,6 +12,7 @@ db = client['users']
 collection = db['users']
 
 class User(models.Model):
+    full_name = models.CharField(max_length=255)
     username = models.CharField(max_length=100)
     password = models.CharField(max_length=100)
     tickers = models.JSONField(default=list)
@@ -19,13 +20,13 @@ class User(models.Model):
     # Manipulação de usuários
 
     @staticmethod
-    def add_user(username, password):
+    def add_user(full_name, username, password):
         user_data = collection.find_one({"username": username})
 
         if user_data:
             return "Username already in use"
         else:
-            user_data = {"username": username, "password": password}
+            user_data = {"full_name": full_name, "username": username, "password": password}
             collection.insert_one(user_data)
             return "User registred successfully"
 

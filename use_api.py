@@ -2,9 +2,9 @@ import requests
 
 base_url = "http://localhost:8000/api/"
 
-def add_user(username, password):
+def add_user(full_name, username, password):
     url = f"{base_url}add_user/"
-    params = {'username': username, 'password': password}
+    params = {'full_name': full_name, 'username': username, 'password': password}
     response = requests.get(url, params=params)
     print(f"Add User Response: {response.json()}")
 
@@ -50,6 +50,10 @@ def delete_user(username):
     print(f"Delete User Response: {response.json()}")
 
 if __name__ == "__main__":
-    add_user("novoteste", "pass123")
-    add_user("maisumteste", "fsd43i4")
-    add_user("Teste", "kakads")
+    add_user("Teste da Silva", "novoteste", "pass123")
+    add_user("Super Teste", "maisumteste", "fsd43i4")
+    add_user("Super Teste", "novoteste", "kakads")
+    add_user("Super Teste", "testing", "t6wrgf")
+    add_user_ticker("novoteste", "VALE3")
+    add_user_ticker("novoteste", "PETR3")
+    add_user_ticker("maisumteste", "GGBR4")

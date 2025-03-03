@@ -3,11 +3,12 @@ from .models import User
 
 # Manipulação de usuários
 def add_user(request):
+    full_name = request.GET.get('full_name')
     username = request.GET.get('username')
     password = request.GET.get('password')
     
     if username and password:
-        result = User.add_user(username, password)
+        result = User.add_user(full_name, username, password)
         
         # Checa se já existe um username com esse nome
         if result == "User registred successfully":
