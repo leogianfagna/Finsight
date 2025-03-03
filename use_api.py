@@ -49,11 +49,11 @@ def delete_user(username):
     response = requests.get(url, params=params)
     print(f"Delete User Response: {response.json()}")
 
+def get_dividend_history(ticker_name):
+    url = f"{base_url}get_dividend_history/"
+    params = {'ticker': ticker_name}
+    response = requests.get(url, params=params)
+    print(f"Ticker Response: {response.json()}")
+
 if __name__ == "__main__":
-    add_user("Teste da Silva", "novoteste", "pass123")
-    add_user("Super Teste", "maisumteste", "fsd43i4")
-    add_user("Super Teste", "novoteste", "kakads")
-    add_user("Super Teste", "testing", "t6wrgf")
-    add_user_ticker("novoteste", "VALE3")
-    add_user_ticker("novoteste", "PETR3")
-    add_user_ticker("maisumteste", "GGBR4")
+    get_dividend_history("VALE3.SA")

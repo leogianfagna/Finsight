@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 from .models import User
+from finance_api.dividends_history import fetch_dividend_history
 
 # Manipulação de usuários
 def add_user(request):
@@ -96,3 +97,13 @@ def clear_user_tickers(request):
             return JsonResponse({"message": "User not found"}, status=404)
     else:
         return JsonResponse({"message": "Invalid data"}, status=400)
+
+# Manipulação de dados de ações
+def get_dividend_history(request):
+    ticker_name = request.GET.get('ticker')
+    
+    if ticker_name:
+        ticker_data = fetch_dividend_history(ticker_name)
+        return JsonResponse({"message": "Data retrieved successfully", "dividends": ticker_data})
+    else:
+        return JsonResponse({"message": "Ticker name is required"}, status=400)
