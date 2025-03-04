@@ -1,4 +1,5 @@
 import yfinance as yf
+import pandas as pd
 
 """
 # Exemplo com a ação VALE3
@@ -11,17 +12,11 @@ print(ticker.history(period="2d"))
 """
 
 """
-As requisições HTTP só aceitam JSON, portanto foi convertido todos os dados para esse tipo, inclusive os dados do tipo
-timestamp para as datas de dividendos
+As requisições HTTP só aceitam JSON, portanto, apenas retornar objetos convertidos para esse tipo
 """
 
 def fetch_dividend_history(ticker_name):
     ticker = yf.Ticker(ticker_name)
-    print(ticker)
     dividend_history = ticker.dividends
-    
-    dividend_history = dividend_history.reset_index()
-    dividend_history['Date'] = dividend_history['Date'].dt.strftime('%Y-%m-%d')
-    
-    return dividend_history.to_dict(orient='records')
-
+    result_as_json = dividend_history.to_json(orient='index')
+    return result_as_json

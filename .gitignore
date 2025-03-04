@@ -2,3 +2,4 @@ backend/.env
 .env
 .vscode
 tempCodeRunnerFile.py
+test.py
