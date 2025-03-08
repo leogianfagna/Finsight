@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_dark"
+    android:padding="24dp"
+    tools:context=".Login">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
+        android:background="@drawable/Logo"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/email"
+        android:textSize="17sp"
+        android:textColor="@color/teal_200"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:id="@+id/email_login"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/borda_azul"
+        android:drawableStart="@drawable/ic_email"
+        android:drawablePadding="10dp"
+        android:drawableTint="@color/azul_claro"
+        android:hint="@string/hint_email"
+        android:inputType="textEmailAddress"
+        android:paddingStart="15dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/gray"
+        android:textSize="15sp"
+        android:layout_marginBottom="16dp"
+        tools:ignore="RtlSymmetry" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/senha"
+        android:textSize="17sp"
+        android:textColor="@color/teal_200"
+        android:textStyle="bold"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="@color/teal_200">
+        
+        <EditText
+            android:id="@+id/password_login"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/borda_azul"
+            android:drawableStart="@drawable/ic_cadeado"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/azul_claro"
+            android:hint="@string/hint_password"
+            android:inputType="textPassword"
+            android:paddingStart="15dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/gray"
+            android:textSize="15sp"
+            tools:ignore="RtlSymmetry" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <TextView
+        android:id="@+id/txtEsqueciSenha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:text="@string/esqueci_senha"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:layout_gravity="end" />
+
+    <Button
+        android:id="@+id/btn_entrar"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="50dp"
+        android:backgroundTint="@color/teal_200"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:text="@string/hint_entrar"
+        android:layout_gravity="center_horizontal"/>
+
+</LinearLayout>
