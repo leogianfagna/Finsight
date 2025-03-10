@@ -5,4 +5,15 @@
     <string name="senha">Senha</string>
     <string name="hint_entrar">Entrar</string>
     <string name="esqueci_senha">Esqueci minha senha</string>
+    <string name="cadastrar">Não tem uma conta? Cadastra-se aqui</string>
+    <string name="cadastra_se">Cadastra-se</string>
+    <string name="cadastra_se_com_suas_informa_es_abaixo">Cadastra-se com suas informações abaixo:</string>
+    <string name="nome_completo">Nome Completo</string>
+    <string name="digite_seu_nome_completo">Digite seu nome completo</string>
+    <string name="cpf">CPF</string>
+    <string name="digite_seu_cpf">Digite seu CPF</string>
+    <string name="confirmar_senha">Confirmar senha</string>
+    <string name="criar_conta">Criar conta</string>
+    <string name="xxx_xxx_xxx_xx">XXX.XXX.XXX-XX</string>
+    <string name="exemplo_email_com">exemplo@email.com</string>
 </resources>

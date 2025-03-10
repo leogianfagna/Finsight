@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_dark"
+    android:padding="24dp"
+    tools:context=".Login">
+
+    <TextView
+        android:id="@+id/come_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:drawableStartCompat="@drawable/ic_back"
+        app:drawableTint="@color/azul_claro" />
+
+    <TextView
+        android:id="@+id/ic_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="25dp"
+        android:text="@string/cadastra_se"
+        android:textColor="@color/teal_200"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:drawableStartCompat="@drawable/ic_login"
+        app:drawableTint="@color/azul_claro" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/cadastra_se_com_suas_informa_es_abaixo"
+        android:textColor="@color/teal_200"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="25dp"
+        android:text="@string/nome_completo"
+        android:textSize="17sp"
+        android:textColor="@color/teal_200"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:id="@+id/email_login"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/borda_azul"
+        android:drawableStart="@drawable/ic_person"
+        android:drawablePadding="10dp"
+        android:drawableTint="@color/azul_claro"
+        android:hint="@string/digite_seu_nome_completo"
+        android:paddingStart="15dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/gray"
+        android:textSize="15sp"
+        android:layout_marginBottom="16dp"
+        tools:ignore="RtlSymmetry" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="3dp"
+        android:text="@string/email"
+        android:textSize="17sp"
+        android:textColor="@color/teal_200"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:id="@+id/email_cadastrar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/borda_azul"
+        android:drawableStart="@drawable/ic_email"
+        android:drawablePadding="10dp"
+        android:drawableTint="@color/azul_claro"
+        android:hint="@string/exemplo_email_com"
+        android:inputType="textEmailAddress"
+        android:paddingStart="15dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/gray"
+        android:textSize="15sp"
+        android:layout_marginBottom="16dp"
+        tools:ignore="RtlSymmetry" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/cpf"
+        android:textSize="17sp"
+        android:textColor="@color/teal_200"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:id="@+id/cadastrar_cpf"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/borda_azul"
+        android:drawableStart="@drawable/ic_cpf"
+        android:drawablePadding="10dp"
+        android:drawableTint="@color/azul_claro"
+        android:hint="@string/xxx_xxx_xxx_xx"
+        android:paddingStart="15dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/gray"
+        android:textSize="15sp"
+        android:layout_marginBottom="16dp"
+        tools:ignore="RtlSymmetry" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="3dp"
+        android:text="@string/senha"
+        android:textSize="17sp"
+        android:textColor="@color/teal_200"
+        android:textStyle="bold"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="@color/teal_200">
+
+        <EditText
+            android:id="@+id/password_login"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/borda_azul"
+            android:drawableStart="@drawable/ic_cadeado"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/azul_claro"
+            android:hint="@string/hint_password"
+            android:inputType="textPassword"
+            android:paddingStart="15dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/gray"
+            android:textSize="15sp"
+            tools:ignore="RtlSymmetry" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/confirmar_senha"
+        android:textSize="17sp"
+        android:textColor="@color/teal_200"
+        android:textStyle="bold"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="@color/teal_200">
+
+        <EditText
+            android:id="@+id/password_create_account"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/borda_azul"
+            android:drawableStart="@drawable/ic_cadeado"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/azul_claro"
+            android:hint="@string/hint_password"
+            android:inputType="textPassword"
+            android:paddingStart="15dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/gray"
+            android:textSize="15sp"
+            tools:ignore="RtlSymmetry" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/btn_cadastrar_conta"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="15dp"
+        android:backgroundTint="@color/teal_200"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:text="@string/criar_conta"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"/>
+
+    <ProgressBar
+        android:id="@+id/progessBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/btn_cadastrar_conta"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"/>
+
+
+
+
+
+</LinearLayout>

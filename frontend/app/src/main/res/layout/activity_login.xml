@@ -12,7 +12,7 @@
     <ImageView
         android:id="@+id/logo"
         android:layout_width="wrap_content"
-        android:layout_height="300dp"
+        android:layout_height="260dp"
         android:background="@drawable/Logo"/>
 
     <TextView
@@ -98,5 +98,19 @@
         android:textSize="15sp"
         android:text="@string/hint_entrar"
         android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/btn_cadastrar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cadastrar"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp"
+        android:textStyle="bold"/>
+
+
+
 
 </LinearLayout>
