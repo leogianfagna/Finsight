@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "br.edu.puccampinas.frontend"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "br.edu.puccampinas.frontend"
