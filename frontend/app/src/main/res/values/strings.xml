@@ -17,4 +17,20 @@
     <string name="xxx_xxx_xxx_xx">XXX.XXX.XXX-XX</string>
     <string name="exemplo_email_com">exemplo@email.com</string>
     <string name="app_name">Finsight</string>
+    <string name="UserName">Nome Usuário</string>
+    <string name="saldo_em_conta">Saldo em conta</string>
+    <string name="ValorSaldo">000000</string>
+    <string name="PrevisaoInvest">Previsão do investimento</string>
+    <string name="SaldoFut">$4.999</string>
+    <string name="TextApres">Seu assistente financeiro</string>
+    <string name="oportunidades">Oportunidades</string>
+    <string name="avaliar">Avaliar</string>
+    <string name="sugest_es">Sugestões</string>
+    <string name="sugestoes">Sugestões</string>
+    <string name="dividendo_pago">Dividendo Pago: valor</string>
+    <string name="proxima_com">Próxima COM</string>
+    <string name="nome_da_empresa">Nome da Empresa</string>
+    <string name="data">Data: Em 5 dias</string>
+    <string name="avaliacao_do_papel">Avaliação do papel</string>
+    <string name="dashboard">Dashboard</string>
 </resources>
