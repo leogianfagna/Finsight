@@ -11,4 +11,6 @@
     <color name="gray">#B3B3B3</color>
     <color name="teal_200">#56a76f</color>
     <color name="azul_claro">#3796b9</color>
+    <color name="red">#FF0000</color>
+    <color name="darkgray">#333131</color>
 </resources>

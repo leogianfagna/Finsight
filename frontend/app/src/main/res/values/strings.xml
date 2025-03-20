@@ -33,4 +33,28 @@
     <string name="data">Data: Em 5 dias</string>
     <string name="avaliacao_do_papel">Avaliação do papel</string>
     <string name="dashboard">Dashboard</string>
+    <string name="oportunidades_investimentos">Oportunidades de Investimento</string>
+    <string name="nome_empresa">Nome da Empresa</string>
+    <string name="data_com">Data COM: 20/03/2025</string>
+    <string name="recomendacao">Recomendação: Vale a pena comprar!</string>"
+    <string name="estimativa_de_valoriza">Estimativa de valorização: 10 dias</string>
+
+
+
+
+
+
+
+
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="nome_da_empresa_2">Nome da Empresa 2</string>
+    <string name="data_com_25_03_2025">Data COM: 25/03/2025</string>
+    <string name="recomenda_o_n_o_vale_a_pena_comprar">Recomendação: Não vale a pena comprar!</string>
+    <string name="atualize_as_oportunidades_regularmente">Atualize as oportunidades regularmente</string>
+
+
 </resources>
