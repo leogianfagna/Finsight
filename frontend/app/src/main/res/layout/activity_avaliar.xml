@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/background_dark"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/come_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:drawableStartCompat="@drawable/ic_back"
+        app:drawableTint="@color/azul_claro" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/avaliacao_acao"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="8dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/insira_o_c_digo_de_uma_a_o_para_obter_recomenda_es_e_an_lises_baseadas_em_dados_do_mercado"
+        android:textSize="14sp"
+        android:textColor="@color/gray"
+        android:paddingTop="15dp"
+        android:gravity="center"/>
+
+    <EditText
+        android:id="@+id/input_acao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/digite_o_c_digo_da_a_o_ex_petr4"
+        android:textColor="@color/white"
+        android:drawableStart="@drawable/ic_search"
+        android:drawablePadding="8dp"
+        app:drawableTint="@color/azul_claro"
+        android:textColorHint="@color/gray"
+        android:background="@color/darkgray"
+        android:padding="12dp"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/btn_avaliar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/avaliar"
+        android:backgroundTint="@color/teal_200"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_marginTop="12dp" />
+
+    <LinearLayout
+        android:id="@+id/resultado_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:background="@color/darkgray"
+        android:padding="16dp"
+        android:layout_marginTop="16dp"
+        android:elevation="4dp"
+        android:cornerRadius="12dp">
+
+        <TextView
+            android:id="@+id/resultado_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/recomenda_o"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/resultado_detalhes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hist_rico_da_a_o"
+            android:textSize="14sp"
+            android:textColor="@color/gray"
+            android:layout_marginTop="8dp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="@android:drawable/ic_menu_gallery"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+</LinearLayout>

@@ -23,7 +23,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="25dp"
         android:text="@string/cadastra_se"
-        android:textColor="@color/teal_200"
+        android:textColor="@color/white"
         android:textSize="17sp"
         android:textStyle="bold"
         app:drawableStartCompat="@drawable/ic_login"
@@ -35,7 +35,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
         android:text="@string/cadastra_se_com_suas_informa_es_abaixo"
-        android:textColor="@color/teal_200"
+        android:textColor="@color/white"
         android:textSize="16sp" />
 
     <TextView

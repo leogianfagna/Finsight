@@ -9,7 +9,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import br.edu.puccampinas.frontend.databinding.ActivityOportunidadesBinding
 
-class activity_oportunidades : AppCompatActivity() {
+class Oportunidades : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityOportunidadesBinding

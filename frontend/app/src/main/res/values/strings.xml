@@ -40,12 +40,6 @@
     <string name="estimativa_de_valoriza">Estimativa de valorização: 10 dias</string>
 
 
-
-
-
-
-
-
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
@@ -55,6 +49,11 @@
     <string name="data_com_25_03_2025">Data COM: 25/03/2025</string>
     <string name="recomenda_o_n_o_vale_a_pena_comprar">Recomendação: Não vale a pena comprar!</string>
     <string name="atualize_as_oportunidades_regularmente">Atualize as oportunidades regularmente</string>
+    <string name="digite_o_c_digo_da_a_o_ex_petr4">Digite o código da ação (ex: PETR4)</string>
+    <string name="recomenda_o">Recomendação:</string>
+    <string name="hist_rico_da_a_o">Histórico da ação...</string>
+    <string name="avaliacao_acao">Avaliação de Ação</string>
+    <string name="insira_o_c_digo_de_uma_a_o_para_obter_recomenda_es_e_an_lises_baseadas_em_dados_do_mercado">Insira o código de uma ação para obter recomendações e análises baseadas em dados do mercado.</string>
 
 
 </resources>
