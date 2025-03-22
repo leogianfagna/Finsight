@@ -14,6 +14,11 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import br.edu.puccampinas.frontend.databinding.ActivityLoginBinding
+import br.edu.puccampinas.frontend.network.RetrofitClient
+import br.edu.puccampinas.frontend.network.UserResponse
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class Login : AppCompatActivity() {
 
@@ -55,27 +60,53 @@ class Login : AppCompatActivity() {
         }
     }
 
-
-    private fun login(view: View){
+    private fun login(view: View) {
         val progressBar = binding.progessBar
         progressBar.visibility = View.VISIBLE
-
         binding.btnEntrar.isEnabled = false
-        binding.btnEntrar.setTextColor(Color.parseColor("#FFFFFF"))
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            //navegarTelaPrincipal()
-            val snackbar = Snackbar.make(view, "Login efetuado com sucesso!", Snackbar.LENGTH_SHORT)
-            snackbar.show()
-        },3000)
+        // Fazendo a requisição para buscar os usuários
+        RetrofitClient.instance.getAllUsers().enqueue(object : Callback<List<UserResponse>> {
+            override fun onResponse(call: Call<List<UserResponse>>, response: Response<List<UserResponse>>) {
+                progressBar.visibility = View.GONE
+                binding.btnEntrar.isEnabled = true
+
+                if (response.isSuccessful) {
+                    val userList = response.body()
+                    val email = binding.emailLogin.text.toString()
+                    val senha = binding.passwordLogin.text.toString()
+
+                    val userExists = userList?.any { it.username == email && it.password == senha } ?: false
+
+                    if (userExists) {
+                        val snackbar = Snackbar.make(view, "Login efetuado com sucesso!", Snackbar.LENGTH_SHORT)
+                        snackbar.show()
+                        navegarTelaPrincipal()
+                    } else {
+                        val snackbar = Snackbar.make(view, "E-mail ou senha incorretos!", Snackbar.LENGTH_SHORT)
+                        snackbar.show()
+                    }
+                } else {
+                    val snackbar = Snackbar.make(view, "Erro ao conectar ao servidor!", Snackbar.LENGTH_SHORT)
+                    snackbar.show()
+                }
+            }
+
+            override fun onFailure(call: Call<List<UserResponse>>, t: Throwable) {
+                progressBar.visibility = View.GONE
+                binding.btnEntrar.isEnabled = true
+                val snackbar = Snackbar.make(view, "Erro: ${t.message}", Snackbar.LENGTH_SHORT)
+                snackbar.show()
+            }
+        })
     }
 
-    /*
+
     private fun navegarTelaPrincipal(){
-        val intent = Intent(this, TelaPrincipal::class.java)
+        val intent = Intent(this, Create_account::class.java)
         startActivity(intent)
     }
-    */
+
 
     private fun navegarTelaCadastro(){
         val intent = Intent(this, Create_account::class.java)
