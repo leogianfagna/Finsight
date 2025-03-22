@@ -38,6 +38,8 @@
         android:gravity="center"
         android:orientation="horizontal"
         android:padding="8dp">
+
+
         <ImageButton
             android:id="@+id/btn_settings"
             android:layout_width="35dp"
@@ -45,8 +47,9 @@
             android:layout_marginStart="0dp"
             android:background="@drawable/bg_white_circle"
             android:src="@drawable/settings"
-            android:scaleType="centerInside"
-            />
+            android:scaleType="centerInside"/>
+
+
         <ImageButton
             android:id="@+id/btn_notifications"
             android:layout_width="35dp"

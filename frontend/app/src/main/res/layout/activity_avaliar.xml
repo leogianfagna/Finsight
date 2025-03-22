@@ -66,8 +66,7 @@
         android:background="@color/darkgray"
         android:padding="16dp"
         android:layout_marginTop="16dp"
-        android:elevation="4dp"
-        android:cornerRadius="12dp">
+        android:elevation="4dp">
 
         <TextView
             android:id="@+id/resultado_text"
@@ -94,5 +93,5 @@
             android:scaleType="fitCenter"
             android:layout_marginTop="16dp"
             android:layout_gravity="center"/>
-    </LinearLayout>
+        </LinearLayout>
 </LinearLayout>

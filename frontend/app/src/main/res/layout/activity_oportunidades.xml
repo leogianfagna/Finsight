@@ -43,8 +43,7 @@
             android:background="@color/darkgray"
             android:padding="16dp"
             android:layout_marginBottom="12dp"
-            android:elevation="4dp"
-            android:cornerRadius="12dp">
+            android:elevation="4dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -94,8 +93,7 @@
         android:background="@color/darkgray"
         android:padding="16dp"
         android:layout_marginBottom="12dp"
-        android:elevation="4dp"
-        android:cornerRadius="12dp">
+        android:elevation="4dp">
 
     <TextView
         android:layout_width="wrap_content"
@@ -119,31 +117,30 @@
         android:text="@string/recomenda_o_n_o_vale_a_pena_comprar"
         android:textSize="14sp"
         android:textColor="#FF0000"
-        android:layout_marginTop="4dp" />
-</LinearLayout>
+        android:layout_marginTop="4dp" /></LinearLayout>
 
 
-<View
-android:layout_width="match_parent"
-android:layout_height="1dp"
-android:background="@color/gray"
-android:layout_marginVertical="8dp" />
+    <View
+    android:layout_width="match_parent"
+    android:layout_height="1dp"
+    android:background="@color/gray"
+    android:layout_marginVertical="8dp" />
     </LinearLayout>
     </ScrollView>
 
-<LinearLayout
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:orientation="horizontal"
-android:gravity="center"
-android:padding="12dp"
-android:background="@color/darkgray">
-
-<TextView
-    android:layout_width="wrap_content"
+    <LinearLayout
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="@string/atualize_as_oportunidades_regularmente"
-    android:textSize="14sp"
-    android:textColor="@color/white" />
-</LinearLayout>
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:padding="12dp"
+    android:background="@color/darkgray">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/atualize_as_oportunidades_regularmente"
+        android:textSize="14sp"
+        android:textColor="@color/white" />
     </LinearLayout>
+</LinearLayout>
