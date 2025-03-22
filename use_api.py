@@ -55,5 +55,18 @@ def get_dividend_history(ticker_name):
     response = requests.get(url, params=params)
     print(f"Ticker Response: {response.json()}")
 
+def get_next_ticker_dividend(ticker_name):
+    url = f"{base_url}get_next_ticker_dividend/"
+    params = {'ticker': ticker_name}
+    response = requests.get(url, params=params)
+    print(f"Response: {response.json()}")
+
+def get_next_dividend(username):
+    url = f"{base_url}get_next_dividend/"
+    params = {'username': username}
+    response = requests.get(url, params=params)
+    print(f"Response: {response.json()}")
+
+
 if __name__ == "__main__":
-    get_dividend_history("VALE3.SA")
+    get_next_dividend("novoteste")

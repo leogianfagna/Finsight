@@ -11,4 +11,6 @@ urlpatterns = [
     path('delete_user_ticker/', views.delete_user_ticker, name='delete_user_ticker'),
     path('clear_user_tickers/', views.clear_user_tickers, name='clear_user_tickers'),
     path('get_dividend_history/', views.get_dividend_history, name='get_dividend_history'),
+    path('get_next_ticker_dividend/', views.get_next_ticker_dividend, name='get_next_ticker_dividend'),
+    path('get_next_dividend/', views.get_next_dividend, name='get_next_dividend')
 ]

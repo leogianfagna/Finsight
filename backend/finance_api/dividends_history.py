@@ -1,5 +1,6 @@
 import yfinance as yf
 import pandas as pd
+from datetime import date
 
 """
 # Exemplo com a ação VALE3
@@ -11,12 +12,21 @@ historico_dividendos = ticker.dividends
 print(ticker.history(period="2d"))
 """
 
-"""
-As requisições HTTP só aceitam JSON, portanto, apenas retornar objetos convertidos para esse tipo
-"""
-
 def fetch_dividend_history(ticker_name):
     ticker = yf.Ticker(ticker_name)
     dividend_history = ticker.dividends
-    result_as_json = dividend_history.to_json(orient='index')
-    return result_as_json
+    return dividend_history.to_json(orient='index')
+
+def fetch_next_dividend(ticker_name):
+    ticker = yf.Ticker(ticker_name)
+    calendar = ticker.calendar
+    next_ex_date = calendar['Ex-Dividend Date']
+    today = date.today()
+
+    date_today_formatted = pd.Timestamp(today).date()
+    date_ex_formatted = pd.Timestamp(next_ex_date).date()
+
+    if (date_today_formatted < date_ex_formatted):
+        return next_ex_date
+    else:
+        return None

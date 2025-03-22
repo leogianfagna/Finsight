@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from .models import User
-from finance_api.dividends_history import fetch_dividend_history
+from finance_api.dividends_history import *
 
 # Manipulação de usuários
 def add_user(request):
@@ -107,3 +107,40 @@ def get_dividend_history(request):
         return JsonResponse({"message": "Data retrieved successfully", "dividends": ticker_data})
     else:
         return JsonResponse({"message": "Ticker name is required"}, status=400)
+    
+def get_next_ticker_dividend(request):
+    ticker_name = request.GET.get('ticker')
+
+    if ticker_name:
+        dividend_date = fetch_next_dividend(ticker_name)
+        return JsonResponse({"message": "Data retrieved successfully", "next_date": dividend_date})
+    else:
+        return JsonResponse({"message": "Ticker name is required"}, status=400)
+    
+def get_next_dividend(request):
+    username = request.GET.get('username')
+
+    if username:
+        tickers = User.get_user_tickers(username)
+
+        if tickers is None:
+            return JsonResponse({"message": "User not found"}, status=404)
+
+        all_dividend_dates = []
+        print(f"Tickers encontrados: {tickers}")
+
+        for user_added_ticker in tickers:
+            ticker_name_formated = user_added_ticker + ".SA"
+            next_dividend_date = fetch_next_dividend(ticker_name_formated)
+
+            if next_dividend_date is not None:
+                all_dividend_dates.append(next_dividend_date)
+
+        closest_dividend_date = min(all_dividend_dates)
+        return JsonResponse({
+            "username": username,
+            "closest_dividend_date": closest_dividend_date.strftime('%Y-%m-%d')
+        })
+
+    else:
+        return JsonResponse({"message": "Username is required"}, status=400)
