@@ -1,7 +1,7 @@
 from django.db import models
 import pymongo
 from django.conf import settings
-
+from bson import ObjectId
 import os
 from dotenv import load_dotenv
 load_dotenv()
@@ -91,4 +91,12 @@ class User(models.Model):
         if user_data:
             return user_data.get("tickers", [])
         else:
+            return None
+
+    @staticmethod
+    def get_full_name_by_id(user_id):
+        try:
+            user_data = collection.find_one({"_id": ObjectId(user_id)}, {"_id": 1, "full_name": 1})
+            return user_data if user_data else None
+        except Exception as e:
             return None
