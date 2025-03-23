@@ -1,15 +1,20 @@
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from .models import User
 from finance_api.dividends_history import *
+import json
 
 # Manipulação de usuários
+@csrf_exempt
 def add_user(request):
-    full_name = request.GET.get('full_name')
-    username = request.GET.get('username')
-    password = request.GET.get('password')
-    
+    data = json.loads(request.body)  # Obtém os dados do corpo da requisição JSON
+    full_name = data.get("full_name")
+    username = data.get("username")   
+    password = data.get("password")
+    cpf = data.get("cpf")
+
     if username and password:
-        result = User.add_user(full_name, username, password)
+        result = User.add_user(full_name, username, password, cpf)
         
         # Checa se já existe um username com esse nome
         if result == "User registred successfully":
@@ -28,6 +33,7 @@ def get_all_users(request):
     
     return JsonResponse(user_list, safe=False)
 
+@csrf_exempt
 def update_user(request):
     username = request.GET.get('username')
     password = request.GET.get('password')
@@ -60,6 +66,7 @@ def get_user_tickers(request):
     else:
         return JsonResponse({"message": "Username is required"}, status=400)
     
+@csrf_exempt
 def add_user_ticker(request):
     username = request.GET.get('username')
     ticker = request.GET.get('ticker')

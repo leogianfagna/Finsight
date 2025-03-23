@@ -20,13 +20,13 @@ class User(models.Model):
     # Manipulação de usuários
 
     @staticmethod
-    def add_user(full_name, username, password):
+    def add_user(full_name, username, password, cpf):
         user_data = collection.find_one({"username": username})
 
         if user_data:
             return "Username already in use"
         else:
-            user_data = {"full_name": full_name, "username": username, "password": password}
+            user_data = {"full_name": full_name, "username": username, "password": password, "cpf": cpf}
             collection.insert_one(user_data)
             return "User registred successfully"
 
