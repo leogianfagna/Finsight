@@ -31,7 +31,7 @@ class Login : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.btnCadastrar.setOnClickListener {
-            Create_account()
+            navegarTelaCadastro()
         }
 
         binding.btnEntrar.setOnClickListener {
@@ -101,12 +101,10 @@ class Login : AppCompatActivity() {
         })
     }
 
-
     private fun navegarTelaPrincipal(){
         val intent = Intent(this, Create_account::class.java)
         startActivity(intent)
     }
-
 
     private fun navegarTelaCadastro(){
         val intent = Intent(this, Create_account::class.java)

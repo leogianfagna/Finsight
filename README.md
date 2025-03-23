@@ -36,7 +36,7 @@ DJANGO_SECRET_KEY="..."
 
 ```bash
 # 3 - Ligar servidor backend
-python manage.py runserver
+python manage.py runserver 0.0.0.0:8000
 ```
 
 <!-- 
