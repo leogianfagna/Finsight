@@ -62,9 +62,6 @@
 
     </LinearLayout>
 
-
-
-
     <TextView
         android:id="@+id/SaldoText"
         android:layout_width="match_parent"
@@ -79,8 +76,6 @@
         android:layout_marginBottom="16dp"
         android:textStyle="bold"
         tools:ignore="RtlSymmetry" />
-
-
 
     <TextView
         android:id="@+id/Saldo"
@@ -154,6 +149,7 @@
             android:id="@+id/Oportunidades"
             android:layout_width="135dp"
             android:layout_height="40dp"
+            android:layout_marginTop="10dp"
             android:layout_marginStart="0dp"
             android:backgroundTint="@color/teal_200"
             android:text="@string/oportunidades"
@@ -257,12 +253,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_white_circle"
-            android:layout_marginStart="-10dp"
             android:scaleType="centerInside"
             android:src="@drawable/home"
             app:drawableTint="@color/azul_claro"/>
         <TextView
-            android:layout_width="75dp"
+            android:layout_width="85dp"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
             android:layout_marginStart="7dp"
@@ -278,7 +273,7 @@
             android:id="@+id/btn_wallet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="117dp"
+            android:layout_marginStart="110dp"
             android:background="@drawable/bg_white_circle"
             android:src="@drawable/wallet"
             />

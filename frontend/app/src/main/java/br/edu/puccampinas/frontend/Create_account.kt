@@ -7,7 +7,6 @@ import android.text.InputFilter
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.View
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import br.edu.puccampinas.frontend.databinding.ActivityCreateAccountBinding
