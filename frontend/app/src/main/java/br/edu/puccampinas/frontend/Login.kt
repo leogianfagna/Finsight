@@ -1,21 +1,13 @@
 package br.edu.puccampinas.frontend
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import br.edu.puccampinas.frontend.databinding.ActivityLoginBinding
+import br.edu.puccampinas.frontend.model.UserResponse
 import br.edu.puccampinas.frontend.network.RetrofitClient
-import br.edu.puccampinas.frontend.network.UserResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -102,7 +94,7 @@ class Login : AppCompatActivity() {
     }
 
     private fun navegarTelaPrincipal(){
-        val intent = Intent(this, Create_account::class.java)
+        val intent = Intent(this, MenuPrincipal::class.java)
         startActivity(intent)
     }
 

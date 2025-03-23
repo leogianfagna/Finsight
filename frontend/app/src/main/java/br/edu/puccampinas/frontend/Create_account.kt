@@ -6,10 +6,17 @@ import android.text.Editable
 import android.text.InputFilter
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import br.edu.puccampinas.frontend.databinding.ActivityCreateAccountBinding
+import br.edu.puccampinas.frontend.model.RegisterRequest
+import br.edu.puccampinas.frontend.model.RegisterResponse
+import br.edu.puccampinas.frontend.network.RetrofitClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class Create_account : AppCompatActivity() {
 
@@ -83,9 +90,32 @@ class Create_account : AppCompatActivity() {
             return
         }
 
-        // Mensagem de sucesso se todas as validações passarem
-        showToast("Cadastro realizado com sucesso!")
-        backToLogin()
+        // Chama a API para registrar o usuário
+        val userRequest = RegisterRequest(name, email, password, cpf)
+        val progressBar = binding.progessBar
+        progressBar.visibility = View.VISIBLE
+        binding.btnCadastrarConta.isEnabled = false
+
+        RetrofitClient.instance.registerUser(userRequest).enqueue(object :
+            Callback<RegisterResponse> {
+            override fun onResponse(call: Call<RegisterResponse>, response: Response<RegisterResponse>) {
+                progressBar.visibility = View.GONE
+                binding.btnCadastrarConta.isEnabled = true
+
+                if (response.isSuccessful) {
+                    showToast(response.body()?.message ?: "Usuário registrado com sucesso!")
+                    backToLogin()
+                } else {
+                    showToast("Erro ao registrar usuário!")
+                }
+            }
+
+            override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
+                progressBar.visibility = View.GONE
+                binding.btnCadastrarConta.isEnabled = true
+                showToast("Erro: ${t.message}")
+            }
+        })
     }
 
     // Exibe mensagens curtas na tela

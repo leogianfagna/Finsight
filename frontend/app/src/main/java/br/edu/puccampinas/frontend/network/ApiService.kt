@@ -1,14 +1,17 @@
 package br.edu.puccampinas.frontend.network
 
+import br.edu.puccampinas.frontend.model.RegisterRequest
+import br.edu.puccampinas.frontend.model.RegisterResponse
+import br.edu.puccampinas.frontend.model.UserResponse
 import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.GET
-
-data class UserResponse(
-    val username: String,
-    val password: String
-)
+import retrofit2.http.POST
 
 interface ApiService {
     @GET("get_all_users/")
     fun getAllUsers(): Call<List<UserResponse>>
+
+    @POST("add_user/")
+    fun registerUser(@Body user: RegisterRequest): Call<RegisterResponse>
 }
