@@ -5,6 +5,12 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import br.edu.puccampinas.frontend.databinding.ActivityMenuPrincipalBinding
+import br.edu.puccampinas.frontend.model.FullNameResponse
+import br.edu.puccampinas.frontend.model.UserResponse
+import br.edu.puccampinas.frontend.network.RetrofitClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MenuPrincipal : AppCompatActivity() {
 
@@ -15,6 +21,20 @@ class MenuPrincipal : AppCompatActivity() {
         binding = ActivityMenuPrincipalBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
+        val userId = sharedPreferences.getString("userId", null)
+
+        if (userId != null) {
+            getFullName(userId) { fullName ->
+                if (fullName != null) {
+                    binding.icLogin.text = fullName
+                } else {
+                    binding.icLogin.text = "Usuário"
+                }
+            }
+        }
+
+
         binding.Oportunidades.setOnClickListener {
             navegarTelaOportunidades()
         }
@@ -22,6 +42,23 @@ class MenuPrincipal : AppCompatActivity() {
         binding.Avaliar.setOnClickListener {
             navegarTelaAvaliar()
         }
+    }
+
+    private fun getFullName(userId: String, callback: (String?) -> Unit) {
+        RetrofitClient.instance.getFullNameById(userId).enqueue(object : Callback<FullNameResponse> {
+            override fun onResponse(call: Call<FullNameResponse>, response: Response<FullNameResponse>) {
+                if (response.isSuccessful) {
+                    val fullName = response.body()?.full_name
+                    callback(fullName)
+                } else {
+                    callback(null)
+                }
+            }
+
+            override fun onFailure(call: Call<FullNameResponse>, t: Throwable) {
+                callback(null)
+            }
+        })
     }
 
     private fun navegarTelaOportunidades(){

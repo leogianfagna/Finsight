@@ -57,7 +57,6 @@ class Login : AppCompatActivity() {
         progressBar.visibility = View.VISIBLE
         binding.btnEntrar.isEnabled = false
 
-        // Fazendo a requisição para buscar os usuários
         RetrofitClient.instance.getAllUsers().enqueue(object : Callback<List<UserResponse>> {
             override fun onResponse(call: Call<List<UserResponse>>, response: Response<List<UserResponse>>) {
                 progressBar.visibility = View.GONE
@@ -68,11 +67,17 @@ class Login : AppCompatActivity() {
                     val email = binding.emailLogin.text.toString()
                     val senha = binding.passwordLogin.text.toString()
 
-                    val userExists = userList?.any { it.username == email && it.password == senha } ?: false
+                    // Busca o usuário que corresponde ao email e senha
+                    val user = userList?.find { it.username == email && it.password == senha }
 
-                    if (userExists) {
+                    if (user != null) {
                         val snackbar = Snackbar.make(view, "Login efetuado com sucesso!", Snackbar.LENGTH_SHORT)
                         snackbar.show()
+
+                        // Salva o ID do usuário logado para uso futuro
+                        val sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
+                        sharedPreferences.edit().putString("userId", user.id).apply()
+
                         navegarTelaPrincipal()
                     } else {
                         val snackbar = Snackbar.make(view, "E-mail ou senha incorretos!", Snackbar.LENGTH_SHORT)
@@ -92,6 +97,7 @@ class Login : AppCompatActivity() {
             }
         })
     }
+
 
     private fun navegarTelaPrincipal(){
         val intent = Intent(this, MenuPrincipal::class.java)
