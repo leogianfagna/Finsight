@@ -19,8 +19,14 @@ load_dotenv()
 # Configuração do MongoDB a parte, já que o Django não suporta manualmente nosso backend para Kotlin
 MONGO_URI = os.getenv("MONGODB_CONNECTION", default="")
 MONGO_DB_NAME = "users"
-mongo_client = pymongo.MongoClient(MONGO_URI)
-db = mongo_client[MONGO_DB_NAME]
+
+# Testar a conexão com o MongoDB
+try:
+    mongo_client = pymongo.MongoClient(MONGO_URI)
+    mongo_client.admin.command('ping')  # Verifica se a conexão com o MongoDB foi bem-sucedida
+    print("Conexão com MongoDB bem-sucedida!")
+except Exception as e:
+    print(f"Erro ao conectar ao MongoDB: {e}")
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
