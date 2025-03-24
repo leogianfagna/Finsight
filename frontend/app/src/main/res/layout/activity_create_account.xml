@@ -45,7 +45,7 @@
         android:layout_marginTop="25dp"
         android:text="@string/nome_completo"
         android:textSize="17sp"
-        android:textColor="@color/teal_200"
+        android:textColor="@color/white"
         android:textStyle="bold"/>
 
     <EditText
@@ -72,7 +72,7 @@
         android:layout_marginTop="3dp"
         android:text="@string/email"
         android:textSize="17sp"
-        android:textColor="@color/teal_200"
+        android:textColor="@color/white"
         android:textStyle="bold"/>
 
     <EditText
@@ -100,7 +100,7 @@
         android:layout_marginTop="5dp"
         android:text="@string/cpf"
         android:textSize="17sp"
-        android:textColor="@color/teal_200"
+        android:textColor="@color/white"
         android:textStyle="bold"/>
 
     <EditText
@@ -127,7 +127,7 @@
         android:layout_marginTop="3dp"
         android:text="@string/senha"
         android:textSize="17sp"
-        android:textColor="@color/teal_200"
+        android:textColor="@color/white"
         android:textStyle="bold"/>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -135,7 +135,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:passwordToggleEnabled="true"
-        app:passwordToggleTint="@color/teal_200">
+        app:passwordToggleTint="@color/gray">
 
         <EditText
             android:id="@+id/password_login"
@@ -161,14 +161,14 @@
         android:layout_marginTop="15dp"
         android:text="@string/confirmar_senha"
         android:textSize="17sp"
-        android:textColor="@color/teal_200"
+        android:textColor="@color/white"
         android:textStyle="bold"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:passwordToggleEnabled="true"
-        app:passwordToggleTint="@color/teal_200">
+        app:passwordToggleTint="@color/gray">
 
         <EditText
             android:id="@+id/password_create_account"
@@ -193,7 +193,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="15dp"
         android:backgroundTint="@color/teal_200"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="15sp"
         android:text="@string/criar_conta"
         android:textStyle="bold"

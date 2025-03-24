@@ -22,7 +22,7 @@
         android:layout_marginTop="20dp"
         android:text="@string/email"
         android:textSize="17sp"
-        android:textColor="@color/teal_200"
+        android:textColor="@color/white"
         android:textStyle="bold"/>
 
     <EditText
@@ -50,7 +50,7 @@
         android:layout_marginTop="10dp"
         android:text="@string/senha"
         android:textSize="17sp"
-        android:textColor="@color/teal_200"
+        android:textColor="@color/white"
         android:textStyle="bold"/>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -58,7 +58,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:passwordToggleEnabled="true"
-        app:passwordToggleTint="@color/teal_200">
+        app:passwordToggleTint="@color/gray">
         
         <EditText
             android:id="@+id/password_login"
@@ -94,7 +94,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="50dp"
         android:backgroundTint="@color/teal_200"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="15sp"
         android:text="@string/hint_entrar"
         android:layout_gravity="center_horizontal"/>
