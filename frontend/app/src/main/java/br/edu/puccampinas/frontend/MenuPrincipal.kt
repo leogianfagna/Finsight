@@ -34,13 +34,16 @@ class MenuPrincipal : AppCompatActivity() {
             }
         }
 
-
         binding.Oportunidades.setOnClickListener {
             navegarTelaOportunidades()
         }
 
         binding.Avaliar.setOnClickListener {
             navegarTelaAvaliar()
+        }
+
+        binding.Sugestoes.setOnClickListener {
+            navegarTelaSugestoes()
         }
     }
 
@@ -68,6 +71,11 @@ class MenuPrincipal : AppCompatActivity() {
 
     private fun navegarTelaAvaliar(){
         val intent = Intent(this, Avaliar::class.java)
+        startActivity(intent)
+    }
+
+    private fun navegarTelaSugestoes(){
+        val intent = Intent(this, Sugestoes::class.java)
         startActivity(intent)
     }
 
