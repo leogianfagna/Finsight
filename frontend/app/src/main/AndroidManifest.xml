@@ -17,6 +17,9 @@
         android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
         tools:targetApi="31">
         <activity
+            android:name=".Calendario"
+            android:exported="false" />
+        <activity
             android:name=".Sugestoes"
             android:exported="false" />
         <activity
