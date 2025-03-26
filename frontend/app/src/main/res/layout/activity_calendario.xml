@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:background="@color/background_dark"
-    android:padding="24dp"
-    tools:context=".Calendario">
+    android:padding="24dp">
 
 
-    <!-- Header -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,7 +27,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Carteira"
+            android:text="@string/carteira"
             android:textSize="18sp"
             android:textColor="@color/white"
             android:textStyle="bold"
@@ -43,7 +41,7 @@
             app:drawableTint="@color/azul_claro" />
     </LinearLayout>
 
-    <!-- Calendário -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -52,6 +50,7 @@
         android:orientation="vertical"
         android:gravity="center"
         android:layout_marginBottom="16dp">
+
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -70,7 +69,7 @@
                 android:id="@+id/txt_month"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Março"
+                android:text="Mar 2025"
                 android:textSize="18sp"
                 android:textColor="@color/black"
                 android:textStyle="bold"
@@ -84,18 +83,19 @@
                 android:src="@drawable/ic_arrow_right"/>
         </LinearLayout>
 
+
         <GridLayout
             android:id="@+id/calendar_grid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:columnCount="7"
-            android:rowCount="6"
-            android:background="@drawable/ic_calendar_border"
+            android:rowCount="7"
             android:padding="4dp"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:layout_marginTop="8dp"/>
     </LinearLayout>
 
-    <!-- Histórico -->
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -109,7 +109,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Histórico"
+                android:text="@string/hist_rico"
                 android:textSize="16sp"
                 android:textColor="@color/white"
                 android:textStyle="bold"
@@ -139,6 +139,8 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -149,7 +151,6 @@
         android:padding="8dp"
         android:gravity="center">
 
-
         <ImageView
             android:id="@+id/icon_bg"
             android:layout_width="wrap_content"
@@ -158,6 +159,7 @@
             android:scaleType="centerInside"
             android:src="@drawable/home"
             app:drawableTint="@color/azul_claro"/>
+
         <TextView
             android:layout_width="85dp"
             android:layout_height="40dp"
@@ -168,28 +170,20 @@
             android:textColor="@color/teal_200"
             android:textStyle="bold"/>
 
-
-
-        <!-- Botão Carteira -->
         <ImageButton
             android:id="@+id/btn_wallet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="110dp"
             android:background="@drawable/bg_white_circle"
-            android:src="@drawable/wallet"
-            />
+            android:src="@drawable/wallet"/>
 
-
-        <!-- Botão Gráfico -->
         <ImageButton
             android:id="@+id/btn_graph"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/graph"
             android:layout_marginStart="20dp"
-            android:background="@drawable/bg_white_circle"
-            />
+            android:background="@drawable/bg_white_circle"/>
     </LinearLayout>
 </LinearLayout>
-
