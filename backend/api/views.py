@@ -4,6 +4,7 @@ from .models import User
 from finance_api.dividends_history import *
 import json
 from bson import ObjectId 
+import pandas as pd
 
 # Manipulação de usuários
 @csrf_exempt
@@ -138,20 +139,23 @@ def get_next_dividend(request):
         if tickers is None:
             return JsonResponse({"message": "User not found"}, status=404)
 
-        all_dividend_dates = []
-        print(f"Tickers encontrados: {tickers}")
+        all_dividend_dates = pd.DataFrame(columns=["ticker", "dividend_date"])
 
         for user_added_ticker in tickers:
             ticker_name_formated = user_added_ticker + ".SA"
             next_dividend_date = fetch_next_dividend(ticker_name_formated)
 
             if next_dividend_date is not None:
-                all_dividend_dates.append(next_dividend_date)
+                formatted_infos = [ticker_name_formated, next_dividend_date]
+                all_dividend_dates.loc[len(all_dividend_dates)] = formatted_infos
 
-        closest_dividend_date = min(all_dividend_dates)
+        closest_dividend_date_index = all_dividend_dates.dividend_date.idxmin()
+        closest_dividend_date_ticker_name = all_dividend_dates.loc[closest_dividend_date_index].ticker
+        closest_dividend_date_ticker_date = all_dividend_dates.loc[closest_dividend_date_index].dividend_date
         return JsonResponse({
             "username": username,
-            "closest_dividend_date": closest_dividend_date.strftime('%Y-%m-%d')
+            "closest_dividend_date": closest_dividend_date_ticker_date.strftime('%Y-%m-%d'),
+            "closest_dividend_ticker": closest_dividend_date_ticker_name
         })
 
     else:
