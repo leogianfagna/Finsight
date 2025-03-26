@@ -139,7 +139,7 @@ def get_next_dividend(request):
         if tickers is None:
             return JsonResponse({"message": "User not found"}, status=404)
 
-        all_dividend_dates = pd.DataFrame(columns=["ticker", "dividend_date"])
+        next_dividends = pd.DataFrame(columns=["ticker", "dividend_date"])
 
         for user_added_ticker in tickers:
             ticker_name_formated = user_added_ticker + ".SA"
@@ -147,15 +147,15 @@ def get_next_dividend(request):
 
             if next_dividend_date is not None:
                 formatted_infos = [ticker_name_formated, next_dividend_date]
-                all_dividend_dates.loc[len(all_dividend_dates)] = formatted_infos
+                next_dividends.loc[len(next_dividends)] = formatted_infos
 
-        closest_dividend_date_index = all_dividend_dates.dividend_date.idxmin()
-        closest_dividend_date_ticker_name = all_dividend_dates.loc[closest_dividend_date_index].ticker
-        closest_dividend_date_ticker_date = all_dividend_dates.loc[closest_dividend_date_index].dividend_date
+        closest_dividend_index = next_dividends.dividend_date.idxmin()
+        closest_dividend_ticker = next_dividends.loc[closest_dividend_index].ticker
+        closest_dividend_date = next_dividends.loc[closest_dividend_index].dividend_date
         return JsonResponse({
             "username": username,
-            "closest_dividend_date": closest_dividend_date_ticker_date.strftime('%Y-%m-%d'),
-            "closest_dividend_ticker": closest_dividend_date_ticker_name
+            "closest_dividend_date": closest_dividend_date.strftime('%Y-%m-%d'),
+            "closest_dividend_ticker": closest_dividend_ticker
         })
 
     else:
