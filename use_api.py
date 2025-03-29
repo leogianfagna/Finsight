@@ -89,4 +89,4 @@ def get_ticker_price(ticker_name):
 
 if __name__ == "__main__":
     # add_user_ticker("newbase", "PETR3", "add_obtained", [5.0, 601, "2025-03-29"])
-    get_ticker_price("PETR3.SA")
+    get_dividend_history("PETR3.SA")

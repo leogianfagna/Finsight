@@ -14,7 +14,13 @@ print(ticker.history(period="2d"))
 
 def fetch_dividend_history(ticker_name):
     ticker = yf.Ticker(ticker_name)
-    dividend_history = ticker.dividends
+    all_dividend_history = ticker.get_dividends()
+
+    # Garantir timezone no índece para comparar com a outra serie
+    all_dividend_history.index = all_dividend_history.index.tz_localize("UTC") if all_dividend_history.index.tz is None else all_dividend_history.index
+    six_mounths_series = pd.Timestamp.now(tz="UTC") - pd.DateOffset(months=6)
+
+    dividend_history = all_dividend_history[all_dividend_history.index >= six_mounths_series]
     return dividend_history.to_json(orient='index')
 
 def fetch_next_dividend(ticker_name):
