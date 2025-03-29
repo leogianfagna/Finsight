@@ -2,9 +2,9 @@ import requests
 
 base_url = "http://localhost:8000/api/"
 
-def add_user(full_name, username, password):
+def add_user(full_name, username, password, cpf):
     url = f"{base_url}add_user/"
-    params = {'full_name': full_name, 'username': username, 'password': password}
+    params = {'full_name': full_name, 'username': username, 'password': password, 'cpf': cpf}
     response = requests.get(url, params=params)
     print(f"Add User Response: {response.json()}")
 
@@ -25,9 +25,9 @@ def update_user(username, new_password):
     response = requests.get(url, params=params)
     print(f"Update User Response: {response.json()}")
 
-def add_user_ticker(username, ticker):
+def add_user_ticker(username, ticker, destination):
     url = f"{base_url}add_user_ticker/"
-    params = {'username': username, 'ticker': ticker}
+    params = {'username': username, 'ticker': ticker, 'destination': destination}
     response = requests.get(url, params=params)
     print(f"Update User Response: {response.json()}")
 
@@ -69,4 +69,5 @@ def get_next_dividend(username):
 
 
 if __name__ == "__main__":
-    get_next_dividend("novoteste")
+    add_user("New Base Testing", "newbase", "asd123", "4341812938123")
+    add_user_ticker("newbase", "VALE3", "add_to_wishlist")

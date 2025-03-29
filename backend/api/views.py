@@ -9,11 +9,10 @@ import pandas as pd
 # Manipulação de usuários
 @csrf_exempt
 def add_user(request):
-    data = json.loads(request.body)  # Obtém os dados do corpo da requisição JSON
-    full_name = data.get("full_name")
-    username = data.get("username")   
-    password = data.get("password")
-    cpf = data.get("cpf")
+    full_name = request.GET.get('full_name')
+    username = request.GET.get('username')
+    password = request.GET.get('password')
+    cpf = request.GET.get('cpf')
 
     if username and password:
         result = User.add_user(full_name, username, password, cpf)
@@ -74,11 +73,13 @@ def get_user_tickers(request):
     
 @csrf_exempt
 def add_user_ticker(request):
+    print("CHEGOU AQUI")
     username = request.GET.get('username')
     ticker = request.GET.get('ticker')
+    destination = request.GET.get('destination')
     
-    if username and ticker:
-        result = User.add_user_ticker(username, ticker)
+    if username and ticker and destination:
+        result = User.add_user_ticker(username, ticker, destination)
         if result == "Ticker added successfully":
             return JsonResponse({"message": "Ticker added successfully"})
         else:
