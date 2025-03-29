@@ -73,13 +73,17 @@ def get_user_tickers(request):
     
 @csrf_exempt
 def add_user_ticker(request):
-    print("CHEGOU AQUI")
     username = request.GET.get('username')
     ticker = request.GET.get('ticker')
     destination = request.GET.get('destination')
+    purchase_price = request.GET.get('purchase_price')
+    purchase_quantity = request.GET.get('purchase_quantity')
+    purchase_date = request.GET.get('purchase_date')
     
     if username and ticker and destination:
-        result = User.add_user_ticker(username, ticker, destination)
+        purchase_info = [purchase_price, purchase_quantity, purchase_date]
+        result = User.add_user_ticker(username, ticker, destination, purchase_info)
+        
         if result == "Ticker added successfully":
             return JsonResponse({"message": "Ticker added successfully"})
         else:

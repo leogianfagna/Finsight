@@ -25,9 +25,17 @@ def update_user(username, new_password):
     response = requests.get(url, params=params)
     print(f"Update User Response: {response.json()}")
 
-def add_user_ticker(username, ticker, destination):
+def add_user_ticker(username, ticker, destination, purchase_info):
     url = f"{base_url}add_user_ticker/"
-    params = {'username': username, 'ticker': ticker, 'destination': destination}
+    purchase_price, purchase_quantity, purchase_date = purchase_info
+    params = {
+        'username': username,
+        'ticker': ticker,
+        'destination': destination,
+        'purchase_price': purchase_price,
+        'purchase_quantity': purchase_quantity,
+        'purchase_date': purchase_date
+    }
     response = requests.get(url, params=params)
     print(f"Update User Response: {response.json()}")
 
@@ -69,5 +77,4 @@ def get_next_dividend(username):
 
 
 if __name__ == "__main__":
-    add_user("New Base Testing", "newbase", "asd123", "4341812938123")
-    add_user_ticker("newbase", "VALE3", "add_to_wishlist")
+    add_user_ticker("newbase", "PETR3", "add_obtained", [5.0, 601, "2025-03-29"])

@@ -46,7 +46,7 @@ class User(models.Model):
     # Manipulação de papéis na conta do usuário
 
     @staticmethod
-    def add_user_ticker(username, ticker, destination):
+    def add_user_ticker(username, ticker, destination, purchase_info):
         user_data = collection.find_one({"username": username})
         
         if user_data:
@@ -59,9 +59,10 @@ class User(models.Model):
                 return "Ticker added successfully"
             
             elif destination == "add_obtained":
+                purchase_info = [ticker] + purchase_info
                 collection.update_one(
                     {"username": username},
-                    {"$addToSet": {"obtained_tickers": ticker}}
+                    {"$addToSet": {"obtained_tickers": purchase_info}}
                 )
                 return "Ticker added successfully"
 
