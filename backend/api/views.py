@@ -190,14 +190,19 @@ def get_full_name_by_id(request):
         return JsonResponse({"message": str(e)}, status=500)
     
 def get_ticker_validation(request):
-    print(f">>>>>>>>>>>>>>>>{request}")
     ticker_name = request.GET.get('ticker')
-    print(f">>>>>>>>>>>>>>>>{ticker_name}")
 
     if ticker_name:
-        print("chegou até aqui <<<<<<<<<<<<<<<<<<")
         result = is_ticker_valid(ticker_name)
-        print(f"result = {result}")
         return JsonResponse({"message": "Ticker validation successfully", "boolean": result})
+    else:
+        return JsonResponse({"message": "Ticker name is required"}, status=400)
+    
+def get_ticker_price(request):
+    ticker_name = request.GET.get('ticker')
+
+    if ticker_name:
+        ticker_price = get_ticker_value(ticker_name)
+        return JsonResponse({"message": "Data retrieved successfully", "price": ticker_price})
     else:
         return JsonResponse({"message": "Ticker name is required"}, status=400)
