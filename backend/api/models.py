@@ -46,15 +46,26 @@ class User(models.Model):
     # Manipulação de papéis na conta do usuário
 
     @staticmethod
-    def add_user_ticker(username, ticker):
+    def add_user_ticker(username, ticker, destination, purchase_info):
         user_data = collection.find_one({"username": username})
         
         if user_data:
-            collection.update_one(
-                {"username": username},
-                {"$addToSet": {"tickers": ticker}}
-            )
-            return "Ticker added successfully"
+
+            if destination == "add_to_wishlist":
+                collection.update_one(
+                    {"username": username},
+                    {"$addToSet": {"wishlist_tickers": ticker}}
+                )
+                return "Ticker added successfully"
+            
+            elif destination == "add_obtained":
+                purchase_info = [ticker] + purchase_info
+                collection.update_one(
+                    {"username": username},
+                    {"$addToSet": {"obtained_tickers": purchase_info}}
+                )
+                return "Ticker added successfully"
+
         else:
             return "User not found"
         
@@ -89,7 +100,16 @@ class User(models.Model):
         user_data = collection.find_one({"username": username})
 
         if user_data:
-            return user_data.get("tickers", [])
+            return user_data.get("obtained_tickers", [])
+        else:
+            return None
+        
+    @staticmethod
+    def get_user_wishlist_tickers(username):
+        user_data = collection.find_one({"username": username})
+
+        if user_data:
+            return user_data.get("wishlist_tickers", [])
         else:
             return None
 

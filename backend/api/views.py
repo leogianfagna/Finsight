@@ -9,11 +9,10 @@ import pandas as pd
 # Manipulação de usuários
 @csrf_exempt
 def add_user(request):
-    data = json.loads(request.body)  # Obtém os dados do corpo da requisição JSON
-    full_name = data.get("full_name")
-    username = data.get("username")   
-    password = data.get("password")
-    cpf = data.get("cpf")
+    full_name = request.GET.get('full_name')
+    username = request.GET.get('username')
+    password = request.GET.get('password')
+    cpf = request.GET.get('cpf')
 
     if username and password:
         result = User.add_user(full_name, username, password, cpf)
@@ -62,8 +61,13 @@ def delete_user(request):
 # Manipulação de papéis na conta do usuário
 def get_user_tickers(request):
     username = request.GET.get('username')
+    ticker_type = request.GET.get('ticker_type')
+
     if username:
-        tickers = User.get_user_tickers(username)
+        if ticker_type == "wishlist":
+            tickers = User.get_user_wishlist_tickers(username)
+        else:
+            tickers = User.get_user_tickers(username)
 
         if tickers is not None:
             return JsonResponse({"username": username, "tickers": tickers})
@@ -76,9 +80,15 @@ def get_user_tickers(request):
 def add_user_ticker(request):
     username = request.GET.get('username')
     ticker = request.GET.get('ticker')
+    destination = request.GET.get('destination')
+    purchase_price = request.GET.get('purchase_price')
+    purchase_quantity = request.GET.get('purchase_quantity')
+    purchase_date = request.GET.get('purchase_date')
     
-    if username and ticker:
-        result = User.add_user_ticker(username, ticker)
+    if username and ticker and destination:
+        purchase_info = [purchase_price, purchase_quantity, purchase_date]
+        result = User.add_user_ticker(username, ticker, destination, purchase_info)
+        
         if result == "Ticker added successfully":
             return JsonResponse({"message": "Ticker added successfully"})
         else:

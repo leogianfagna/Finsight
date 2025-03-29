@@ -2,15 +2,15 @@ import requests
 
 base_url = "http://localhost:8000/api/"
 
-def add_user(full_name, username, password):
+def add_user(full_name, username, password, cpf):
     url = f"{base_url}add_user/"
-    params = {'full_name': full_name, 'username': username, 'password': password}
+    params = {'full_name': full_name, 'username': username, 'password': password, 'cpf': cpf}
     response = requests.get(url, params=params)
     print(f"Add User Response: {response.json()}")
 
-def get_user_tickers(username):
+def get_user_tickers(username, ticker_type):
     url = f"{base_url}get_user_tickers/"
-    params = {'username': username}
+    params = {'username': username, 'ticker_type': ticker_type}
     response = requests.get(url, params=params)
     print(f"Ações encontradas: {response.json()}")
 
@@ -25,9 +25,17 @@ def update_user(username, new_password):
     response = requests.get(url, params=params)
     print(f"Update User Response: {response.json()}")
 
-def add_user_ticker(username, ticker):
+def add_user_ticker(username, ticker, destination, purchase_info):
     url = f"{base_url}add_user_ticker/"
-    params = {'username': username, 'ticker': ticker}
+    purchase_price, purchase_quantity, purchase_date = purchase_info
+    params = {
+        'username': username,
+        'ticker': ticker,
+        'destination': destination,
+        'purchase_price': purchase_price,
+        'purchase_quantity': purchase_quantity,
+        'purchase_date': purchase_date
+    }
     response = requests.get(url, params=params)
     print(f"Update User Response: {response.json()}")
 
@@ -69,4 +77,5 @@ def get_next_dividend(username):
 
 
 if __name__ == "__main__":
-    get_next_dividend("novoteste")
+    # add_user_ticker("newbase", "PETR3", "add_obtained", [5.0, 601, "2025-03-29"])
+    get_user_tickers("newbase", "obtained")

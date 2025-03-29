@@ -4,3 +4,4 @@ backend/.env
 tempCodeRunnerFile.py
 test.py
 **/__pycache__/
+**/.idea/
