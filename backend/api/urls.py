@@ -13,6 +13,6 @@ urlpatterns = [
     path('get_dividend_history/', views.get_dividend_history, name='get_dividend_history'),
     path('get_next_ticker_dividend/', views.get_next_ticker_dividend, name='get_next_ticker_dividend'),
     path('get_next_dividend/', views.get_next_dividend, name='get_next_dividend'),
-    path('get_full_name/', views.get_full_name_by_id, name='get_full_name_by_id')
-
+    path('get_full_name/', views.get_full_name_by_id, name='get_full_name_by_id'),
+    path('get_ticker_validation/', views.get_ticker_validation, name='get_ticker_validation')
 ]

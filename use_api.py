@@ -75,7 +75,12 @@ def get_next_dividend(username):
     response = requests.get(url, params=params)
     print(f"Response: {response.json()}")
 
+def is_ticker_valid(ticker_name):
+    url = f"{base_url}get_ticker_validation/"
+    params = {'ticker': ticker_name}
+    response = requests.get(url, params=params)
+    print(f"Ticker Validation Response: {response.json()}")
 
 if __name__ == "__main__":
     # add_user_ticker("newbase", "PETR3", "add_obtained", [5.0, 601, "2025-03-29"])
-    get_user_tickers("newbase", "obtained")
+    is_ticker_valid("PETR3.SA")
