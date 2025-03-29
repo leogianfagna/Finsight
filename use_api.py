@@ -8,9 +8,9 @@ def add_user(full_name, username, password, cpf):
     response = requests.get(url, params=params)
     print(f"Add User Response: {response.json()}")
 
-def get_user_tickers(username):
+def get_user_tickers(username, ticker_type):
     url = f"{base_url}get_user_tickers/"
-    params = {'username': username}
+    params = {'username': username, 'ticker_type': ticker_type}
     response = requests.get(url, params=params)
     print(f"Ações encontradas: {response.json()}")
 
@@ -77,4 +77,5 @@ def get_next_dividend(username):
 
 
 if __name__ == "__main__":
-    add_user_ticker("newbase", "PETR3", "add_obtained", [5.0, 601, "2025-03-29"])
+    # add_user_ticker("newbase", "PETR3", "add_obtained", [5.0, 601, "2025-03-29"])
+    get_user_tickers("newbase", "obtained")

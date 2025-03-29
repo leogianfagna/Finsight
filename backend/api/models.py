@@ -100,7 +100,16 @@ class User(models.Model):
         user_data = collection.find_one({"username": username})
 
         if user_data:
-            return user_data.get("tickers", [])
+            return user_data.get("obtained_tickers", [])
+        else:
+            return None
+        
+    @staticmethod
+    def get_user_wishlist_tickers(username):
+        user_data = collection.find_one({"username": username})
+
+        if user_data:
+            return user_data.get("wishlist_tickers", [])
         else:
             return None
 

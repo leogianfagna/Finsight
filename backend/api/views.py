@@ -61,8 +61,13 @@ def delete_user(request):
 # Manipulação de papéis na conta do usuário
 def get_user_tickers(request):
     username = request.GET.get('username')
+    ticker_type = request.GET.get('ticker_type')
+
     if username:
-        tickers = User.get_user_tickers(username)
+        if ticker_type == "wishlist":
+            tickers = User.get_user_wishlist_tickers(username)
+        else:
+            tickers = User.get_user_tickers(username)
 
         if tickers is not None:
             return JsonResponse({"username": username, "tickers": tickers})
