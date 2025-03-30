@@ -93,6 +93,14 @@ def get_username_dividend_history(username):
     response = requests.get(url, params=params)
     print(f"History Dividend User Response: {response.json()}")
 
+def get_mean_price(username):
+    url = f"{base_url}get_mean_price/"
+    params = {'username': username}
+    response = requests.get(url, params=params)
+    print(f"Mean Price Response: {response.json()}")
+
 if __name__ == "__main__":
-    # add_user_ticker("newbase", "PETR3", "add_obtained", [5.0, 601, "2025-03-29"])
-    get_username_dividend_history("newbase")
+    add_user_ticker("newbase", "PETR3", "add_obtained", [41.07, 403, "2025-03-30"])
+    add_user_ticker("newbase", "VALE3", "add_obtained", [57.56, 1, "2025-03-30"])
+    add_user_ticker("newbase", "VALE3", "add_obtained", [60.01, 102, "2025-03-11"])
+    get_mean_price("newbase")

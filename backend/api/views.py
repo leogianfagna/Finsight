@@ -7,6 +7,7 @@ import pandas as pd
 
 from finance_api.dividends_history import *
 from finance_api.ticker_informations import *
+from finance_api.math_operations import *
 
 # Manipulação de usuários
 @csrf_exempt
@@ -230,3 +231,15 @@ def get_ticker_price(request):
         return JsonResponse({"message": "Data retrieved successfully", "price": ticker_price})
     else:
         return JsonResponse({"message": "Ticker name is required"}, status=400)
+    
+def get_mean_price(request):
+    username = request.GET.get('username')
+    
+    if username:
+        username_tickers = User.get_user_tickers(username)
+        mean_price = calculate_mean_price(username_tickers)
+
+        return JsonResponse({"message": "Ticker cleared successfully", "data": mean_price.to_json(orient='index')})
+    
+    else:
+        return JsonResponse({"message": "User not found"}, status=404)
