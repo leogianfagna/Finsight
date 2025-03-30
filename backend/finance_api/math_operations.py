@@ -18,8 +18,10 @@ def calculate_mean_price(tickers):
     Returns:
         serie (pandas): Uma serie que o índice é o ativo e o valor é o preço médio.
     """
+    
     df = pd.DataFrame(columns=["total_price", "quantity"])
 
+    # Percorre cada histórico de compra e prepara para inserir em um dataframe auxiliar
     for ticker_info in tickers:
         ticker_info.pop()
         ticker_name = ticker_info.pop(0)

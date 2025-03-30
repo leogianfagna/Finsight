@@ -238,8 +238,7 @@ def get_mean_price(request):
     if username:
         username_tickers = User.get_user_tickers(username)
         mean_price = calculate_mean_price(username_tickers)
-
-        return JsonResponse({"message": "Ticker cleared successfully", "data": mean_price.to_json(orient='index')})
+        return JsonResponse({"message": "Data retrieved successfully", "data": mean_price.to_json(orient='index')})
     
     else:
         return JsonResponse({"message": "User not found"}, status=404)

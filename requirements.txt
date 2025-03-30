@@ -1,0 +1,7 @@
+django
+djangorestframework
+pymongo
+python-dotenv
+mongoengine
+requests
+djongo

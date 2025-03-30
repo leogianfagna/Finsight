@@ -35,7 +35,12 @@ DJANGO_SECRET_KEY="..."
 ```
 
 ```bash
-# 3 - Ligar servidor backend
+# 3 - Instalar dependências (declaradas em requirements.txt)
+pip install -r requirements.txt
+```
+
+```bash
+# 4 - Ligar servidor backend
 python manage.py runserver 0.0.0.0:8000
 ```
 
