@@ -129,10 +129,34 @@ def get_dividend_history(request):
     
     if ticker_name:
         ticker_data = fetch_dividend_history(ticker_name)
-        return JsonResponse({"message": "Data retrieved successfully", "dividends": ticker_data})
+        return JsonResponse({"message": "Data retrieved successfully", "dividends": ticker_data.to_json(orient='index')})
     else:
         return JsonResponse({"message": "Ticker name is required"}, status=400)
     
+def get_username_dividend_history(request):
+    username = request.GET.get('username')
+    
+    if username:
+        username_tickers = User.get_user_tickers(username)
+        df_dividend_history = pd.DataFrame(columns=["date", "value", "ticker"])
+        
+        for unique_ticker in username_tickers:
+            ticker_name_formatted = unique_ticker[0] + ".SA"
+            serie = fetch_dividend_history(ticker_name_formatted)
+
+            df = serie.reset_index()
+            df.columns = ["date", "value"]
+            df["ticker"] = ticker_name_formatted
+            
+            df_dividend_history = pd.concat([df_dividend_history, df], ignore_index=True)
+
+        df_dividend_history = df_dividend_history.sort_values(by="date")
+        print(df_dividend_history)
+        return JsonResponse({"message": "Data retrieved successfully", "history": df_dividend_history.to_json(orient='index')})
+    
+    else:
+        return JsonResponse({"message": "Username is required"}, status=400)
+
 def get_next_ticker_dividend(request):
     ticker_name = request.GET.get('ticker')
 

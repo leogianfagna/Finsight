@@ -13,6 +13,15 @@ print(ticker.history(period="2d"))
 """
 
 def fetch_dividend_history(ticker_name):
+    """
+    Retorna um histórico de 6 meses de dividendos de um determinado papel.
+
+    Args:
+        ticker_name (str): O nome do papel para consultar.
+
+    Returns:
+        serie (pandas): Uma serie com as informações do histórico.
+    """
     ticker = yf.Ticker(ticker_name)
     all_dividend_history = ticker.get_dividends()
 
@@ -20,8 +29,7 @@ def fetch_dividend_history(ticker_name):
     all_dividend_history.index = all_dividend_history.index.tz_localize("UTC") if all_dividend_history.index.tz is None else all_dividend_history.index
     six_mounths_series = pd.Timestamp.now(tz="UTC") - pd.DateOffset(months=6)
 
-    dividend_history = all_dividend_history[all_dividend_history.index >= six_mounths_series]
-    return dividend_history.to_json(orient='index')
+    return all_dividend_history[all_dividend_history.index >= six_mounths_series]
 
 def fetch_next_dividend(ticker_name):
     ticker = yf.Ticker(ticker_name)
