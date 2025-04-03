@@ -143,7 +143,7 @@
             android:layout_height="50dp"
             android:background="@drawable/borda_azul"
             android:drawableStart="@drawable/ic_cadeado"
-            android:drawablePadding="10dp"
+            android:drawablePadding="15dp"
             android:drawableTint="@color/azul_claro"
             android:hint="@string/hint_password"
             android:inputType="textPassword"

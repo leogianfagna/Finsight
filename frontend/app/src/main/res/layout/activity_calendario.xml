@@ -120,8 +120,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@color/darkgray"
-                android:padding="12dp"
-                android:marginBottom="8dp">
+                android:padding="12dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -182,7 +181,7 @@
             android:id="@+id/btn_graph"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/graph"
+            android:src="@drawable/ic_calendar"
             android:layout_marginStart="20dp"
             android:background="@drawable/bg_white_circle"/>
     </LinearLayout>

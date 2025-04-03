@@ -7,6 +7,7 @@ import android.text.InputFilter
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import br.edu.puccampinas.frontend.databinding.ActivityCreateAccountBinding
@@ -28,9 +29,6 @@ class Create_account : AppCompatActivity() {
         binding = ActivityCreateAccountBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Adiciona um listener para formatar o CPF conforme o usuário digita
-        setupCPFListener()
-
         // Define ação para o vetor "voltar"
         binding.comeBack.setOnClickListener {
             comeBack()
@@ -40,9 +38,12 @@ class Create_account : AppCompatActivity() {
         binding.btnCadastrarConta.setOnClickListener {
             register()
         }
+
+        binding.cadastrarCpf.addTextChangedListener(CpfTextWatcher(binding.cadastrarCpf))
     }
 
     // Função para registrar o usuário após validar os dados
+    // Validação do CPF corretamente
     private fun register() {
         val name = binding.nomeCompleto.text.toString()
         val email = binding.emailCadastrar.text.toString()
@@ -50,8 +51,8 @@ class Create_account : AppCompatActivity() {
         val password = binding.passwordLogin.text.toString()
         val confirmPassword = binding.passwordCreateAccount.text.toString()
 
-        // Remove a formatação do CPF para validação
-        val cpfNumerico = cpf.replace(".", "").replace("-", "")
+        // Remove qualquer formatação do CPF para validar corretamente
+        val cpfNumerico = cpf.replace(Regex("[^\\d]"), "")
 
         // Validação do nome completo
         if (name.length < 5) {
@@ -117,87 +118,64 @@ class Create_account : AppCompatActivity() {
         })
     }
 
-    // Exibe mensagens curtas na tela
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
-
-    // Adiciona um TextWatcher para formatar o CPF automaticamente
-    private fun setupCPFListener() {
-        val cpfEditText = binding.cadastrarCpf
-
-        // Define o limite de caracteres do EditText para 14 (incluindo "." e "-")
-        cpfEditText.filters = arrayOf(InputFilter.LengthFilter(14))
-
-        cpfEditText.addTextChangedListener(object : TextWatcher {
-            var isUpdating = false  // Evita chamadas recursivas desnecessárias
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (isUpdating || s == null) return
-
-                isUpdating = true
-
-                // Remove pontos e traços para manter apenas os números
-                val cleanString = s.filter { it.isDigit() }
-
-                // Limita a string a 11 números
-                val limitedString = if (cleanString.length > 11) cleanString.take(11) else cleanString
-
-                // Aplica a formatação padrão do CPF (XXX.XXX.XXX-XX)
-                val formattedCPF = when (limitedString.length) {
-                    in 1..3 -> limitedString
-                    in 4..6 -> "${limitedString.substring(0, 3)}.${limitedString.substring(3)}"
-                    in 7..9 -> "${limitedString.substring(0, 3)}.${limitedString.substring(3, 6)}.${limitedString.substring(6)}"
-                    in 10..11 -> "${limitedString.substring(0, 3)}.${limitedString.substring(3, 6)}.${limitedString.substring(6, 9)}-${limitedString.substring(9)}"
-                    else -> limitedString
-                }
-
-                // Define o texto formatado no EditText e move o cursor para o final
-                cpfEditText.setText(formattedCPF)
-                cpfEditText.setSelection(formattedCPF.length)
-
-                isUpdating = false
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                if (s != null && s.length == 14) { // 14 caracteres é o tamanho correto do CPF formatado
-                    val cpfSemFormatacao = s.toString().replace(".", "").replace("-", "")
-
-                    // Se o CPF for inválido, exibe um erro
-                    if (!validarCPF(cpfSemFormatacao)) {
-                        cpfEditText.error = "CPF inválido!"
-                        showToast("CPF inválido!")
-                    }
-                }
-            }
-        })
-    }
-
-    // Função que valida se um CPF é válido de acordo com o algoritmo oficial
+    // Validação correta do CPF
     private fun validarCPF(cpf: String): Boolean {
-        // Remove qualquer caractere não numérico
-        val cpfNumerico = cpf.filter { it.isDigit() }
+        val cpfNumerico = cpf.replace(Regex("[^\\d]"), "")
 
-        // CPF deve ter 11 números e não pode ser uma sequência repetida (ex: 11111111111)
         if (cpfNumerico.length != 11 || cpfNumerico.all { it == cpfNumerico[0] }) return false
 
-        // Converte os números do CPF para uma lista de inteiros
         val numeros = cpfNumerico.map { it.toString().toInt() }
 
-        // Cálculo do primeiro dígito verificador
         val peso1 = (10 downTo 2).toList()
         val digito1 = (numeros.take(9).zip(peso1).sumOf { it.first * it.second } * 10) % 11
         val primeiroDigitoVerificador = if (digito1 == 10) 0 else digito1
 
-        // Cálculo do segundo dígito verificador
         val peso2 = (11 downTo 2).toList()
         val digito2 = (numeros.take(10).zip(peso2).sumOf { it.first * it.second } * 10) % 11
         val segundoDigitoVerificador = if (digito2 == 10) 0 else digito2
 
-        // Retorna verdadeiro se os dígitos calculados forem iguais aos informados
         return numeros[9] == primeiroDigitoVerificador && numeros[10] == segundoDigitoVerificador
+    }
+
+    // Formatação automática do CPF sem duplicação
+    inner class CpfTextWatcher(private val editText: EditText) : TextWatcher {
+        private var isUpdating = false
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+        override fun afterTextChanged(s: Editable?) {
+            if (isUpdating || s.isNullOrEmpty()) return
+
+            isUpdating = true
+
+            // Remove tudo que não for número
+            val cleanString = s.toString().replace(Regex("[^\\d]"), "")
+
+            // Garante que tenha no máximo 11 caracteres numéricos
+            val limitedString = cleanString.take(11)
+
+            // Aplica a formatação XXX.XXX.XXX-XX
+            val formattedCPF = StringBuilder()
+            for (i in limitedString.indices) {
+                formattedCPF.append(limitedString[i])
+                if (i == 2 || i == 5) formattedCPF.append('.') // Adiciona "." nos lugares certos
+                if (i == 8) formattedCPF.append('-') // Adiciona "-" no lugar certo
+            }
+
+            // Atualiza o EditText corretamente
+            editText.removeTextChangedListener(this)
+            editText.setText(formattedCPF)
+            editText.setSelection(formattedCPF.length) // Move o cursor para o final
+            editText.addTextChangedListener(this)
+
+            isUpdating = false
+        }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     // Função para retornar à tela de início, caso precione o vetor "voltar"

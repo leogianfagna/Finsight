@@ -42,7 +42,7 @@
 
         <ImageButton
             android:id="@+id/btn_settings"
-            android:layout_width="35dp"
+            android:layout_width="33dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="0dp"
             android:background="@drawable/bg_white_circle"
@@ -52,7 +52,7 @@
 
         <ImageButton
             android:id="@+id/btn_notifications"
-            android:layout_width="35dp"
+            android:layout_width="33dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:background="@drawable/bg_white_circle"
@@ -154,7 +154,7 @@
             android:backgroundTint="@color/teal_200"
             android:text="@string/oportunidades"
             android:textColor="@color/black"
-            android:textSize="12sp"
+            android:textSize="10sp"
             android:textStyle="bold" />
 
         <Button
@@ -165,7 +165,7 @@
             android:backgroundTint="@color/teal_200"
             android:text="@string/avaliar"
             android:textColor="@color/black"
-            android:textSize="12sp"
+            android:textSize="10sp"
             android:textStyle="bold" />
 
         <Button
@@ -176,7 +176,7 @@
             android:backgroundTint="@color/teal_200"
             android:text="@string/sugestoes"
             android:textColor="@color/black"
-            android:textSize="12sp"
+            android:textSize="10sp"
             android:textStyle="bold" />
 
         <TextView
@@ -232,7 +232,7 @@
             android:backgroundTint="@color/teal_200"
             android:text="@string/avaliacao_do_papel"
             android:textColor="@color/black"
-            android:textSize="15sp"
+            android:textSize="10sp"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -284,7 +284,7 @@
             android:id="@+id/btn_graph"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/graph"
+            android:src="@drawable/ic_calendar"
             android:layout_marginStart="20dp"
             android:background="@drawable/bg_white_circle"
             />
