@@ -17,5 +17,6 @@ urlpatterns = [
     path('get_ticker_validation/', views.get_ticker_validation, name='get_ticker_validation'),
     path('get_ticker_price/', views.get_ticker_price, name='get_ticker_price'),
     path('get_username_dividend_history/', views.get_username_dividend_history, name='get_username_dividend_history'),
-    path('get_mean_price/', views.get_mean_price, name='get_mean_price')
+    path('get_mean_price/', views.get_mean_price, name='get_mean_price'),
+    path('get_account_balance/', views.get_account_balance, name='get_account_balance')
 ]

@@ -242,3 +242,19 @@ def get_mean_price(request):
     
     else:
         return JsonResponse({"message": "User not found"}, status=404)
+    
+def get_account_balance(request):
+    username = request.GET.get('username')
+    
+    if username:
+        username_tickers = User.get_user_tickers(username)
+        total_balance = 0
+
+        for ticker_list in username_tickers:
+            total_balance = total_balance + float(ticker_list[1]) * int(ticker_list[2])
+
+        total_balance = round(total_balance, 2)
+        return JsonResponse({"message": "Data retrieved successfully", "balance": total_balance})
+    
+    else:
+        return JsonResponse({"message": "User not found"}, status=404)

@@ -99,8 +99,11 @@ def get_mean_price(username):
     response = requests.get(url, params=params)
     print(f"Mean Price Response: {response.json()}")
 
+def get_account_balance(username):
+    url = f"{base_url}get_account_balance/"
+    params = {'username': username}
+    response = requests.get(url, params=params)
+    print(f"Data Response: {response.json()}")
+
 if __name__ == "__main__":
-    add_user_ticker("newbase", "PETR3", "add_obtained", [41.07, 403, "2025-03-30"])
-    add_user_ticker("newbase", "VALE3", "add_obtained", [57.56, 1, "2025-03-30"])
-    add_user_ticker("newbase", "VALE3", "add_obtained", [60.01, 102, "2025-03-11"])
-    get_mean_price("newbase")
+    get_account_balance("newbase")

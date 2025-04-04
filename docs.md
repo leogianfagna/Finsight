@@ -269,3 +269,18 @@ Retorna o preço médio ponderado das ações obtidas por um usuário.
 > ```python
 > get_mean_price("leo123")
 > ```
+
+## `get_account_balance`
+Retorna o saldo do usuário somado com todas as ações que o usuário tem (defindas como compradas).
+
+### Parâmetros
+- **username: string** <br>Nome do usuário.
+
+### Retorno
+- **Json:** <br>O saldo total no parâmetro `balance`.
+
+> [!TIP]
+> Exemplo de uso:
+> ```python
+> get_account_balance("leo123")
+> ```
