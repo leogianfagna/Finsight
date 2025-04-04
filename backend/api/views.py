@@ -89,7 +89,7 @@ def add_user_ticker(request):
     purchase_date = request.GET.get('purchase_date')
     
     if username and ticker and destination:
-        purchase_info = [purchase_price, purchase_quantity, purchase_date]
+        purchase_info = [float(purchase_price), int(purchase_quantity), purchase_date]
         result = User.add_user_ticker(username, ticker, destination, purchase_info)
         
         if result == "Ticker added successfully":
@@ -251,7 +251,7 @@ def get_account_balance(request):
         total_balance = 0
 
         for ticker_list in username_tickers:
-            total_balance = total_balance + float(ticker_list[1]) * int(ticker_list[2])
+            total_balance = total_balance + ticker_list[1] * ticker_list[2]
 
         total_balance = round(total_balance, 2)
         return JsonResponse({"message": "Data retrieved successfully", "balance": total_balance})

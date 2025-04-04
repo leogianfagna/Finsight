@@ -26,7 +26,7 @@ def calculate_mean_price(tickers):
         ticker_info.pop()
         ticker_name = ticker_info.pop(0)
 
-        total_price = float(ticker_info[0]) * int(ticker_info[1])
+        total_price = ticker_info[0] * ticker_info[1]
         ticker_info[0] = total_price
 
         # Soma total_price e quantity com a ação repetida, se não, apenas adiciona no dataframe
@@ -35,7 +35,7 @@ def calculate_mean_price(tickers):
             df.loc[ticker_name, "total_price"] = old_total_price + ticker_info[0]
 
             old_total_quantity = df.loc[ticker_name].quantity
-            df.loc[ticker_name, "quantity"] = int(old_total_quantity) + int(ticker_info[1])
+            df.loc[ticker_name, "quantity"] = old_total_quantity + ticker_info[1]
         else:
             df.loc[ticker_name] = ticker_info
 
@@ -44,6 +44,6 @@ def calculate_mean_price(tickers):
     mean_prices = []
     for row in df.itertuples():
         tickers.append(row.Index)
-        mean_prices.append(round(row.total_price / int(row.quantity), 2))
+        mean_prices.append(round(row.total_price / row.quantity, 2))
 
     return pd.Series(index = tickers, data = mean_prices)

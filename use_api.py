@@ -107,3 +107,4 @@ def get_account_balance(username):
 
 if __name__ == "__main__":
     get_account_balance("newbase")
+    get_mean_price("newbase")
