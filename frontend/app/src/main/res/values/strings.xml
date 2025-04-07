@@ -57,6 +57,7 @@
     <string name="sugest_es_de_investimentos">Sugestões de Investimentos</string>
     <string name="carteira">Carteira</string>
     <string name="hist_rico">Histórico</string>
+    <string name="Saldo">$1000</string>
 
 
 </resources>
