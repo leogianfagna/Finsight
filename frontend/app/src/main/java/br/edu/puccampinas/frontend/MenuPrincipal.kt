@@ -1,5 +1,6 @@
 package br.edu.puccampinas.frontend
 
+import Calendario
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -45,6 +46,10 @@ class MenuPrincipal : AppCompatActivity() {
         binding.Sugestoes.setOnClickListener {
             navegarTelaSugestoes()
         }
+
+        binding.btnGraph.setOnClickListener {
+            navegarTelaCalendario()
+        }
     }
 
     private fun getFullName(userId: String, callback: (String?) -> Unit) {
@@ -76,6 +81,11 @@ class MenuPrincipal : AppCompatActivity() {
 
     private fun navegarTelaSugestoes(){
         val intent = Intent(this, Sugestoes::class.java)
+        startActivity(intent)
+    }
+
+    private fun navegarTelaCalendario(){
+        val intent = Intent(this, Calendario::class.java)
         startActivity(intent)
     }
 

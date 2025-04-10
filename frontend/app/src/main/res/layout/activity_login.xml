@@ -63,7 +63,9 @@
         <EditText
             android:id="@+id/password_login"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
+            android:minHeight="50dp"
+            android:lineHeight="20sp"
             android:background="@drawable/borda_azul"
             android:drawableStart="@drawable/ic_cadeado"
             android:drawablePadding="10dp"
@@ -71,10 +73,14 @@
             android:hint="@string/hint_password"
             android:inputType="textPassword"
             android:paddingStart="15dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:gravity="center_vertical"
             android:textColor="@color/white"
             android:textColorHint="@color/gray"
             android:textSize="15sp"
-            tools:ignore="RtlSymmetry" />
+            android:includeFontPadding="false"
+            tools:ignore="RtlSymmetry"/>
     </com.google.android.material.textfield.TextInputLayout>
 
 
