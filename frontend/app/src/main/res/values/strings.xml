@@ -58,6 +58,8 @@
     <string name="carteira">Carteira</string>
     <string name="hist_rico">Histórico</string>
     <string name="Saldo">$1000</string>
+    <string name="calendario">Calendario</string>
+    <string name="calend_rio">Calendário</string>
 
 
 </resources>
