@@ -88,14 +88,17 @@ class MenuPrincipal : AppCompatActivity() {
         // Esconder todos os textos
         binding.textWallet.visibility = View.GONE
         binding.textCalendario.visibility = View.GONE
+        binding.textHome.visibility = View.GONE
 
         // Resetar fundo dos botões (se quiser mudar visualmente também)
         binding.btnWallet.setBackgroundResource(R.drawable.bg_white_circle)
         binding.btnGraph.setBackgroundResource(R.drawable.bg_white_circle)
+        binding.iconBg.setBackgroundResource(R.drawable.bg_white_circle)
 
         when (tela) {
             "home" -> {
-                // Nada a fazer no botão home porque ele já vem com texto visível no layout
+                binding.textHome.visibility = View.VISIBLE
+                binding.iconBg.setBackgroundResource(R.drawable.nav_selected)
             }
 
             "carteira" -> {

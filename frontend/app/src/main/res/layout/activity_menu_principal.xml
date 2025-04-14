@@ -282,6 +282,7 @@
             android:background="@drawable/nav_selected"/>
 
         <TextView
+            android:id="@+id/textHome"
             android:layout_width="85dp"
             android:layout_height="40dp"
             android:layout_marginStart="7dp"
