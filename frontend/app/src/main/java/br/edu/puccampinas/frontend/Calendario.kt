@@ -1,3 +1,5 @@
+package br.edu.puccampinas.frontend
+
 import android.os.Bundle
 import android.view.Gravity
 import android.widget.GridLayout
