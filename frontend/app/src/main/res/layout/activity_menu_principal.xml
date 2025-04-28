@@ -273,13 +273,17 @@
         android:orientation="horizontal"
         android:padding="8dp">
 
+        <!-- Botão Home -->
         <ImageView
-            android:id="@+id/icon_bg"
+            android:id="@+id/btn_home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scaleType="centerInside"
             android:src="@drawable/home"
-            android:background="@drawable/nav_selected"/>
+            android:background="@drawable/nav_selected"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless" />
 
         <TextView
             android:id="@+id/textHome"
@@ -299,7 +303,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="110dp"
             android:background="@drawable/bg_white_circle"
-            android:src="@drawable/wallet" />
+            android:src="@drawable/wallet"
+            android:foreground="?attr/selectableItemBackgroundBorderless" />
 
         <TextView
             android:id="@+id/text_wallet"
@@ -320,7 +325,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:background="@drawable/bg_white_circle"
-            android:src="@drawable/ic_calendar" />
+            android:src="@drawable/ic_calendar"
+            android:foreground="?attr/selectableItemBackgroundBorderless" />
 
         <TextView
             android:id="@+id/text_calendario"

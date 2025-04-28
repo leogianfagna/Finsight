@@ -1,5 +1,7 @@
 package br.edu.puccampinas.frontend
 
+import android.animation.ObjectAnimator
+import android.animation.AnimatorSet
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -16,6 +18,9 @@ class MenuPrincipal : AppCompatActivity() {
 
     private lateinit var binding: ActivityMenuPrincipalBinding
 
+    // Controle do estado do menu
+    private var botaoSelecionado: String = "home"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMenuPrincipalBinding.inflate(layoutInflater)
@@ -25,24 +30,25 @@ class MenuPrincipal : AppCompatActivity() {
         ativarMenu("home")
 
         binding.btnWallet.setOnClickListener {
-            ativarMenu("carteira")
-            Toast.makeText(this, "Abrir Carteira (ainda não implementado)", Toast.LENGTH_SHORT).show()
+            if (botaoSelecionado != "carteira") {
+                animarBotao(binding.btnWallet)
+                ativarMenu("carteira")
+            }
         }
 
         binding.btnGraph.setOnClickListener {
-            ativarMenu("calendario")
-            navegarTelaCalendario()
+            if (botaoSelecionado != "calendario") {
+                animarBotao(binding.btnGraph)
+                ativarMenu("calendario")
+                navegarTelaCalendario()
+            }
         }
 
-        // Clique no botão home
-        binding.iconBg.setOnClickListener {
-            ativarMenu("home")
-        }
-
-        // Clique no botão de gráfico (atalho pro calendário)
-        binding.btnGraph.setOnClickListener {
-            ativarMenu("calendario")
-            navegarTelaCalendario()
+        binding.btnHome.setOnClickListener {
+            if (botaoSelecionado != "home") {
+                restaurarBotoes()
+                ativarMenu("home")
+            }
         }
 
         // Nome do usuário
@@ -57,17 +63,9 @@ class MenuPrincipal : AppCompatActivity() {
         }
 
         // Ações dos botões principais
-        binding.Oportunidades.setOnClickListener {
-            navegarTelaOportunidades()
-        }
-
-        binding.Avaliar.setOnClickListener {
-            navegarTelaAvaliar()
-        }
-
-        binding.Sugestoes.setOnClickListener {
-            navegarTelaSugestoes()
-        }
+        binding.Oportunidades.setOnClickListener { navegarTelaOportunidades() }
+        binding.Avaliar.setOnClickListener { navegarTelaAvaliar() }
+        binding.Sugestoes.setOnClickListener { navegarTelaSugestoes() }
     }
 
     private fun getFullName(userId: String, callback: (String?) -> Unit) {
@@ -89,27 +87,59 @@ class MenuPrincipal : AppCompatActivity() {
         binding.textCalendario.visibility = View.GONE
         binding.textHome.visibility = View.GONE
 
-        // Resetar fundo dos botões (se quiser mudar visualmente também)
+        // Resetar fundo dos botões
         binding.btnWallet.setBackgroundResource(R.drawable.bg_white_circle)
         binding.btnGraph.setBackgroundResource(R.drawable.bg_white_circle)
-        binding.iconBg.setBackgroundResource(R.drawable.bg_white_circle)
+        binding.btnHome.setBackgroundResource(R.drawable.bg_white_circle)
 
         when (tela) {
             "home" -> {
                 binding.textHome.visibility = View.VISIBLE
-                binding.iconBg.setBackgroundResource(R.drawable.nav_selected)
+                binding.btnHome.setBackgroundResource(R.drawable.nav_selected)
             }
-
             "carteira" -> {
                 binding.textWallet.visibility = View.VISIBLE
                 binding.btnWallet.setBackgroundResource(R.drawable.nav_selected)
             }
-
             "calendario" -> {
                 binding.textCalendario.visibility = View.VISIBLE
                 binding.btnGraph.setBackgroundResource(R.drawable.nav_selected)
             }
         }
+
+        botaoSelecionado = tela
+    }
+
+    private fun animarBotao(botao: View) {
+        val distancia = binding.btnHome.x - botao.x
+
+        val animX = ObjectAnimator.ofFloat(botao, "translationX", distancia)
+        animX.duration = 300
+
+        val animatorSet = AnimatorSet()
+        animatorSet.playTogether(animX)
+        animatorSet.start()
+
+        // Esconde o texto "Home" (Dashboard)
+        binding.textHome.visibility = View.GONE
+    }
+
+    private fun restaurarBotoes() {
+        // Anima de volta o Wallet e Graph
+        val animWallet = ObjectAnimator.ofFloat(binding.btnWallet, "translationX", 0f)
+        val animGraph = ObjectAnimator.ofFloat(binding.btnGraph, "translationX", 0f)
+
+        animWallet.duration = 300
+        animGraph.duration = 300
+
+        val animatorSet = AnimatorSet()
+        animatorSet.playTogether(animWallet, animGraph)
+        animatorSet.start()
+
+        // Esconde textos dos outros e mostra Home
+        binding.textWallet.visibility = View.GONE
+        binding.textCalendario.visibility = View.GONE
+        binding.textHome.visibility = View.VISIBLE
     }
 
     private fun navegarTelaOportunidades() {

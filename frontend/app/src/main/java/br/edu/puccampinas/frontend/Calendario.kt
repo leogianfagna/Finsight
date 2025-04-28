@@ -5,7 +5,6 @@ import android.view.Gravity
 import android.widget.GridLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import br.edu.puccampinas.frontend.R
 import br.edu.puccampinas.frontend.databinding.ActivityCalendarioBinding
 import java.text.SimpleDateFormat
 import java.util.*
@@ -37,14 +36,14 @@ class Calendario : AppCompatActivity() {
 
         binding.calendarGrid.removeAllViews()
 
-        // Dias da semana
-        val daysOfWeek = listOf("D", "S", "T", "Q", "Q", "S", "S")
+        // Adicionando os dias da semana
+        val daysOfWeek = listOf("Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb")
         for (day in daysOfWeek) {
             val textView = createCalendarTextView(day, true)
             binding.calendarGrid.addView(textView)
         }
 
-        // Ajuste para o primeiro dia do mês
+        // Ajustando início do mês
         val tempCalendar = currentCalendar.clone() as Calendar
         tempCalendar.set(Calendar.DAY_OF_MONTH, 1)
         val firstDayOfWeek = tempCalendar.get(Calendar.DAY_OF_WEEK) - 1
@@ -58,7 +57,7 @@ class Calendario : AppCompatActivity() {
             binding.calendarGrid.addView(emptyView)
         }
 
-        // Preenchendo os dias do mês
+        // Preenchendo os dias corretamente
         val maxDays = currentCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)
         for (day in 1..maxDays) {
             val dayView = createCalendarTextView(day.toString(), false)
