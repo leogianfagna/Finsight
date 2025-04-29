@@ -1,5 +1,6 @@
 package br.edu.puccampinas.frontend
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
 import android.widget.GridLayout
@@ -23,6 +24,10 @@ class Calendario : AppCompatActivity() {
         binding.btnNextMonth.setOnClickListener { changeMonth(1) }
 
         updateCalendar()
+
+        binding.comeBack.setOnClickListener {
+            comeBack()
+        }
     }
 
     private fun changeMonth(offset: Int) {
@@ -72,5 +77,10 @@ class Calendario : AppCompatActivity() {
             }
             setBackgroundResource(R.drawable.border_cell) // Borda quadrada
         }
+    }
+
+    private fun comeBack() {
+        val intent = Intent(this, MenuPrincipal::class.java)
+        startActivity(intent)
     }
 }
