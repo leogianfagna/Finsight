@@ -36,42 +36,41 @@ class Calendario : AppCompatActivity() {
 
         binding.calendarGrid.removeAllViews()
 
-        // Adicionando os dias da semana
-        val daysOfWeek = listOf("Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb")
-        for (day in daysOfWeek) {
-            val textView = createCalendarTextView(day, true)
-            binding.calendarGrid.addView(textView)
-        }
-
-        // Ajustando início do mês
         val tempCalendar = currentCalendar.clone() as Calendar
         tempCalendar.set(Calendar.DAY_OF_MONTH, 1)
         val firstDayOfWeek = tempCalendar.get(Calendar.DAY_OF_WEEK) - 1
+        val maxDays = currentCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)
 
+        // Adiciona espaços vazios antes do primeiro dia do mês
         for (i in 0 until firstDayOfWeek) {
             val emptyView = TextView(this)
             emptyView.layoutParams = GridLayout.LayoutParams().apply {
-                width = 120
+                width = 0
                 height = 120
+                columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
             }
             binding.calendarGrid.addView(emptyView)
         }
 
-        // Preenchendo os dias corretamente
-        val maxDays = currentCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+        // Adiciona os dias do mês
         for (day in 1..maxDays) {
-            val dayView = createCalendarTextView(day.toString(), false)
+            val dayView = createCalendarTextView(day.toString())
             binding.calendarGrid.addView(dayView)
         }
     }
 
-    private fun createCalendarTextView(text: String, isHeader: Boolean): TextView {
+    private fun createCalendarTextView(text: String): TextView {
         return TextView(this).apply {
             this.text = text
-            textSize = if (isHeader) 14f else 16f
+            textSize = 16f
             gravity = Gravity.CENTER
-            setPadding(16, 16, 16, 16)
-            setBackgroundResource(R.drawable.border_cell)
+            layoutParams = GridLayout.LayoutParams().apply {
+                width = 0
+                height = 120
+                columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
+                setMargins(8, 8, 8, 8)
+            }
+            setBackgroundResource(R.drawable.border_cell) // Borda quadrada
         }
     }
 }

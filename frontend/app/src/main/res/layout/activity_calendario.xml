@@ -8,7 +8,7 @@
     android:background="@color/background_dark"
     android:padding="24dp">
 
-    <!-- Topo (Título e botões) -->
+    <!-- Topo -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -83,47 +83,32 @@
                 android:src="@drawable/ic_arrow_right" />
         </LinearLayout>
 
-        <!-- Dias da Semana -->
-        <GridLayout
+        <!-- Cabeçalho dos dias da semana -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:columnCount="7"
-            android:rowCount="1"
-            android:layout_marginTop="12dp">
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="8dp">
 
-            <TextView android:layout_width="0dp" android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:gravity="center" android:text="Dom" android:textStyle="bold" />
-            <TextView android:layout_width="0dp" android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:gravity="center" android:text="Seg" android:textStyle="bold" />
-            <TextView android:layout_width="0dp" android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:gravity="center" android:text="Ter" android:textStyle="bold" />
-            <TextView android:layout_width="0dp" android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:gravity="center" android:text="Qua" android:textStyle="bold" />
-            <TextView android:layout_width="0dp" android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:gravity="center" android:text="Qui" android:textStyle="bold" />
-            <TextView android:layout_width="0dp" android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:gravity="center" android:text="Sex" android:textStyle="bold" />
-            <TextView android:layout_width="0dp" android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:gravity="center" android:text="Sáb" android:textStyle="bold" />
-        </GridLayout>
+            <TextView android:text="Dom" style="@style/CalendarHeaderCell"/>
+            <TextView android:text="Seg" style="@style/CalendarHeaderCell"/>
+            <TextView android:text="Ter" style="@style/CalendarHeaderCell"/>
+            <TextView android:text="Qua" style="@style/CalendarHeaderCell"/>
+            <TextView android:text="Qui" style="@style/CalendarHeaderCell"/>
+            <TextView android:text="Sex" style="@style/CalendarHeaderCell"/>
+            <TextView android:text="Sáb" style="@style/CalendarHeaderCell"/>
+        </LinearLayout>
 
-        <!-- Grid dos Dias -->
+        <!-- Grid dos dias do mês -->
         <GridLayout
             android:id="@+id/calendar_grid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:columnCount="7"
-            android:rowCount="6"
-            android:layout_marginTop="8dp"
-            android:alignmentMode="alignMargins"
-            android:useDefaultMargins="true" />
+            android:padding="4dp"
+            android:gravity="center"
+            android:layout_marginTop="8dp" />
     </LinearLayout>
 
     <!-- Histórico -->
@@ -144,7 +129,7 @@
                 android:textSize="16sp"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -158,19 +143,19 @@
                     android:layout_height="wrap_content"
                     android:text="GGBR4"
                     android:textSize="16sp"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="R$1,56"
                     android:textSize="14sp"
-                    android:textColor="@color/gray" />
+                    android:textColor="@color/gray"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
-    <!-- Menu Inferior -->
+    <!-- Rodapé -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -188,7 +173,7 @@
             android:background="@drawable/bg_white_circle"
             android:scaleType="centerInside"
             android:src="@drawable/home"
-            app:drawableTint="@color/azul_claro" />
+            app:drawableTint="@color/azul_claro"/>
 
         <TextView
             android:layout_width="85dp"
@@ -198,7 +183,7 @@
             android:text="@string/dashboard"
             android:textSize="15sp"
             android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <ImageButton
             android:id="@+id/btn_wallet"
@@ -206,7 +191,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="110dp"
             android:background="@drawable/bg_white_circle"
-            android:src="@drawable/wallet" />
+            android:src="@drawable/wallet"/>
 
         <ImageButton
             android:id="@+id/btn_calendar"
@@ -214,6 +199,6 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_calendar"
             android:layout_marginStart="20dp"
-            android:background="@drawable/bg_white_circle" />
+            android:background="@drawable/bg_white_circle"/>
     </LinearLayout>
 </LinearLayout>
