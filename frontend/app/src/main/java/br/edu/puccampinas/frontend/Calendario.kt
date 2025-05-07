@@ -67,15 +67,16 @@ class Calendario : AppCompatActivity() {
     private fun createCalendarTextView(text: String): TextView {
         return TextView(this).apply {
             this.text = text
-            textSize = 16f
-            gravity = Gravity.CENTER
+            textSize = 14f
+            gravity = Gravity.START or Gravity.TOP // canto superior esquerdo
             layoutParams = GridLayout.LayoutParams().apply {
                 width = 0
                 height = 120
                 columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
                 setMargins(8, 8, 8, 8)
             }
-            setBackgroundResource(R.drawable.border_cell) // Borda quadrada
+            setPadding(12, 8, 8, 8) // espaço do número pro canto
+            setBackgroundResource(R.drawable.border_cell)
         }
     }
 

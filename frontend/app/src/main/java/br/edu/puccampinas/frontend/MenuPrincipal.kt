@@ -31,23 +31,23 @@ class MenuPrincipal : AppCompatActivity() {
 
         binding.btnWallet.setOnClickListener {
             if (botaoSelecionado != "carteira") {
-                animarBotao(binding.btnWallet)
                 ativarMenu("carteira")
+                animarBotao(binding.btnWallet, binding.textWallet)
             }
         }
 
         binding.btnGraph.setOnClickListener {
             if (botaoSelecionado != "calendario") {
-                animarBotao(binding.btnGraph)
                 ativarMenu("calendario")
+                animarBotao(binding.btnGraph, binding.textCalendario)
                 navegarTelaCalendario()
             }
         }
 
         binding.btnHome.setOnClickListener {
             if (botaoSelecionado != "home") {
-                restaurarBotoes()
                 ativarMenu("home")
+                animarBotao(binding.btnHome, binding.textHome)
             }
         }
 
@@ -82,46 +82,36 @@ class MenuPrincipal : AppCompatActivity() {
     }
 
     private fun ativarMenu(tela: String) {
-        // Esconder todos os textos
-        binding.textWallet.visibility = View.GONE
-        binding.textCalendario.visibility = View.GONE
-        binding.textHome.visibility = View.GONE
-
         // Resetar fundo dos botões
         binding.btnWallet.setBackgroundResource(R.drawable.bg_white_circle)
         binding.btnGraph.setBackgroundResource(R.drawable.bg_white_circle)
         binding.btnHome.setBackgroundResource(R.drawable.bg_white_circle)
 
         when (tela) {
-            "home" -> {
-                binding.textHome.visibility = View.VISIBLE
-                binding.btnHome.setBackgroundResource(R.drawable.nav_selected)
-            }
-            "carteira" -> {
-                binding.textWallet.visibility = View.VISIBLE
-                binding.btnWallet.setBackgroundResource(R.drawable.nav_selected)
-            }
-            "calendario" -> {
-                binding.textCalendario.visibility = View.VISIBLE
-                binding.btnGraph.setBackgroundResource(R.drawable.nav_selected)
-            }
+            "home" -> binding.btnHome.setBackgroundResource(R.drawable.nav_selected)
+            "carteira" -> binding.btnWallet.setBackgroundResource(R.drawable.nav_selected)
+            "calendario" -> binding.btnGraph.setBackgroundResource(R.drawable.nav_selected)
         }
 
         botaoSelecionado = tela
     }
 
-    private fun animarBotao(botao: View) {
-        val distancia = binding.btnHome.x - botao.x
-
-        val animX = ObjectAnimator.ofFloat(botao, "translationX", distancia)
-        animX.duration = 300
-
-        val animatorSet = AnimatorSet()
-        animatorSet.playTogether(animX)
-        animatorSet.start()
-
-        // Esconde o texto "Home" (Dashboard)
+    private fun animarBotao(botao: View, texto: View) {
+        // Mostra apenas o texto associado
+        binding.textWallet.visibility = View.GONE
+        binding.textCalendario.visibility = View.GONE
         binding.textHome.visibility = View.GONE
+        texto.visibility = View.VISIBLE
+
+        // Animação de escala (visual)
+        val scaleX = ObjectAnimator.ofFloat(botao, "scaleX", 1f, 1.2f, 1f)
+        val scaleY = ObjectAnimator.ofFloat(botao, "scaleY", 1f, 1.2f, 1f)
+
+        AnimatorSet().apply {
+            duration = 200
+            playTogether(scaleX, scaleY)
+            start()
+        }
     }
 
     private fun restaurarBotoes() {
