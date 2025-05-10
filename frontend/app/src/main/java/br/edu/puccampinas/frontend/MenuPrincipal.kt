@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.animation.AnimatorSet
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageButton
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +21,7 @@ class MenuPrincipal : AppCompatActivity() {
 
     // Controle do estado do menu
     private var botaoSelecionado: String = "home"
+    private var notficacoesAtivadas = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +30,18 @@ class MenuPrincipal : AppCompatActivity() {
 
         // Ativar item inicial do menu
         ativarMenu("home")
+
+        binding.btnNotifications.setOnClickListener{
+            notficacoesAtivadas = !notficacoesAtivadas
+
+            if(notficacoesAtivadas){
+                Toast.makeText(this,"Notificações ativadas", Toast.LENGTH_SHORT).show()
+            } else{
+                Toast.makeText(this,"Notificações desativadas",Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        binding.btnSettings.setOnClickListener { navegarTelaConfig() }
 
         binding.btnWallet.setOnClickListener {
             if (botaoSelecionado != "carteira") {
@@ -65,7 +79,6 @@ class MenuPrincipal : AppCompatActivity() {
         // Ações dos botões principais
         binding.Oportunidades.setOnClickListener { navegarTelaOportunidades() }
         binding.Avaliar.setOnClickListener { navegarTelaAvaliar() }
-        binding.Sugestoes.setOnClickListener { navegarTelaSugestoes() }
     }
 
     private fun getFullName(userId: String, callback: (String?) -> Unit) {
@@ -147,5 +160,8 @@ class MenuPrincipal : AppCompatActivity() {
     private fun navegarTelaCalendario() {
         startActivity(Intent(this, Calendario::class.java))
         overridePendingTransition(0, 0)
+    }
+    private fun navegarTelaConfig() {
+        startActivity(Intent(this, Configuracao::class.java))
     }
 }
