@@ -120,3 +120,11 @@ class User(models.Model):
             return user_data if user_data else None
         except Exception as e:
             return None
+
+    @staticmethod
+    def get_username_by_id(user_id):
+        try:
+            user_data = collection.find_one({"_id": ObjectId(user_id)}, {"_id": 1, "username": 1})
+            return user_data if user_data else None
+        except Exception as e:
+            return None

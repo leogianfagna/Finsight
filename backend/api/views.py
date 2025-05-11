@@ -258,3 +258,19 @@ def get_account_balance(request):
     
     else:
         return JsonResponse({"message": "User not found"}, status=404)
+    
+def get_username_by_id(request):
+    user_id = request.GET.get('id')
+    if not user_id:
+        return JsonResponse({"message": "User ID is required"}, status=400)
+
+    try:
+        user_id = ObjectId(user_id)
+        user = User.get_username_by_id(user_id)
+        if user:
+            return JsonResponse({"id": str(user_id), "username": user.get("username")})
+        else:
+            return JsonResponse({"message": "User not found"}, status=404)
+
+    except Exception as e:
+        return JsonResponse({"message": str(e)}, status=500)
