@@ -274,3 +274,36 @@ def get_username_by_id(request):
 
     except Exception as e:
         return JsonResponse({"message": str(e)}, status=500)
+    
+def get_balance_by_id(request):
+    user_id = request.GET.get('id')
+    if not user_id:
+        return JsonResponse({"message": "User ID is required"}, status=400)
+
+    try:
+        user_id = ObjectId(user_id)
+        user = User.get_balance_by_id(user_id)
+        if user:
+            return JsonResponse({"id": str(user_id), "balance": user.get("balance")})
+        else:
+            return JsonResponse({"message": "User not found"}, status=404)
+
+    except Exception as e:
+        return JsonResponse({"message": str(e)}, status=500)
+
+def get_future_balance_by_id(request):
+    user_id = request.GET.get('id')
+    if not user_id:
+        return JsonResponse({"message": "User ID is required"}, status=400)
+
+    try:
+        user_id = ObjectId(user_id)
+        user = User.get_future_balance_by_id(user_id)
+        if user:
+            return JsonResponse({"id": str(user_id), "future_balance": user.get("future_balance")})
+        else:
+            return JsonResponse({"message": "User not found"}, status=404)
+
+    except Exception as e:
+        return JsonResponse({"message": str(e)}, status=500)
+

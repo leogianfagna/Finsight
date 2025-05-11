@@ -128,3 +128,19 @@ class User(models.Model):
             return user_data if user_data else None
         except Exception as e:
             return None
+        
+    @staticmethod
+    def get_balance_by_id(user_id):
+        try:
+            user_data = collection.find_one({"_id": ObjectId(user_id)}, {"_id": 1, "balance": 1})
+            return user_data if user_data else None
+        except Exception as e:
+            return None
+        
+    @staticmethod
+    def get_future_balance_by_id(user_id):
+        try:
+            user_data = collection.find_one({"_id": ObjectId(user_id)}, {"_id": 1, "future_balance": 1})
+            return user_data if user_data else None
+        except Exception as e:
+            return None

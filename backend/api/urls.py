@@ -20,5 +20,6 @@ urlpatterns = [
     path('get_mean_price/', views.get_mean_price, name='get_mean_price'),
     path('get_account_balance/', views.get_account_balance, name='get_account_balance'),
     path('get_username/', views.get_username_by_id, name='get_username_by_id'),
-
+    path('get_balance/', views.get_balance_by_id, name='get_balance_by_id'),
+    path('get_future_balance/', views.get_future_balance_by_id, name='get_future_balance_by_id'),
 ]
