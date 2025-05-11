@@ -20,5 +20,8 @@ class Carteira : AppCompatActivity() {
         val listaDeAcoes = mutableListOf<Acao>()
         adapter = CarteiraAdapter(listaDeAcoes)
         recyclerView.adapter = adapter
+        //Isso vai ter que ser mudado
     }
 }
+
+
