@@ -99,7 +99,7 @@
         android:layout_width="200dp"
         android:layout_height="50dp"
         android:layout_marginTop="50dp"
-        android:backgroundTint="@color/teal_200"
+        android:backgroundTint="@color/azul_claro"
         android:textColor="@color/white"
         android:textSize="15sp"
         android:text="@string/hint_entrar"

@@ -1,10 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_dark"
+    android:padding="24dp"
     tools:context=".Configuracao">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/come_back"
+        android:layout_marginTop="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        app:drawableStartCompat="@drawable/ic_back"
+        app:drawableTint="@color/azul_claro" />
+
+    <LinearLayout
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="20dp"
+        android:padding="8dp"
+        android:background="@drawable/borda_azul"
+        >
+
+        <ImageView
+            android:id="@+id/ic_user_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_person"
+            android:contentDescription="@string/cone_de_usu_rio"
+            app:tint="@color/azul_claro" />
+
+        <TextView
+            android:id="@+id/ic_user"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/borda_azul"
+            android:padding="10dp"
+            android:gravity="center_vertical"
+            android:text="@string/UserName"
+            android:textColor="@color/white"
+            android:textSize="21sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="50dp"
+        android:padding="8dp"
+        android:background="@drawable/borda_azul"
+        >
+
+        <ImageView
+            android:id="@+id/ic_sair"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/logout"
+            android:contentDescription="@string/cone_de_usu_rio"
+            app:tint="@color/azul_claro" />
+
+        <Button
+            android:id="@+id/Sair"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="0dp"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/azul_claro"
+            android:text="@string/sair_do_aplicativo"
+            android:textColor="@color/white"
+            android:textSize="23sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/AssistenteFinanceiro" />
+    </LinearLayout>
+
+
+
+</LinearLayout>
+
+

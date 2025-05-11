@@ -60,6 +60,9 @@
     <string name="Saldo">$1000</string>
     <string name="calendario">Calendario</string>
     <string name="calend_rio">Calendário</string>
+    <string name="cone_de_usu_rio">Ícone de usuário</string>
+    <string name="sair">Sair</string>
+    <string name="sair_do_aplicativo">Sair do aplicativo</string>
 
 
 </resources>

@@ -27,8 +27,7 @@
         android:textSize="17sp"
         android:textStyle="bold"
         app:drawableStartCompat="@drawable/ic_login"
-        app:drawableTint="@color/azul_claro"
-        android:drawablePadding="8dp" />
+        app:drawableTint="@color/azul_claro" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -138,26 +137,20 @@
         app:passwordToggleEnabled="true"
         app:passwordToggleTint="@color/gray">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <EditText
             android:id="@+id/password_login"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="50dp"
-            android:lineHeight="20sp"
+            android:layout_height="50dp"
             android:background="@drawable/borda_azul"
             android:drawableStart="@drawable/ic_cadeado"
-            android:drawablePadding="10dp"
+            android:drawablePadding="15dp"
             android:drawableTint="@color/azul_claro"
             android:hint="@string/hint_password"
             android:inputType="textPassword"
             android:paddingStart="15dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:gravity="center_vertical"
             android:textColor="@color/white"
             android:textColorHint="@color/gray"
             android:textSize="15sp"
-            android:includeFontPadding="false"
             tools:ignore="RtlSymmetry" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -172,18 +165,15 @@
         android:textStyle="bold"/>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutPasswordConfirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:passwordToggleEnabled="true"
         app:passwordToggleTint="@color/gray">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/password_confirm"
+        <EditText
+            android:id="@+id/password_create_account"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="50dp"
-            android:lineHeight="20sp"
+            android:layout_height="50dp"
             android:background="@drawable/borda_azul"
             android:drawableStart="@drawable/ic_cadeado"
             android:drawablePadding="10dp"
@@ -191,13 +181,9 @@
             android:hint="@string/hint_password"
             android:inputType="textPassword"
             android:paddingStart="15dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:gravity="center_vertical"
             android:textColor="@color/white"
             android:textColorHint="@color/gray"
             android:textSize="15sp"
-            android:includeFontPadding="false"
             tools:ignore="RtlSymmetry" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -206,7 +192,7 @@
         android:layout_width="200dp"
         android:layout_height="50dp"
         android:layout_marginTop="15dp"
-        android:backgroundTint="@color/teal_200"
+        android:backgroundTint="@color/azul_claro"
         android:textColor="@color/white"
         android:textSize="15sp"
         android:text="@string/criar_conta"

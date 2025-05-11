@@ -52,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/avaliar"
-        android:backgroundTint="@color/teal_200"
+        android:backgroundTint="@color/azul_claro"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:layout_marginTop="12dp" />
