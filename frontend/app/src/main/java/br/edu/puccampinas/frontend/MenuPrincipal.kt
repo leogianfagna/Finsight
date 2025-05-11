@@ -9,7 +9,9 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import br.edu.puccampinas.frontend.databinding.ActivityMenuPrincipalBinding
+import br.edu.puccampinas.frontend.model.BalanceResponse
 import br.edu.puccampinas.frontend.model.FullNameResponse
+import br.edu.puccampinas.frontend.model.FutureBalanceResponse
 import br.edu.puccampinas.frontend.network.RetrofitClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -80,6 +82,20 @@ class MenuPrincipal : AppCompatActivity() {
             }
         }
 
+        if (userId != null) {
+            getBalance(userId) { balance ->
+                val balance = balance ?: "R$00,00"
+                binding.Saldo.text = balance
+            }
+        }
+
+        if (userId != null) {
+            getFutureBalance(userId) { future_balance ->
+                val future_balance = future_balance ?: "R$00,00"
+                binding.SaldoFuturo.text = future_balance
+            }
+        }
+
         // Ações dos botões principais
         binding.Oportunidades.setOnClickListener { navegarTelaOportunidades() }
         binding.Avaliar.setOnClickListener { navegarTelaAvaliar() }
@@ -93,6 +109,32 @@ class MenuPrincipal : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<FullNameResponse>, t: Throwable) {
+                callback(null)
+            }
+        })
+    }
+
+    private fun getBalance(userId: String, callback: (String?) -> Unit) {
+        RetrofitClient.instance.getBalanceById(userId).enqueue(object : Callback<BalanceResponse> {
+            override fun onResponse(call: Call<BalanceResponse>, response: Response<BalanceResponse>) {
+                val balance = response.body()?.balance
+                callback(balance)
+            }
+
+            override fun onFailure(call: Call<BalanceResponse>, t: Throwable) {
+                callback(null)
+            }
+        })
+    }
+
+    private fun getFutureBalance(userId: String, callback: (String?) -> Unit) {
+        RetrofitClient.instance.getFutureBalanceById(userId).enqueue(object : Callback<FutureBalanceResponse> {
+            override fun onResponse(call: Call<FutureBalanceResponse>, response: Response<FutureBalanceResponse>) {
+                val future_balance = response.body()?.future_balance
+                callback(future_balance)
+            }
+
+            override fun onFailure(call: Call<FutureBalanceResponse>, t: Throwable) {
                 callback(null)
             }
         })

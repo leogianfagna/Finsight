@@ -1,6 +1,8 @@
 package br.edu.puccampinas.frontend.network
 
+import br.edu.puccampinas.frontend.model.BalanceResponse
 import br.edu.puccampinas.frontend.model.FullNameResponse
+import br.edu.puccampinas.frontend.model.FutureBalanceResponse
 import br.edu.puccampinas.frontend.model.RegisterRequest
 import br.edu.puccampinas.frontend.model.RegisterResponse
 import br.edu.puccampinas.frontend.model.TickerResponse
@@ -27,4 +29,10 @@ interface ApiService {
 
     @GET("get_username/")
     fun getUserNameById(@Query("id") userId: String): Call<UserNameResponse>
+
+    @GET("get_balance/")
+    fun getBalanceById(@Query("id") userId: String): Call<BalanceResponse>
+
+    @GET("get_future_balance/")
+    fun getFutureBalanceById(@Query("id") userId: String): Call<FutureBalanceResponse>
 }
