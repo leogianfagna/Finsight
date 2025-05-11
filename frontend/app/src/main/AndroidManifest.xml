@@ -23,6 +23,9 @@
             android:name=".Sugestoes"
             android:exported="false" />
         <activity
+            android:name=".Carteira"
+            android:exported="false" />
+        <activity
             android:name=".Oportunidades"
             android:exported="false" />
         <activity

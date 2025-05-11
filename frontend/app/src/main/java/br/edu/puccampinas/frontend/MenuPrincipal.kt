@@ -47,6 +47,8 @@ class MenuPrincipal : AppCompatActivity() {
             if (botaoSelecionado != "carteira") {
                 ativarMenu("carteira")
                 animarBotao(binding.btnWallet, binding.textWallet)
+                startActivity(Intent(this, Carteira::class.java))
+                overridePendingTransition(0, 0) // opcional: remove animação de transição
             }
         }
 
