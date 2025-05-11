@@ -178,27 +178,8 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="16dp"/>
 
+
         <!-- Botão: Avaliar -->
-
-        <!-- Botão: Sugestões -->
-        <!-- <Button
-            android:id="@+id/Sugestoes"
-            android:layout_width="135dp"
-            android:layout_height="40dp"
-            android:text="@string/sugestoes"
-            android:textColor="@color/black"
-            android:textSize="10sp"
-            android:textStyle="bold"
-            android:backgroundTint="@color/teal_200"
-            app:layout_constraintTop_toBottomOf="@id/Avaliar"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="8dp"/> -->
-
-        <!-- Próxima COM -->
-
-        <!-- Nome da Empresa -->
-
-        <!-- Linha: Dividendo + Data -->
         <Button
             android:id="@+id/Avaliar"
             android:layout_width="135dp"
@@ -212,25 +193,28 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/Oportunidades" />
 
+
+        <!-- Próxima COM -->
         <TextView
             android:id="@+id/InformacaoDataCom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="36dp"
             android:text="@string/proxima_com"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="@id/Oportunidades"
-            tools:layout_editor_absoluteX="180dp"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="183dp" />
 
+        <!-- Nome da Empresa -->
         <TextView
             android:id="@+id/NomeEmpesa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="-20dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginStart="-25dp"
+            android:layout_marginTop="10dp"
             android:text="@string/nome_da_empresa"
             android:textColor="@color/azul_claro"
             android:textSize="20sp"
@@ -238,8 +222,7 @@
             app:layout_constraintStart_toStartOf="@id/InformacaoDataCom"
             app:layout_constraintTop_toBottomOf="@id/InformacaoDataCom" />
 
-        <!-- Botão: Avaliação do Papel -->
-
+        <!-- Linha: Dividendo + Data -->
         <TextView
             android:id="@+id/DividendoPago"
             android:layout_width="wrap_content"
@@ -250,14 +233,15 @@
             android:textSize="13sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="198dp"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="198dp" />
 
         <TextView
             android:id="@+id/data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="16dp"
             android:text="@string/data"
             android:textColor="@color/white"
             android:textSize="13sp"
@@ -269,7 +253,7 @@
             android:id="@+id/AvaliacaoPapel"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="0dp"
             android:backgroundTint="@color/azul_claro"
             android:text="@string/avaliacao_do_papel"
             android:textColor="@color/white"
