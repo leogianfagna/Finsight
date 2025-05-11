@@ -48,7 +48,7 @@ class Create_account : AppCompatActivity() {
         val email = binding.emailCadastrar.text.toString()
         val cpf = binding.cadastrarCpf.text.toString() // Obtém o CPF formatado
         val password = binding.passwordLogin.text.toString()
-        val confirmPassword = binding.passwordConfirm.text.toString()
+        val confirmPassword = binding.passwordCreateAccount.text.toString()
 
         // Remove qualquer formatação do CPF para validar corretamente
         val cpfNumerico = cpf.replace(Regex("[^\\d]"), "")

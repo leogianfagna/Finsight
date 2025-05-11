@@ -78,7 +78,7 @@
             android:backgroundTint="@color/azul_claro"
             android:text="@string/sair_do_aplicativo"
             android:textColor="@color/white"
-            android:textSize="23sp"
+            android:textSize="15dp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/AssistenteFinanceiro" />

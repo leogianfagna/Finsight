@@ -22,6 +22,7 @@ class MenuPrincipal : AppCompatActivity() {
     // Controle do estado do menu
     private var botaoSelecionado: String = "home"
     private var notficacoesAtivadas = false
+    private var nomeUsuario: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,7 +75,8 @@ class MenuPrincipal : AppCompatActivity() {
         if (userId != null) {
             getFullName(userId) { fullName ->
                 val nome = fullName ?: "Usuário"
-                binding.icLogin.text = nome
+                binding.icUser.text = nome
+                nomeUsuario = nome
             }
         }
 
@@ -164,6 +166,8 @@ class MenuPrincipal : AppCompatActivity() {
         overridePendingTransition(0, 0)
     }
     private fun navegarTelaConfig() {
-        startActivity(Intent(this, Configuracao::class.java))
+        val intent = Intent(this, Configuracao::class.java)
+        intent.putExtra("NOME_USUARIO", nomeUsuario)
+        startActivity(intent)
     }
 }
