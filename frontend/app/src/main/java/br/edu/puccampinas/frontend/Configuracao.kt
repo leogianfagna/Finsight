@@ -22,6 +22,10 @@ class Configuracao : AppCompatActivity() {
         val nomeUsuario = intent.getStringExtra("NOME_USUARIO")
         binding.icUser.text = nomeUsuario ?: "Usuário"
 
+        binding.comeBack.setOnClickListener {
+            comeBack()
+        }
+
         binding.Sair.setOnClickListener {
             val sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
             sharedPreferences.edit().clear().apply()
@@ -31,6 +35,11 @@ class Configuracao : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+    }
+
+    private fun comeBack() {
+        val intent = Intent(this, MenuPrincipal::class.java)
+        startActivity(intent)
     }
 
 }
