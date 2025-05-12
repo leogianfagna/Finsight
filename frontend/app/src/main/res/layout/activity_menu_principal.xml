@@ -143,13 +143,14 @@
     </LinearLayout>
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical"
+        android:padding="16dp"
         android:background="@drawable/borda_azul"
-        android:backgroundTint="#333131"
-        android:padding="16dp">
+        android:backgroundTint="#333131">
 
         <!-- Título -->
         <TextView
@@ -160,111 +161,105 @@
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="8dp"/>
 
-        <!-- Botão: Oportunidades -->
-        <Button
-            android:id="@+id/Oportunidades"
-            android:layout_width="135dp"
-            android:layout_height="60dp"
-            android:text="@string/oportunidades"
-            android:textColor="@color/white"
-            android:textSize="11sp"
-            android:textStyle="bold"
-            android:backgroundTint="@color/azul_claro"
-            app:layout_constraintTop_toBottomOf="@id/AssistenteFinanceiro"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="16dp"/>
+        <!-- Botões lado a lado -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="12dp">
 
+            <Button
+                android:id="@+id/Oportunidades"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:text="@string/oportunidades"
+                android:textColor="@color/white"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:backgroundTint="@color/azul_claro"
+                android:layout_marginEnd="8dp"/>
 
-        <!-- Botão: Avaliar -->
-        <Button
-            android:id="@+id/Avaliar"
-            android:layout_width="135dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="24dp"
-            android:backgroundTint="@color/azul_claro"
-            android:text="@string/avaliar"
-            android:textColor="@color/white"
-            android:textSize="11sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/Oportunidades" />
-
+            <Button
+                android:id="@+id/Avaliar"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:text="@string/avaliar"
+                android:textColor="@color/white"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:backgroundTint="@color/azul_claro"
+                android:layout_marginStart="8dp"/>
+        </LinearLayout>
 
         <!-- Próxima COM -->
         <TextView
             android:id="@+id/InformacaoDataCom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
             android:text="@string/proxima_com"
+            android:layout_marginTop="20dp"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="@id/Oportunidades"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="183dp" />
+            android:layout_marginBottom="4dp"/>
 
         <!-- Nome da Empresa -->
         <TextView
             android:id="@+id/NomeEmpesa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="-25dp"
-            android:layout_marginTop="10dp"
             android:text="@string/nome_da_empresa"
             android:textColor="@color/azul_claro"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@id/InformacaoDataCom"
-            app:layout_constraintTop_toBottomOf="@id/InformacaoDataCom" />
+            android:layout_marginBottom="8dp"/>
 
         <!-- Linha: Dividendo + Data -->
-        <TextView
-            android:id="@+id/DividendoPago"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@string/dividendo_pago"
-            android:textColor="@color/white"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="198dp" />
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp">
 
-        <TextView
-            android:id="@+id/data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
-            android:layout_marginEnd="16dp"
-            android:text="@string/data"
-            android:textColor="@color/white"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/DividendoPago" />
+            <TextView
+                android:id="@+id/DividendoPago"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dividendo_pago"
+                android:textColor="@color/white"
+                android:textSize="13sp"
+                android:textStyle="bold"/>
 
+            <TextView
+                android:id="@+id/data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/data"
+                android:textColor="@color/white"
+                android:layout_marginStart="100dp"
+                android:textSize="13sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <!-- Botão Avaliação do Papel -->
         <Button
             android:id="@+id/AvaliacaoPapel"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="0dp"
-            android:backgroundTint="@color/azul_claro"
             android:text="@string/avaliacao_do_papel"
             android:textColor="@color/white"
             android:textSize="11sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/DividendoPago" />
+            android:backgroundTint="@color/azul_claro"/>
+    </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:id="@+id/menu_inferior"
