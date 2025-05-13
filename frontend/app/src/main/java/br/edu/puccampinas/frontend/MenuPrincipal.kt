@@ -75,6 +75,18 @@ class MenuPrincipal : AppCompatActivity() {
         val userId = sharedPreferences.getString("userId", null)
 
         if (userId != null) {
+            updateUserBalance(userId) {
+                getBalance(userId) { balance ->
+                    val balance = balance ?: "R$00,00"
+                    binding.Saldo.text = "R$"+balance
+                }
+
+                getFutureBalance(userId) { future_balance ->
+                    val future_balance = future_balance ?: "R$00,00"
+                    binding.SaldoFuturo.text = "R$"+future_balance
+                }
+            }
+
             getFullName(userId) { fullName ->
                 val nome = fullName ?: "Usuário"
                 binding.icUser.text = nome
@@ -82,24 +94,29 @@ class MenuPrincipal : AppCompatActivity() {
             }
         }
 
-        if (userId != null) {
-            getBalance(userId) { balance ->
-                val balance = balance ?: "R$00,00"
-                binding.Saldo.text = balance
-            }
-        }
-
-        if (userId != null) {
-            getFutureBalance(userId) { future_balance ->
-                val future_balance = future_balance ?: "R$00,00"
-                binding.SaldoFuturo.text = future_balance
-            }
-        }
-
         // Ações dos botões principais
         binding.Oportunidades.setOnClickListener { navegarTelaOportunidades() }
         binding.Avaliar.setOnClickListener { navegarTelaAvaliar() }
     }
+
+    private fun updateUserBalance(id: String, callback: () -> Unit) {
+        RetrofitClient.instance.updateBalance(id).enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    callback()
+                } else {
+                    Toast.makeText(this@MenuPrincipal, "Erro ao atualizar saldo", Toast.LENGTH_SHORT).show()
+                    callback()
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Toast.makeText(this@MenuPrincipal, "Erro de conexão ao atualizar saldo", Toast.LENGTH_SHORT).show()
+                callback()
+            }
+        })
+    }
+
 
     private fun getFullName(userId: String, callback: (String?) -> Unit) {
         RetrofitClient.instance.getFullNameById(userId).enqueue(object : Callback<FullNameResponse> {

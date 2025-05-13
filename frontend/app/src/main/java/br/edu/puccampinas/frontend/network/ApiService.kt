@@ -35,4 +35,8 @@ interface ApiService {
 
     @GET("get_future_balance/")
     fun getFutureBalanceById(@Query("id") userId: String): Call<FutureBalanceResponse>
+
+    @GET("get_account_balance/")
+    fun updateBalance(@Query("id") id: String): Call<Void>
+
 }
