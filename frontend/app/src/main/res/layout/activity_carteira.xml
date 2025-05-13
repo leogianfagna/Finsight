@@ -40,4 +40,94 @@
         android:layout_weight="1"
         android:clipToPadding="false"
         android:paddingBottom="12dp" />
+
+    <LinearLayout
+        android:id="@+id/menu_inferior"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/borda_azul"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="8dp">
+
+        <!-- Botão Home -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="left">
+
+            <ImageView
+                android:id="@+id/btn_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/home"
+                android:background="@drawable/bg_white_circle"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:scaleType="centerInside"/>
+        </LinearLayout>
+
+        <!-- Botão Carteira -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="20dp">
+
+            <ImageButton
+                android:id="@+id/btn_wallet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/nav_selected"
+                android:src="@drawable/wallet"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:scaleType="centerInside"/>
+
+            <TextView
+                android:id="@+id/text_wallet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="7dp"
+                android:text="@string/carteira"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+             />
+
+        </LinearLayout>
+
+        <!-- Botão Calendário -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginStart="20dp">
+
+            <ImageButton
+                android:id="@+id/btn_graph"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_white_circle"
+                android:src="@drawable/ic_calendar"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:scaleType="centerInside"/>
+
+            <TextView
+                android:id="@+id/text_calendario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="7dp"
+                android:text="@string/calend_rio"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

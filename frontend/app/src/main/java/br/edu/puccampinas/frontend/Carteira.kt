@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,6 +36,12 @@ class Carteira : AppCompatActivity() {
 
         val comeBackTextView = findViewById<TextView>(R.id.come_back)
         comeBackTextView.setOnClickListener { comeBack() }
+
+        val graphButton = findViewById<ImageButton>(R.id.btn_graph)
+        graphButton.setOnClickListener { navegarTelaCalendario() }
+
+        val menuButton = findViewById<ImageView>(R.id.btn_home)
+        menuButton.setOnClickListener { navegarMenuPrincipal() }
 
         // Nome do usuário
         val sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
@@ -97,5 +105,13 @@ class Carteira : AppCompatActivity() {
     private fun comeBack() {
         val intent = Intent(this, MenuPrincipal::class.java)
         startActivity(intent)
+    }
+
+    private fun navegarTelaCalendario() {
+        startActivity(Intent(this, Calendario::class.java))
+    }
+
+    private fun navegarMenuPrincipal() {
+        startActivity(Intent(this, MenuPrincipal::class.java))
     }
 }

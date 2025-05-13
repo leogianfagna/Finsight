@@ -32,9 +32,6 @@ class MenuPrincipal : AppCompatActivity() {
         binding = ActivityMenuPrincipalBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Ativar item inicial do menu
-        ativarMenu("home")
-
         binding.btnNotifications.setOnClickListener{
             notficacoesAtivadas = !notficacoesAtivadas
 
@@ -46,27 +43,6 @@ class MenuPrincipal : AppCompatActivity() {
         }
 
         binding.btnSettings.setOnClickListener { navegarTelaConfig() }
-
-        binding.btnWallet.setOnClickListener {
-            if (botaoSelecionado != "carteira") {
-                ativarMenu("carteira")
-                startActivity(Intent(this, Carteira::class.java))
-                overridePendingTransition(0, 0) // opcional: remove animação de transição
-            }
-        }
-
-        binding.btnGraph.setOnClickListener {
-            if (botaoSelecionado != "calendario") {
-                ativarMenu("calendario")
-                navegarTelaCalendario()
-            }
-        }
-
-        binding.btnHome.setOnClickListener {
-            if (botaoSelecionado != "home") {
-                ativarMenu("home")
-            }
-        }
 
         // Nome do usuário
         val sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
@@ -95,6 +71,8 @@ class MenuPrincipal : AppCompatActivity() {
         // Ações dos botões principais
         binding.Oportunidades.setOnClickListener { navegarTelaOportunidades() }
         binding.Avaliar.setOnClickListener { navegarTelaAvaliar() }
+        binding.btnGraph.setOnClickListener { navegarTelaCalendario() }
+        binding.btnWallet.setOnClickListener { navegarTelaCarteira() }
     }
 
     private fun updateUserBalance(id: String, callback: () -> Unit) {
@@ -155,55 +133,6 @@ class MenuPrincipal : AppCompatActivity() {
         })
     }
 
-    private fun ativarMenu(tela: String) {
-        // Resetar visuais
-        binding.btnWallet.setBackgroundResource(R.drawable.bg_white_circle)
-        binding.btnGraph.setBackgroundResource(R.drawable.bg_white_circle)
-        binding.btnHome.setBackgroundResource(R.drawable.bg_white_circle)
-
-        // Oculta todos os textos
-        binding.textWallet.visibility = View.GONE
-        binding.textCalendario.visibility = View.GONE
-        binding.textHome.visibility = View.GONE
-
-        // Resetar pesos
-        val layoutHome = binding.btnHome.parent as? LinearLayout
-        val layoutWallet = binding.btnWallet.parent as? LinearLayout
-        val layoutGraph = binding.btnGraph.parent as? LinearLayout
-
-        layoutHome?.layoutParams = (layoutHome?.layoutParams as? LinearLayout.LayoutParams)?.apply { weight = 1f }
-        layoutWallet?.layoutParams = (layoutWallet?.layoutParams as? LinearLayout.LayoutParams)?.apply { weight = 1f }
-        layoutGraph?.layoutParams = (layoutGraph?.layoutParams as? LinearLayout.LayoutParams)?.apply { weight = 1f }
-
-        // Ativar botão central
-        when (tela) {
-            "home" -> {
-                binding.btnHome.setBackgroundResource(R.drawable.nav_selected)
-                binding.textHome.visibility = View.VISIBLE
-                layoutHome?.layoutParams = (layoutHome?.layoutParams as LinearLayout.LayoutParams).apply { weight = 2f }
-                layoutWallet?.layoutParams = (layoutWallet?.layoutParams as LinearLayout.LayoutParams).apply { weight = 1f }
-                layoutGraph?.layoutParams = (layoutGraph?.layoutParams as LinearLayout.LayoutParams).apply { weight = 1f }
-            }
-            "carteira" -> {
-                binding.btnWallet.setBackgroundResource(R.drawable.nav_selected)
-                binding.textWallet.visibility = View.VISIBLE
-                layoutWallet?.layoutParams = (layoutWallet?.layoutParams as LinearLayout.LayoutParams).apply { weight = 2f }
-                layoutHome?.layoutParams = (layoutHome?.layoutParams as LinearLayout.LayoutParams).apply { weight = 1f }
-                layoutGraph?.layoutParams = (layoutGraph?.layoutParams as LinearLayout.LayoutParams).apply { weight = 1f }
-            }
-            "calendario" -> {
-                binding.btnGraph.setBackgroundResource(R.drawable.nav_selected)
-                binding.textCalendario.visibility = View.VISIBLE
-                layoutGraph?.layoutParams = (layoutGraph?.layoutParams as LinearLayout.LayoutParams).apply { weight = 2f }
-                layoutHome?.layoutParams = (layoutHome?.layoutParams as LinearLayout.LayoutParams).apply { weight = 1f }
-                layoutWallet?.layoutParams = (layoutWallet?.layoutParams as LinearLayout.LayoutParams).apply { weight = 1f }
-            }
-        }
-
-        botaoSelecionado = tela
-        binding.menuInferior.requestLayout() // força atualização visual
-    }
-
 
     private fun navegarTelaOportunidades() {
         startActivity(Intent(this, Oportunidades::class.java))
@@ -215,8 +144,12 @@ class MenuPrincipal : AppCompatActivity() {
 
     private fun navegarTelaCalendario() {
         startActivity(Intent(this, Calendario::class.java))
-        overridePendingTransition(0, 0)
     }
+
+    private fun navegarTelaCarteira() {
+        startActivity(Intent(this, Carteira::class.java))
+    }
+
     private fun navegarTelaConfig() {
         val intent = Intent(this, Configuracao::class.java)
         intent.putExtra("NOME_USUARIO", nomeUsuario)

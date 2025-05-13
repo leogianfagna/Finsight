@@ -110,7 +110,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="90dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/borda_azul"
         android:backgroundTint="#333131"
         android:paddingStart="15dp"
@@ -149,6 +149,7 @@
         android:layout_marginTop="30dp"
         android:orientation="vertical"
         android:padding="16dp"
+        android:layout_weight="1"
         android:background="@drawable/borda_azul"
         android:backgroundTint="#333131">
 
@@ -159,7 +160,7 @@
             android:layout_height="wrap_content"
             android:text="@string/TextApres"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textStyle="bold"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="8dp"/>
@@ -170,7 +171,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
-            android:layout_marginBottom="12dp">
+            android:layout_marginTop="25dp">
 
             <Button
                 android:id="@+id/Oportunidades"
@@ -203,7 +204,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/proxima_com"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -225,7 +226,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="30dp">
 
             <TextView
                 android:id="@+id/DividendoPago"
@@ -233,7 +234,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/dividendo_pago"
                 android:textColor="@color/white"
-                android:textSize="13sp"
+                android:textSize="15sp"
                 android:textStyle="bold"/>
 
             <TextView
@@ -243,7 +244,7 @@
                 android:text="@string/data"
                 android:textColor="@color/white"
                 android:layout_marginStart="80dp"
-                android:textSize="13sp"
+                android:textSize="15sp"
                 android:textStyle="bold"/>
         </LinearLayout>
 
@@ -273,11 +274,10 @@
 
         <!-- Botão Home -->
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:orientation="horizontal"
-            android:gravity="center">
+            android:gravity="left">
 
             <ImageView
                 android:id="@+id/btn_home"
@@ -298,16 +298,17 @@
                 android:text="@string/dashboard"
                 android:textColor="@color/white"
                 android:textSize="14sp"
+                android:layout_gravity="center"
                 android:textStyle="bold"/>
         </LinearLayout>
 
         <!-- Botão Carteira -->
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:orientation="horizontal"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_marginStart="20dp">
 
             <ImageButton
                 android:id="@+id/btn_wallet"
@@ -332,11 +333,11 @@
 
         <!-- Botão Calendário -->
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:orientation="horizontal"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_marginStart="20dp">
 
             <ImageButton
                 android:id="@+id/btn_graph"

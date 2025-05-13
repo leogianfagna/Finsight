@@ -29,6 +29,14 @@ class Calendario : AppCompatActivity() {
         binding.comeBack.setOnClickListener {
             comeBack()
         }
+
+        binding.btnHome.setOnClickListener {
+            navegarMenuPrincipal()
+        }
+
+        binding.btnWallet.setOnClickListener {
+            navegarTelaCarteira()
+        }
     }
 
     private fun changeMonth(offset: Int) {
@@ -109,5 +117,13 @@ class Calendario : AppCompatActivity() {
     private fun comeBack() {
         val intent = Intent(this, MenuPrincipal::class.java)
         startActivity(intent)
+    }
+
+    private fun navegarMenuPrincipal() {
+        startActivity(Intent(this, MenuPrincipal::class.java))
+    }
+
+    private fun navegarTelaCarteira() {
+        startActivity(Intent(this, Carteira::class.java))
     }
 }
