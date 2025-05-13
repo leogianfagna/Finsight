@@ -2,12 +2,21 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import User
 import json
+import pymongo
 from bson import ObjectId 
 import pandas as pd
+import os
 
 from finance_api.dividends_history import *
 from finance_api.ticker_informations import *
 from finance_api.math_operations import *
+
+
+# Conexão com o MongoDB
+client = pymongo.MongoClient(os.getenv("MONGODB_CONNECTION", default=""))
+db = client['users']
+collection = db['users']
+
 
 # Manipulação de usuários
 @csrf_exempt
@@ -244,21 +253,43 @@ def get_mean_price(request):
         return JsonResponse({"message": "User not found"}, status=404)
     
 def get_account_balance(request):
-    username = request.GET.get('username')
+    user_id = request.GET.get('id')
     
-    if username:
-        username_tickers = User.get_user_tickers(username)
-        total_balance = 0
+    if user_id:
+        try:
+            user_id = ObjectId(user_id)
+            
+            user_data = collection.find_one({"_id": user_id}, {"_id": 1, "username": 1})
+            
+            if not user_data:
+                return JsonResponse({"message": "User not found"}, status=404)
 
-        for ticker_list in username_tickers:
-            total_balance = total_balance + ticker_list[1] * ticker_list[2]
+            user = User(id=user_id, username=user_data['username'])
 
-        total_balance = round(total_balance, 2)
-        return JsonResponse({"message": "Data retrieved successfully", "balance": total_balance})
-    
+            username = user_data['username']
+
+        except Exception as e:
+            return JsonResponse({"message": f"Error retrieving user: {str(e)}"}, status=500)
+
+        try:
+            username_tickers = User.get_user_tickers(username) 
+            total_balance = 0
+
+            for ticker_list in username_tickers:
+                total_balance += ticker_list[1] * ticker_list[2]
+
+            total_balance = round(total_balance, 2)
+
+            collection.update_one({"_id": user_id}, {"$set": {"balance": total_balance}})
+
+            return JsonResponse({"message": "Data retrieved and saved successfully", "balance": total_balance})
+        
+        except Exception as e:
+            return JsonResponse({"message": f"Error calculating balance: {str(e)}"}, status=500)
+
     else:
-        return JsonResponse({"message": "User not found"}, status=404)
-    
+        return JsonResponse({"message": "User ID parameter not provided"}, status=400)
+
 def get_username_by_id(request):
     user_id = request.GET.get('id')
     if not user_id:
