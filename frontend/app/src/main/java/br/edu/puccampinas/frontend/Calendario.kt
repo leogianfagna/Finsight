@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Gravity
 import android.widget.GridLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import br.edu.puccampinas.frontend.databinding.ActivityCalendarioBinding
 import java.text.SimpleDateFormat
@@ -36,7 +37,7 @@ class Calendario : AppCompatActivity() {
     }
 
     private fun updateCalendar() {
-        val dateFormat = SimpleDateFormat("MMM yyyy", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("MMM yyyy", Locale("pt", "BR"))
         binding.txtMonth.text = dateFormat.format(currentCalendar.time)
 
         binding.calendarGrid.removeAllViews()
@@ -57,26 +58,51 @@ class Calendario : AppCompatActivity() {
             binding.calendarGrid.addView(emptyView)
         }
 
-        // Adiciona os dias do mês
+        val today = Calendar.getInstance()
+        val isCurrentMonth = today.get(Calendar.YEAR) == currentCalendar.get(Calendar.YEAR) &&
+                today.get(Calendar.MONTH) == currentCalendar.get(Calendar.MONTH)
+        val actionDay = if (isCurrentMonth) today.get(Calendar.DAY_OF_MONTH) + 1 else -1
+        val actionStockName = "GGBR4"
+
         for (day in 1..maxDays) {
             val dayView = createCalendarTextView(day.toString())
+
+            // Calcula o índice da célula (posição relativa no grid)
+            val cellIndex = firstDayOfWeek + day - 1
+            val dayOfWeek = cellIndex % 7
+
+            // Deixa domingos em vermelho
+            if (dayOfWeek == 0) {
+                dayView.setTextColor(resources.getColor(R.color.red, null))
+            }
+
+            // Destaca o próximo dia com ação
+            if (day == actionDay) {
+                dayView.setBackgroundResource(R.drawable.border_cell_highlight_green)
+                dayView.setOnClickListener {
+                    Toast.makeText(this, "Ação: $actionStockName", Toast.LENGTH_SHORT).show()
+                }
+            }
+
             binding.calendarGrid.addView(dayView)
         }
     }
 
+
     private fun createCalendarTextView(text: String): TextView {
         return TextView(this).apply {
             this.text = text
-            textSize = 14f
-            gravity = Gravity.START or Gravity.TOP // canto superior esquerdo
+            textSize = 15f
+            gravity = Gravity.TOP or Gravity.START
             layoutParams = GridLayout.LayoutParams().apply {
                 width = 0
                 height = 120
                 columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
-                setMargins(8, 8, 8, 8)
+                setMargins(6, 6, 6, 6)
             }
-            setPadding(12, 8, 8, 8) // espaço do número pro canto
-            setBackgroundResource(R.drawable.border_cell)
+            setPadding(10, 6, 6, 6)
+            setBackgroundResource(R.drawable.border_cell_white)
+            setTextColor(resources.getColor(R.color.white, null))
         }
     }
 

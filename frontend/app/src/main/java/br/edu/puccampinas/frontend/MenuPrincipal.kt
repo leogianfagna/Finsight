@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import br.edu.puccampinas.frontend.databinding.ActivityMenuPrincipalBinding
@@ -49,7 +50,6 @@ class MenuPrincipal : AppCompatActivity() {
         binding.btnWallet.setOnClickListener {
             if (botaoSelecionado != "carteira") {
                 ativarMenu("carteira")
-                animarBotao(binding.btnWallet, binding.textWallet)
                 startActivity(Intent(this, Carteira::class.java))
                 overridePendingTransition(0, 0) // opcional: remove animação de transição
             }
@@ -58,7 +58,6 @@ class MenuPrincipal : AppCompatActivity() {
         binding.btnGraph.setOnClickListener {
             if (botaoSelecionado != "calendario") {
                 ativarMenu("calendario")
-                animarBotao(binding.btnGraph, binding.textCalendario)
                 navegarTelaCalendario()
             }
         }
@@ -66,7 +65,6 @@ class MenuPrincipal : AppCompatActivity() {
         binding.btnHome.setOnClickListener {
             if (botaoSelecionado != "home") {
                 ativarMenu("home")
-                animarBotao(binding.btnHome, binding.textHome)
             }
         }
 
@@ -158,55 +156,54 @@ class MenuPrincipal : AppCompatActivity() {
     }
 
     private fun ativarMenu(tela: String) {
-        // Resetar fundo dos botões
+        // Resetar visuais
         binding.btnWallet.setBackgroundResource(R.drawable.bg_white_circle)
         binding.btnGraph.setBackgroundResource(R.drawable.bg_white_circle)
         binding.btnHome.setBackgroundResource(R.drawable.bg_white_circle)
 
-        when (tela) {
-            "home" -> binding.btnHome.setBackgroundResource(R.drawable.nav_selected)
-            "carteira" -> binding.btnWallet.setBackgroundResource(R.drawable.nav_selected)
-            "calendario" -> binding.btnGraph.setBackgroundResource(R.drawable.nav_selected)
-        }
-
-        botaoSelecionado = tela
-    }
-
-    private fun animarBotao(botao: View, texto: View) {
-        // Mostra apenas o texto associado
+        // Oculta todos os textos
         binding.textWallet.visibility = View.GONE
         binding.textCalendario.visibility = View.GONE
         binding.textHome.visibility = View.GONE
-        texto.visibility = View.VISIBLE
 
-        // Animação de escala (visual)
-        val scaleX = ObjectAnimator.ofFloat(botao, "scaleX", 1f, 1.2f, 1f)
-        val scaleY = ObjectAnimator.ofFloat(botao, "scaleY", 1f, 1.2f, 1f)
+        // Resetar pesos
+        val layoutHome = binding.btnHome.parent as? LinearLayout
+        val layoutWallet = binding.btnWallet.parent as? LinearLayout
+        val layoutGraph = binding.btnGraph.parent as? LinearLayout
 
-        AnimatorSet().apply {
-            duration = 200
-            playTogether(scaleX, scaleY)
-            start()
+        layoutHome?.layoutParams = (layoutHome?.layoutParams as? LinearLayout.LayoutParams)?.apply { weight = 1f }
+        layoutWallet?.layoutParams = (layoutWallet?.layoutParams as? LinearLayout.LayoutParams)?.apply { weight = 1f }
+        layoutGraph?.layoutParams = (layoutGraph?.layoutParams as? LinearLayout.LayoutParams)?.apply { weight = 1f }
+
+        // Ativar botão central
+        when (tela) {
+            "home" -> {
+                binding.btnHome.setBackgroundResource(R.drawable.nav_selected)
+                binding.textHome.visibility = View.VISIBLE
+                layoutHome?.layoutParams = (layoutHome?.layoutParams as LinearLayout.LayoutParams).apply { weight = 2f }
+                layoutWallet?.layoutParams = (layoutWallet?.layoutParams as LinearLayout.LayoutParams).apply { weight = 1f }
+                layoutGraph?.layoutParams = (layoutGraph?.layoutParams as LinearLayout.LayoutParams).apply { weight = 1f }
+            }
+            "carteira" -> {
+                binding.btnWallet.setBackgroundResource(R.drawable.nav_selected)
+                binding.textWallet.visibility = View.VISIBLE
+                layoutWallet?.layoutParams = (layoutWallet?.layoutParams as LinearLayout.LayoutParams).apply { weight = 2f }
+                layoutHome?.layoutParams = (layoutHome?.layoutParams as LinearLayout.LayoutParams).apply { weight = 1f }
+                layoutGraph?.layoutParams = (layoutGraph?.layoutParams as LinearLayout.LayoutParams).apply { weight = 1f }
+            }
+            "calendario" -> {
+                binding.btnGraph.setBackgroundResource(R.drawable.nav_selected)
+                binding.textCalendario.visibility = View.VISIBLE
+                layoutGraph?.layoutParams = (layoutGraph?.layoutParams as LinearLayout.LayoutParams).apply { weight = 2f }
+                layoutHome?.layoutParams = (layoutHome?.layoutParams as LinearLayout.LayoutParams).apply { weight = 1f }
+                layoutWallet?.layoutParams = (layoutWallet?.layoutParams as LinearLayout.LayoutParams).apply { weight = 1f }
+            }
         }
+
+        botaoSelecionado = tela
+        binding.menuInferior.requestLayout() // força atualização visual
     }
 
-    private fun restaurarBotoes() {
-        // Anima de volta o Wallet e Graph
-        val animWallet = ObjectAnimator.ofFloat(binding.btnWallet, "translationX", 0f)
-        val animGraph = ObjectAnimator.ofFloat(binding.btnGraph, "translationX", 0f)
-
-        animWallet.duration = 300
-        animGraph.duration = 300
-
-        val animatorSet = AnimatorSet()
-        animatorSet.playTogether(animWallet, animGraph)
-        animatorSet.start()
-
-        // Esconde textos dos outros e mostra Home
-        binding.textWallet.visibility = View.GONE
-        binding.textCalendario.visibility = View.GONE
-        binding.textHome.visibility = View.VISIBLE
-    }
 
     private fun navegarTelaOportunidades() {
         startActivity(Intent(this, Oportunidades::class.java))
@@ -214,10 +211,6 @@ class MenuPrincipal : AppCompatActivity() {
 
     private fun navegarTelaAvaliar() {
         startActivity(Intent(this, Avaliar::class.java))
-    }
-
-    private fun navegarTelaSugestoes() {
-        startActivity(Intent(this, Sugestoes::class.java))
     }
 
     private fun navegarTelaCalendario() {
