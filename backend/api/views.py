@@ -111,15 +111,19 @@ def add_user_ticker(request):
 def delete_user_ticker(request):
     username = request.GET.get('username')
     ticker = request.GET.get('ticker')
-    
-    if username and ticker:
-        result = User.delete_user_ticker(username, ticker)
+    price = request.GET.get('price')
+    quantity = request.GET.get('quantity')
+    date = request.GET.get('date')
+
+    if username and ticker and price and quantity and date:
+        result = User.delete_user_ticker(username, ticker, price, quantity, date)
         if result == "Ticker removed successfully":
             return JsonResponse({"message": "Ticker removed successfully"})
         else:
             return JsonResponse({"message": "User not found"}, status=404)
     else:
         return JsonResponse({"message": "Invalid data"}, status=400)
+
 
 def clear_user_tickers(request):
     username = request.GET.get('username')

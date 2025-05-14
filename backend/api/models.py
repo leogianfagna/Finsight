@@ -70,17 +70,21 @@ class User(models.Model):
             return "User not found"
         
     @staticmethod
-    def delete_user_ticker(username, ticker):
+    def delete_user_ticker(username, ticker, price, quantity, date):
         user_data = collection.find_one({"username": username})
         
         if user_data:
             collection.update_one(
                 {"username": username},
-                {"$pull": {"tickers": ticker}}
+                {"$pull": {
+                    "obtained_tickers": [ticker, float(price), float(quantity), date]
+                }}
             )
             return "Ticker removed successfully"
         else:
             return "User not found"
+
+
         
     @staticmethod
     def clear_user_tickers(username):
