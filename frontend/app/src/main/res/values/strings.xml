@@ -38,6 +38,8 @@
     <string name="data_com">Data COM: 20/03/2025</string>
     <string name="recomendacao">Recomendação: Vale a pena comprar!</string>"
     <string name="estimativa_de_valoriza">Estimativa de valorização: 10 dias</string>
+    <string name="excluir_acao">Tem certeza que deseja excluir essa ação?</string>
+    <string name="btn_excluir">Excluir</string>
 
 
     <!-- Strings used for fragments for navigation -->

@@ -7,10 +7,11 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import br.edu.puccampinas.frontend.model.FullNameResponse
+import br.edu.puccampinas.frontend.model.ResponseMessage
 import br.edu.puccampinas.frontend.model.TickerResponse
 import br.edu.puccampinas.frontend.model.UserNameResponse
 import br.edu.puccampinas.frontend.network.RetrofitClient
@@ -31,7 +32,7 @@ class Carteira : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerViewCarteira)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        adapter = CarteiraAdapter(listaDeAcoes)
+        adapter = CarteiraAdapter(listaDeAcoes){acao->showPopup(acao)}
         recyclerView.adapter = adapter
 
         val comeBackTextView = findViewById<TextView>(R.id.come_back)
@@ -80,10 +81,9 @@ class Carteira : AppCompatActivity() {
                         if (item.size >= 4) {
                             val acao = Acao(
                                 ticker = item[0].toString(),
-                                precoMedio = item[1].toString(),
+                                precoAtual= "R$"+item[1].toString(),
                                 quantidade = item[2].toString(),
-                                ganho = item[3].toString(),
-                                precoAtual = "R$ XX,XX"
+                                data = item[3].toString(),
                             )
                             listaDeAcoes.add(acao)
                         }
@@ -101,6 +101,77 @@ class Carteira : AppCompatActivity() {
             }
         })
     }
+
+    private fun showPopup(acao: Acao) {
+        val dialogView = layoutInflater.inflate(R.layout.pop_up, null)
+        val builder = AlertDialog.Builder(this)
+        builder.setView(dialogView)
+
+        builder.setCancelable(true)
+
+        val dialog = builder.create()
+
+        dialog.setOnCancelListener {
+            dialog.dismiss()
+        }
+
+        val btnClose = dialogView.findViewById<ImageView>(R.id.btnClose)
+        btnClose.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        val btnDelete = dialogView.findViewById<Button>(R.id.btnDelete)
+        btnDelete.setOnClickListener {
+            dialog.dismiss()
+
+            val sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
+            val userId = sharedPreferences.getString("userId", null)
+
+            if (userId != null) {
+                getUserName(userId) { username ->
+                    if (username != null) {
+                        deleteTicker(username, acao)  // Passando o objeto completo 'acao'
+                    }
+                }
+            }
+        }
+
+        dialog.show()
+    }
+
+
+    private fun deleteTicker(username: String, acao: Acao) {
+        // Remove o "R$" e converte para Double
+        val precoAtualSemSimbolo = acao.precoAtual.replace("R$", "").trim()
+
+        // Converte a quantidade para Double ou Float, caso seja decimal
+        val quantidadeDecimal = acao.quantidade.toDouble()
+
+        RetrofitClient.instance.deleteUserTicker(username, acao.ticker, precoAtualSemSimbolo.toDouble(), quantidadeDecimal, acao.data)
+            .enqueue(object : Callback<ResponseMessage> {
+                override fun onResponse(call: Call<ResponseMessage>, response: Response<ResponseMessage>) {
+                    if (response.isSuccessful) {
+                        // Verifica a mensagem de sucesso
+                        val responseMessage = response.body()
+                        if (responseMessage != null && responseMessage.message == "Ticker removed successfully") {
+                            // Atualiza a tela ou remove da lista local
+                            listaDeAcoes.remove(acao) // Remove a ação da lista
+                            adapter.notifyDataSetChanged() // Notifica o adapter para atualizar a RecyclerView
+                        }
+                    } else {
+                        Log.e("API", "Erro ao deletar: ${response.code()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseMessage>, t: Throwable) {
+                    Log.e("API", "Falha na requisição", t)
+                }
+            })
+    }
+
+
+
+
 
     private fun comeBack() {
         val intent = Intent(this, MenuPrincipal::class.java)

@@ -5,6 +5,7 @@ import br.edu.puccampinas.frontend.model.FullNameResponse
 import br.edu.puccampinas.frontend.model.FutureBalanceResponse
 import br.edu.puccampinas.frontend.model.RegisterRequest
 import br.edu.puccampinas.frontend.model.RegisterResponse
+import br.edu.puccampinas.frontend.model.ResponseMessage
 import br.edu.puccampinas.frontend.model.TickerResponse
 import br.edu.puccampinas.frontend.model.UserNameResponse
 import br.edu.puccampinas.frontend.model.UserResponse
@@ -39,4 +40,12 @@ interface ApiService {
     @GET("get_account_balance/")
     fun updateBalance(@Query("id") id: String): Call<Void>
 
+    @GET("delete_user_ticker/")
+    fun deleteUserTicker(
+        @Query("username") username: String,
+        @Query("ticker") ticker: String,
+        @Query("price") price: Double,
+        @Query("quantity") quantity: Double,
+        @Query("date") date: String
+    ): Call<ResponseMessage>
 }

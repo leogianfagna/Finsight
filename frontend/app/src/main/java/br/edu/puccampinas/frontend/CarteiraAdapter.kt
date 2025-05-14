@@ -6,15 +6,15 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class CarteiraAdapter(private val listaAcoes: List<Acao>) :
+class CarteiraAdapter(private val listaAcoes: List<Acao>, private val onDeleteClick:(Acao)->Unit) :
     RecyclerView.Adapter<CarteiraAdapter.AcaoViewHolder>() {
 
     class AcaoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val ticker: TextView = itemView.findViewById(R.id.textTicker)
         val precoAtual: TextView = itemView.findViewById(R.id.textPrecoAtual)
-        val precoMedio: TextView = itemView.findViewById(R.id.textPrecoMedio)
         val quantidade: TextView = itemView.findViewById(R.id.textQuantidade)
-        val ganho: TextView = itemView.findViewById(R.id.textGanho)
+        val data: TextView = itemView.findViewById(R.id.data)
+        val btnDelete: View = itemView.findViewById(R.id.excluir)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AcaoViewHolder {
@@ -27,9 +27,12 @@ class CarteiraAdapter(private val listaAcoes: List<Acao>) :
         val acao = listaAcoes[position]
         holder.ticker.text = acao.ticker
         holder.precoAtual.text = acao.precoAtual
-        holder.precoMedio.text = "Preço médio: ${acao.precoMedio}"
         holder.quantidade.text = "Quantidade: ${acao.quantidade}"
-        holder.ganho.text = acao.ganho
+        holder.data.text = acao.data
+
+        holder.btnDelete.setOnClickListener {
+            onDeleteClick(acao)
+        }
     }
 
     override fun getItemCount(): Int = listaAcoes.size

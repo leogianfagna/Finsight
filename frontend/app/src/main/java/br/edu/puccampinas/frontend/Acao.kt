@@ -3,7 +3,6 @@ package br.edu.puccampinas.frontend
 data class Acao(
     val ticker: String,
     val precoAtual: String,
-    val precoMedio: String,
     val quantidade: String,
-    val ganho: String
+    val data: String
 )
