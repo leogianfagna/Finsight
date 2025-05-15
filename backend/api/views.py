@@ -88,19 +88,13 @@ def get_user_tickers(request):
     else:
         return JsonResponse({"message": "Username is required"}, status=400)
     
-@csrf_exempt
 def add_user_ticker(request):
-    if request.method != 'POST':
+    if request.method != 'GET':
         return JsonResponse({"message": "Método não permitido"}, status=405)
 
-    try:
-        data = json.loads(request.body)
-    except json.JSONDecodeError:
-        return JsonResponse({"message": "JSON inválido"}, status=400)
-
-    username = data.get('username')
-    ticker = data.get('ticker')
-    quantity = data.get('purchase_quantity')
+    username = request.GET.get('username')
+    ticker = request.GET.get('ticker')
+    quantity = request.GET.get('purchase_quantity')
 
     if username and ticker and quantity:
         try:

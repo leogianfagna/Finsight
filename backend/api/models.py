@@ -48,34 +48,39 @@ class User(models.Model):
     @staticmethod
     def add_user_ticker(username, ticker, quantity):
         import pandas as pd
-        from datetime import datetime
+        import os
 
         user_data = collection.find_one({"username": username})
         if not user_data:
             return "User not found"
 
-        # Diretório onde estão os CSVs — ajuste se necessário
-        csv_dir = os.path.join(os.path.dirname(__file__), 'csv_acoes')
-        csv_file = os.path.join(csv_dir, f"{ticker.upper()}.csv")
+        csv_dir = os.path.join(os.path.dirname(__file__), '..', '..', 'dados')
+        csv_dir = os.path.abspath(csv_dir)
+        csv_file = os.path.join(csv_dir, f"{ticker.upper()}.SA.csv")
 
         if not os.path.exists(csv_file):
-            return f"CSV file for {ticker} not found"
+            return f"CSV file for {ticker} not found, {csv_file}"
 
         try:
-            df = pd.read_csv(csv_file)
-            today_str = datetime.today().strftime("%Y-%m-%d")
-
-            if 'date' not in df.columns or 'close' not in df.columns:
-                return "Invalid CSV format"
-
-            row = df[df['date'] == today_str]
+            df = pd.read_csv(csv_file, parse_dates=['Date'])
+            
+            last_date = '2025-05-09'
+            row = df[df['Date'] == last_date]
 
             if row.empty:
-                return f"No price data for {today_str} in {ticker}.csv"
+                return f"No price data for {last_date} in {ticker}.csv"
 
-            price = float(row.iloc[0]['close'])
+            price = round(float(row.iloc[0]['Close']), 2)
+            
+            date_value = row.iloc[0]['Date']
+            if hasattr(date_value, 'strftime'):
+                date_str = date_value.strftime('%Y-%m-%d')
+            else:
+                date_str = str(date_value)
 
-            obtained_info = [ticker.upper(), int(quantity), price, today_str]
+            quantity_int = int(quantity) 
+
+            obtained_info = [ticker.upper(), quantity_int, price, date_str]
 
             collection.update_one(
                 {"username": username},
@@ -86,7 +91,10 @@ class User(models.Model):
         except Exception as e:
             return f"Error processing ticker: {str(e)}"
 
-        
+        except Exception as e:
+            return f"Error processing ticker: {str(e)}"
+
+    
     @staticmethod
     def delete_user_ticker(username, ticker, price, quantity, date):
         user_data = collection.find_one({"username": username})
