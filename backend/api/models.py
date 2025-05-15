@@ -46,28 +46,46 @@ class User(models.Model):
     # Manipulação de papéis na conta do usuário
 
     @staticmethod
-    def add_user_ticker(username, ticker, destination, purchase_info):
+    def add_user_ticker(username, ticker, quantity):
+        import pandas as pd
+        from datetime import datetime
+
         user_data = collection.find_one({"username": username})
-        
-        if user_data:
-
-            if destination == "add_to_wishlist":
-                collection.update_one(
-                    {"username": username},
-                    {"$addToSet": {"wishlist_tickers": ticker}}
-                )
-                return "Ticker added successfully"
-            
-            elif destination == "add_obtained":
-                purchase_info = [ticker] + purchase_info
-                collection.update_one(
-                    {"username": username},
-                    {"$addToSet": {"obtained_tickers": purchase_info}}
-                )
-                return "Ticker added successfully"
-
-        else:
+        if not user_data:
             return "User not found"
+
+        # Diretório onde estão os CSVs — ajuste se necessário
+        csv_dir = os.path.join(os.path.dirname(__file__), 'csv_acoes')
+        csv_file = os.path.join(csv_dir, f"{ticker.upper()}.csv")
+
+        if not os.path.exists(csv_file):
+            return f"CSV file for {ticker} not found"
+
+        try:
+            df = pd.read_csv(csv_file)
+            today_str = datetime.today().strftime("%Y-%m-%d")
+
+            if 'date' not in df.columns or 'close' not in df.columns:
+                return "Invalid CSV format"
+
+            row = df[df['date'] == today_str]
+
+            if row.empty:
+                return f"No price data for {today_str} in {ticker}.csv"
+
+            price = float(row.iloc[0]['close'])
+
+            obtained_info = [ticker.upper(), int(quantity), price, today_str]
+
+            collection.update_one(
+                {"username": username},
+                {"$addToSet": {"obtained_tickers": obtained_info}}
+            )
+            return "Ticker added successfully"
+
+        except Exception as e:
+            return f"Error processing ticker: {str(e)}"
+
         
     @staticmethod
     def delete_user_ticker(username, ticker, price, quantity, date):

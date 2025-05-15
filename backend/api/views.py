@@ -90,23 +90,32 @@ def get_user_tickers(request):
     
 @csrf_exempt
 def add_user_ticker(request):
-    username = request.GET.get('username')
-    ticker = request.GET.get('ticker')
-    destination = request.GET.get('destination')
-    purchase_price = request.GET.get('purchase_price')
-    purchase_quantity = request.GET.get('purchase_quantity')
-    purchase_date = request.GET.get('purchase_date')
-    
-    if username and ticker and destination:
-        purchase_info = [float(purchase_price), int(purchase_quantity), purchase_date]
-        result = User.add_user_ticker(username, ticker, destination, purchase_info)
-        
+    if request.method != 'POST':
+        return JsonResponse({"message": "Método não permitido"}, status=405)
+
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse({"message": "JSON inválido"}, status=400)
+
+    username = data.get('username')
+    ticker = data.get('ticker')
+    quantity = data.get('purchase_quantity')
+
+    if username and ticker and quantity:
+        try:
+            quantity = int(quantity)
+        except ValueError:
+            return JsonResponse({"message": "Quantidade inválida"}, status=400)
+
+        result = User.add_user_ticker(username, ticker, quantity)
+
         if result == "Ticker added successfully":
-            return JsonResponse({"message": "Ticker added successfully"})
+            return JsonResponse({"message": result})
         else:
-            return JsonResponse({"message": "User not found"}, status=404)
+            return JsonResponse({"message": result}, status=404 if "not found" in result.lower() else 400)
     else:
-        return JsonResponse({"message": "Invalid data"}, status=400)
+        return JsonResponse({"message": "Parâmetros faltando"}, status=400)
 
 def delete_user_ticker(request):
     username = request.GET.get('username')
