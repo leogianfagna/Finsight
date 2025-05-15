@@ -4,17 +4,21 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import br.edu.puccampinas.frontend.model.AddTickerRequest
 import br.edu.puccampinas.frontend.model.ResponseMessage
 import br.edu.puccampinas.frontend.model.TickerResponse
 import br.edu.puccampinas.frontend.model.UserNameResponse
 import br.edu.puccampinas.frontend.network.RetrofitClient
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -43,6 +47,9 @@ class Carteira : AppCompatActivity() {
 
         val menuButton = findViewById<ImageView>(R.id.btn_home)
         menuButton.setOnClickListener { navegarMenuPrincipal() }
+
+        val add_popUp = findViewById<TextView>(R.id.add)
+        add_popUp.setOnClickListener { showAddPopup() }
 
         // Nome do usuário
         val sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
@@ -139,24 +146,105 @@ class Carteira : AppCompatActivity() {
         dialog.show()
     }
 
+    private fun showAddPopup() {
+        val dialogView = layoutInflater.inflate(R.layout.pop_up_add, null)
+        val builder = AlertDialog.Builder(this)
+        builder.setView(dialogView)
+        builder.setCancelable(true)
+
+        val dialog = builder.create()
+
+        dialog.setOnCancelListener {
+            dialog.dismiss()
+        }
+
+        val btnClose = dialogView.findViewById<TextView>(R.id.excluir)
+        btnClose.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        val edtCodigo = dialogView.findViewById<EditText>(R.id.codigo)
+        val edtQuantidade = dialogView.findViewById<EditText>(R.id.quantidade)
+        val btnAdd = dialogView.findViewById<Button>(R.id.btnAdd)
+
+        btnAdd.setOnClickListener {
+            val codigo = edtCodigo.text.toString().trim()
+            val quantidadeStr = edtQuantidade.text.toString().trim()
+
+            if (codigo.isNotEmpty() && quantidadeStr.isNotEmpty()) {
+                val quantidade = quantidadeStr.toIntOrNull()
+
+                if (quantidade != null) {
+                    adicionarAcao(codigo, quantidade)
+
+                    dialog.dismiss()
+                } else {
+                    Toast.makeText(this, "Quantidade inválida", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        dialog.show()
+    }
+
+    private fun adicionarAcao(codigo: String, quantidade: Int) {
+        val sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
+        val userId = sharedPreferences.getString("userId", null)
+
+        if (userId != null) {
+            getUserName(userId) { username ->
+                if (username != null) {
+                    val request = AddTickerRequest(
+                        username = username,
+                        ticker = codigo,
+                        purchaseQuantity = quantidade
+                    )
+
+
+                    RetrofitClient.instance.addUserTicker(request)
+                        .enqueue(object : Callback<ResponseMessage> {
+                            override fun onResponse(call: Call<ResponseMessage>, response: Response<ResponseMessage>) {
+                                if (response.isSuccessful) {
+                                    Toast.makeText(this@Carteira, "Ticker adicionado com sucesso", Toast.LENGTH_SHORT).show()
+                                    listaDeAcoes.clear()
+                                    fetchAcoesDoUsuario(username)
+                                } else {
+                                    Toast.makeText(this@Carteira, "Erro ao adicionar ticker", Toast.LENGTH_SHORT).show()
+                                    Log.e("API", "Erro ao adicionar: ${response.code()}")
+                                }
+                            }
+
+                            override fun onFailure(call: Call<ResponseMessage>, t: Throwable) {
+                                Toast.makeText(this@Carteira, "Erro de conexão: ${t.message}", Toast.LENGTH_SHORT).show()
+                                Log.e("API", "Falha na requisição", t)
+                            }
+                        })
+
+                } else {
+                    Toast.makeText(this, "Usuário não encontrado", Toast.LENGTH_SHORT).show()
+                }
+            }
+        } else {
+            Toast.makeText(this, "Usuário não logado", Toast.LENGTH_SHORT).show()
+        }
+    }
+
 
     private fun deleteTicker(username: String, acao: Acao) {
-        // Remove o "R$" e converte para Double
         val precoAtualSemSimbolo = acao.precoAtual.replace("R$", "").trim()
 
-        // Converte a quantidade para Double ou Float, caso seja decimal
         val quantidadeDecimal = acao.quantidade.toDouble()
 
         RetrofitClient.instance.deleteUserTicker(username, acao.ticker, precoAtualSemSimbolo.toDouble(), quantidadeDecimal, acao.data)
             .enqueue(object : Callback<ResponseMessage> {
                 override fun onResponse(call: Call<ResponseMessage>, response: Response<ResponseMessage>) {
                     if (response.isSuccessful) {
-                        // Verifica a mensagem de sucesso
                         val responseMessage = response.body()
                         if (responseMessage != null && responseMessage.message == "Ticker removed successfully") {
-                            // Atualiza a tela ou remove da lista local
-                            listaDeAcoes.remove(acao) // Remove a ação da lista
-                            adapter.notifyDataSetChanged() // Notifica o adapter para atualizar a RecyclerView
+                            listaDeAcoes.remove(acao)
+                            adapter.notifyDataSetChanged()
                         }
                     } else {
                         Log.e("API", "Erro ao deletar: ${response.code()}")
@@ -168,9 +256,6 @@ class Carteira : AppCompatActivity() {
                 }
             })
     }
-
-
-
 
 
     private fun comeBack() {

@@ -40,6 +40,12 @@
     <string name="estimativa_de_valoriza">Estimativa de valorização: 10 dias</string>
     <string name="excluir_acao">Tem certeza que deseja excluir essa ação?</string>
     <string name="btn_excluir">Excluir</string>
+    <string name="add_acao">Adicionar ação na carteira</string>
+    <string name="codigo">Código</string>
+    <string name="digite_codigo">Digite o código da ação</string>
+    <string name="quantidade">Quantidade</string>
+    <string name="digite_quantidade">Digite a quantidade de ações</string>
+    <string name="adicionar">Adicionar</string>
 
 
     <!-- Strings used for fragments for navigation -->
