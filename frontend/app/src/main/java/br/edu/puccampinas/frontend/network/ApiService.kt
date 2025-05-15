@@ -51,7 +51,11 @@ interface ApiService {
         @Query("date") date: String
     ): Call<ResponseMessage>
 
-    @POST("add_user_ticker/")
-    fun addUserTicker(@Body request: AddTickerRequest): Call<ResponseMessage>
+    @GET("add_user_ticker/")
+    fun addUserTicker(
+        @Query("username") username: String,
+        @Query("ticker") ticker: String,
+        @Query("purchase_quantity") purchaseQuantity: Int
+    ): Call<ResponseMessage>
 
 }

@@ -196,14 +196,8 @@ class Carteira : AppCompatActivity() {
         if (userId != null) {
             getUserName(userId) { username ->
                 if (username != null) {
-                    val request = AddTickerRequest(
-                        username = username,
-                        ticker = codigo,
-                        purchaseQuantity = quantidade
-                    )
 
-
-                    RetrofitClient.instance.addUserTicker(request)
+                    RetrofitClient.instance.addUserTicker(username, codigo, quantidade)
                         .enqueue(object : Callback<ResponseMessage> {
                             override fun onResponse(call: Call<ResponseMessage>, response: Response<ResponseMessage>) {
                                 if (response.isSuccessful) {
@@ -232,6 +226,7 @@ class Carteira : AppCompatActivity() {
     }
 
 
+
     private fun deleteTicker(username: String, acao: Acao) {
         val precoAtualSemSimbolo = acao.precoAtual.replace("R$", "").trim()
 
@@ -256,7 +251,6 @@ class Carteira : AppCompatActivity() {
                 }
             })
     }
-
 
     private fun comeBack() {
         val intent = Intent(this, MenuPrincipal::class.java)
