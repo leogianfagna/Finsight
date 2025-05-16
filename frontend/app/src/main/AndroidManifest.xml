@@ -26,6 +26,9 @@
             android:name=".Carteira"
             android:exported="false" />
         <activity
+            android:name=".AdicionarAcao"
+            android:exported="false" />
+        <activity
             android:name=".Oportunidades"
             android:exported="false" />
         <activity

@@ -139,7 +139,7 @@ class MenuPrincipal : AppCompatActivity() {
     }
 
     private fun navegarTelaAvaliar() {
-        startActivity(Intent(this, Avaliar::class.java))
+        startActivity(Intent(this, AdicionarAcao::class.java))
     }
 
     private fun navegarTelaCalendario() {
