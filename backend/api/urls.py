@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('add_user/', views.add_user, name='add_user'),
@@ -22,4 +24,9 @@ urlpatterns = [
     path('get_username/', views.get_username_by_id, name='get_username_by_id'),
     path('get_balance/', views.get_balance_by_id, name='get_balance_by_id'),
     path('get_future_balance/', views.get_future_balance_by_id, name='get_future_balance_by_id'),
+    path('grafico/', views.gerar_grafico_acao, name='gerar_grafico_acao'),
+    path('get_acoes/', views.get_acoes, name = 'get_acoes'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

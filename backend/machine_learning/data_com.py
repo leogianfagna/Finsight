@@ -5,7 +5,10 @@ import numpy as np
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LinearRegression
+import matplotlib
 import matplotlib.pyplot as plt
+matplotlib.use('Agg')
+from django.conf import settings
 
 def obter_curva_media_normalizada(ticker_dividend, ticker_history, count_days=40, total_dates=5):
     curvas_normalizadas = []
@@ -146,8 +149,18 @@ def previsao_com_ajuste_curva(codigo_acao, data_com_str):
     plt.grid(True)
     plt.legend()
     plt.tight_layout()
-    plt.show()
 
-    return df_previsao_completa
+    # Cria diretório se não existir
+    # Define o caminho completo do arquivo
+    diretorio = os.path.join(settings.MEDIA_ROOT, 'graficos')
+    os.makedirs(diretorio, exist_ok=True)  # cria a pasta se não existir
 
-previsao = previsao_com_ajuste_curva("VALE3.SA", "2025-05-24")
+    caminho_imagem = os.path.join(diretorio, f"grafico_{codigo_acao}.png")
+
+    print("Salvando gráfico em:")
+    print(caminho_imagem)
+    print("Arquivo existe antes de salvar?", os.path.exists(caminho_imagem))
+
+    fig = plt.gcf()  # pega a figura atual
+    plt.close()
+    return fig

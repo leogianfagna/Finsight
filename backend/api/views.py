@@ -1,15 +1,19 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
 from .models import User
-import json
+from .action import Acao  
 import pymongo
 from bson import ObjectId 
 import pandas as pd
 import os
-
 from finance_api.dividends_history import *
 from finance_api.ticker_informations import *
 from finance_api.math_operations import *
+from machine_learning.data_com import previsao_com_ajuste_curva
+from django.http import HttpResponse
+import io
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 
 
 # Conexão com o MongoDB
@@ -345,3 +349,33 @@ def get_future_balance_by_id(request):
     except Exception as e:
         return JsonResponse({"message": str(e)}, status=500)
 
+@csrf_exempt
+def gerar_grafico_acao(request):
+    ticker = request.GET.get("ticker")
+    data_com = request.GET.get("data_com")
+
+    if not ticker or not data_com:
+        return JsonResponse({"error": "Ticker and data_com are required"}, status=400)
+
+    try:
+        fig = previsao_com_ajuste_curva(ticker, data_com)
+        if fig is None:
+            return JsonResponse({"error": "Erro ao gerar previsão."}, status=500)
+
+        buf = io.BytesIO()
+        canvas = FigureCanvas(fig)
+        canvas.print_png(buf)
+        buf.seek(0)
+
+        return HttpResponse(buf.getvalue(), content_type='image/png')
+
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+
+@csrf_exempt
+def get_acoes(request):
+    try:
+        acoes = Acao.get_all_acoes()
+        return JsonResponse(acoes, safe=False)
+    except Exception as e:
+        return JsonResponse({"message": str(e)}, status=500)
