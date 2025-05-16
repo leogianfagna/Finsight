@@ -1,9 +1,11 @@
 package br.edu.puccampinas.frontend.network
 
+import br.edu.puccampinas.frontend.model.AcaoTicker
 import br.edu.puccampinas.frontend.model.AddTickerRequest
 import br.edu.puccampinas.frontend.model.BalanceResponse
 import br.edu.puccampinas.frontend.model.FullNameResponse
 import br.edu.puccampinas.frontend.model.FutureBalanceResponse
+import br.edu.puccampinas.frontend.model.GraficoResponse
 import br.edu.puccampinas.frontend.model.RegisterRequest
 import br.edu.puccampinas.frontend.model.RegisterResponse
 import br.edu.puccampinas.frontend.model.ResponseMessage
@@ -58,4 +60,12 @@ interface ApiService {
         @Query("purchase_quantity") purchaseQuantity: Int
     ): Call<ResponseMessage>
 
+    @GET("grafico/")
+    fun gerarGrafico(
+        @Query("ticker") ticker: String,
+        @Query("data_com") dataCom: String
+    ): Call<ResponseBody>
+
+    @GET("get_acoes/")
+    fun getAcoes(): Call<List<AcaoTicker>>
 }

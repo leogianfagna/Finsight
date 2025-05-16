@@ -1,43 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layoutAdicionarAcao"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/background_dark"
     android:padding="24dp"
-    tools:context=".AdicionarAcao">
+    tools:context=".AvaliarAcoes">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Adicionar Ação"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_marginBottom="20dp" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingBottom="10dp">
 
-    <!-- Botão Adicionar -->
+        <TextView
+            android:id="@+id/come_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:drawableStartCompat="@drawable/ic_back"
+            app:drawableTint="@color/azul_claro" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/avaliar_acoes"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:gravity="center" />
+
+
+    </LinearLayout>
+
     <Button
-        android:id="@+id/btnAdicionar"
+        android:id="@+id/btnAvaliar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Adicionar"
+        android:text="@string/avaliar"
         android:backgroundTint="@color/azul_claro"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:layout_marginBottom="16dp" />
 
-    <!-- Dropdown oculto inicialmente -->
     <Spinner
         android:id="@+id/spinnerAcoes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        android:backgroundTint="@color/offwhite"
-        android:popupBackground="@color/offwhite"
+        android:backgroundTint="@color/black"
+        android:popupBackground="@color/black"
         android:layout_marginTop="8dp" />
 
     <Button
@@ -50,5 +66,13 @@
         android:textStyle="bold"
         android:layout_marginTop="16dp"
         android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/imageViewGrafico"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:visibility="gone"
+        android:scaleType="fitCenter" />
+
 
 </LinearLayout>

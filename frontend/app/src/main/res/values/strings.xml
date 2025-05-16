@@ -46,9 +46,6 @@
     <string name="quantidade">Quantidade</string>
     <string name="digite_quantidade">Digite a quantidade de ações</string>
     <string name="adicionar">Adicionar</string>
-
-
-    <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
@@ -71,6 +68,6 @@
     <string name="cone_de_usu_rio">Ícone de usuário</string>
     <string name="sair">Sair</string>
     <string name="sair_do_aplicativo">Sair do aplicativo</string>
-
+    <string name="avaliar_acoes">Avaliar Ações</string>
 
 </resources>

@@ -1,12 +1,7 @@
 package br.edu.puccampinas.frontend
 
-import android.animation.ObjectAnimator
-import android.animation.AnimatorSet
 import android.content.Intent
 import android.os.Bundle
-import android.widget.ImageButton
-import android.view.View
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import br.edu.puccampinas.frontend.databinding.ActivityMenuPrincipalBinding
@@ -139,7 +134,7 @@ class MenuPrincipal : AppCompatActivity() {
     }
 
     private fun navegarTelaAvaliar() {
-        startActivity(Intent(this, AdicionarAcao::class.java))
+        startActivity(Intent(this, AvaliarAcoes::class.java))
     }
 
     private fun navegarTelaCalendario() {

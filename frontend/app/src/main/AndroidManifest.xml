@@ -26,7 +26,7 @@
             android:name=".Carteira"
             android:exported="false" />
         <activity
-            android:name=".AdicionarAcao"
+            android:name=".AvaliarAcoes"
             android:exported="false" />
         <activity
             android:name=".Oportunidades"

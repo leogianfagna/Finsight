@@ -27,6 +27,8 @@ androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-gson-converter = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "gsonConverter" }
+glide = { group = "com.github.bumptech.glide", name = "glide", version = "4.15.1" }
+glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", version = "4.15.1" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
