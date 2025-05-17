@@ -64,9 +64,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="+147.10"
-            android:textColor="@color/azul_claro"
+            android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/precoFuturo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$165.21"
+            android:textColor="@color/azul_claro"
+            android:textSize="18sp"  />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

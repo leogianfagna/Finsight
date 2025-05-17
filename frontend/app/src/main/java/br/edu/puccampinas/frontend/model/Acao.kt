@@ -4,4 +4,6 @@ data class Acao(
     val ticker: String,
     val precoAtual: String,
     val quantidade: String,
-    val data: String)
+    val data: String,
+    val precoFuturo: String
+)

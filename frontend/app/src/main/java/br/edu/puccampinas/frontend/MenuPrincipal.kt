@@ -2,9 +2,11 @@ package br.edu.puccampinas.frontend
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import br.edu.puccampinas.frontend.databinding.ActivityMenuPrincipalBinding
+import br.edu.puccampinas.frontend.model.AcaoTicker
 import br.edu.puccampinas.frontend.model.BalanceResponse
 import br.edu.puccampinas.frontend.model.FullNameResponse
 import br.edu.puccampinas.frontend.model.FutureBalanceResponse
@@ -12,15 +14,17 @@ import br.edu.puccampinas.frontend.network.RetrofitClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class MenuPrincipal : AppCompatActivity() {
 
     private lateinit var binding: ActivityMenuPrincipalBinding
 
-    // Controle do estado do menu
-    private var botaoSelecionado: String = "home"
     private var notficacoesAtivadas = false
     private var nomeUsuario: String? = null
+    private val mapaAcoesPorData = mutableMapOf<String, MutableList<String>>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,19 +53,21 @@ class MenuPrincipal : AppCompatActivity() {
                     val balance = balance ?: "R$00,00"
                     binding.Saldo.text = "R$"+balance
                 }
-
+            }
+            updateUserFutureBalance(userId) {
                 getFutureBalance(userId) { future_balance ->
                     val future_balance = future_balance ?: "R$00,00"
-                    binding.SaldoFuturo.text = "R$"+future_balance
+                    binding.SaldoFuturo.text = "R$" + future_balance
                 }
             }
-
             getFullName(userId) { fullName ->
                 val nome = fullName ?: "Usuário"
                 binding.icUser.text = nome
                 nomeUsuario = nome
             }
         }
+
+        carregarAcoesDoBackend()
 
         // Ações dos botões principais
         binding.Oportunidades.setOnClickListener { navegarTelaOportunidades() }
@@ -77,6 +83,24 @@ class MenuPrincipal : AppCompatActivity() {
                     callback()
                 } else {
                     Toast.makeText(this@MenuPrincipal, "Erro ao atualizar saldo", Toast.LENGTH_SHORT).show()
+                    callback()
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Toast.makeText(this@MenuPrincipal, "Erro de conexão ao atualizar saldo", Toast.LENGTH_SHORT).show()
+                callback()
+            }
+        })
+    }
+
+    private fun updateUserFutureBalance(id: String, callback: () -> Unit) {
+        RetrofitClient.instance.updateFutureBalance(id).enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    callback()
+                } else {
+                    Toast.makeText(this@MenuPrincipal, "Erro ao atualizar saldo futuro", Toast.LENGTH_SHORT).show()
                     callback()
                 }
             }
@@ -128,6 +152,72 @@ class MenuPrincipal : AppCompatActivity() {
         })
     }
 
+    private fun carregarAcoesDoBackend() {
+        RetrofitClient.instance.getAcoes().enqueue(object : Callback<List<AcaoTicker>> {
+            override fun onResponse(call: Call<List<AcaoTicker>>, response: Response<List<AcaoTicker>>) {
+                if (response.isSuccessful && response.body() != null) {
+                    val listaAcoes = response.body()!!
+                    val formatoEntrada = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+
+                    for (acao in listaAcoes) {
+                        val dataFormatada = try {
+                            formatoEntrada.parse(acao.data_com)?.let {
+                                SimpleDateFormat("yyyy-MM-dd", Locale.US).format(it)
+                            }
+                        } catch (e: Exception) {
+                            null
+                        }
+
+                        dataFormatada?.let {
+                            if (!mapaAcoesPorData.containsKey(it)) {
+                                mapaAcoesPorData[it] = mutableListOf()
+                            }
+                            mapaAcoesPorData[it]!!.add(acao.ticker)
+                        }
+                    }
+                    Log.d("Calendario", "mapaAcoesPorData keys: ${mapaAcoesPorData.keys}")
+
+                    exibirDataMaisRecente()
+
+                } else {
+                    Toast.makeText(this@MenuPrincipal, "Erro ao carregar ações", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<List<AcaoTicker>>, t: Throwable) {
+                Toast.makeText(this@MenuPrincipal, "Falha de rede: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun exibirDataMaisRecente() {
+        val formatterEntrada = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+        val formatterSaida = SimpleDateFormat("dd/MM/yyyy", Locale("pt", "BR"))
+
+        // Ordena as datas (mais recente por último)
+        val diasOrdenados = mapaAcoesPorData.toSortedMap(compareBy { it })
+
+        // Pega a última data (mais recente)
+        val dataMaisRecente = diasOrdenados.keys.firstOrNull()
+
+        if (dataMaisRecente != null) {
+            val dataFormatada = try {
+                formatterEntrada.parse(dataMaisRecente)?.let { date ->
+                    formatterSaida.format(date)
+                } ?: dataMaisRecente
+            } catch (e: Exception) {
+                "Erro ao formatar"
+            }
+
+            // Pega os tickers associados a essa data
+            val tickers = diasOrdenados[dataMaisRecente]?.joinToString(", ") ?: "Sem ações"
+
+            // Exibe na TextView
+            binding.NomeEmpesa.text = "$dataFormatada: $tickers"
+        } else {
+            binding.NomeEmpesa.text = "Sem dados"
+        }
+    }
 
     private fun navegarTelaOportunidades() {
         startActivity(Intent(this, Oportunidades::class.java))

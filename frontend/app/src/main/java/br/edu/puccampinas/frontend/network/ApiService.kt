@@ -50,7 +50,8 @@ interface ApiService {
         @Query("ticker") ticker: String,
         @Query("price") price: Double,
         @Query("quantity") quantity: Double,
-        @Query("date") date: String
+        @Query("date") date: String,
+        @Query("future_price") future_price: Double
     ): Call<ResponseMessage>
 
     @GET("add_user_ticker/")
@@ -68,4 +69,7 @@ interface ApiService {
 
     @GET("get_acoes/")
     fun getAcoes(): Call<List<AcaoTicker>>
+
+    @GET("get_account_future_balance/")
+    fun updateFutureBalance(@Query("id") id: String): Call<Void>
 }

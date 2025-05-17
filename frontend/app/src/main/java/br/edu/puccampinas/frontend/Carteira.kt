@@ -13,12 +13,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import br.edu.puccampinas.frontend.model.AddTickerRequest
+import br.edu.puccampinas.frontend.model.Acao
 import br.edu.puccampinas.frontend.model.ResponseMessage
 import br.edu.puccampinas.frontend.model.TickerResponse
 import br.edu.puccampinas.frontend.model.UserNameResponse
 import br.edu.puccampinas.frontend.network.RetrofitClient
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -91,6 +90,7 @@ class Carteira : AppCompatActivity() {
                                 precoAtual= "R$"+item[1].toString(),
                                 quantidade = item[2].toString(),
                                 data = item[3].toString(),
+                                precoFuturo = "R$"+item[4].toString()
                             )
                             listaDeAcoes.add(acao)
                         }
@@ -137,7 +137,7 @@ class Carteira : AppCompatActivity() {
             if (userId != null) {
                 getUserName(userId) { username ->
                     if (username != null) {
-                        deleteTicker(username, acao)  // Passando o objeto completo 'acao'
+                        deleteTicker(username, acao)
                     }
                 }
             }
@@ -229,10 +229,11 @@ class Carteira : AppCompatActivity() {
 
     private fun deleteTicker(username: String, acao: Acao) {
         val precoAtualSemSimbolo = acao.precoAtual.replace("R$", "").trim()
+        val precoFuturoSemSimbolo = acao.precoFuturo.replace("R$", "").trim()
 
         val quantidadeDecimal = acao.quantidade.toDouble()
 
-        RetrofitClient.instance.deleteUserTicker(username, acao.ticker, precoAtualSemSimbolo.toDouble(), quantidadeDecimal, acao.data)
+        RetrofitClient.instance.deleteUserTicker(username, acao.ticker, precoAtualSemSimbolo.toDouble(), quantidadeDecimal, acao.data, precoFuturoSemSimbolo.toDouble())
             .enqueue(object : Callback<ResponseMessage> {
                 override fun onResponse(call: Call<ResponseMessage>, response: Response<ResponseMessage>) {
                     if (response.isSuccessful) {

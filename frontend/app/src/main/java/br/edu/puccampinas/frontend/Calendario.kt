@@ -108,9 +108,6 @@ class Calendario : AppCompatActivity() {
         }
     }
 
-
-
-
     private fun createCalendarTextView(text: String): TextView {
         return TextView(this).apply {
             this.text = text
@@ -191,7 +188,6 @@ class Calendario : AppCompatActivity() {
             container.addView(historicoView)
         }
     }
-
 
     private fun comeBack() {
         val intent = Intent(this, MenuPrincipal::class.java)
