@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="@color/darkgray">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/ticker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AAPL"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            />
+
+        <TextView
+            android:id="@+id/preco_atual"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$165.21"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/data_com"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+147.10"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+           />
+
+        <TextView
+            android:id="@+id/ultimo_preco"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$165.21"
+            android:textColor="@color/azul_claro"
+            android:textSize="18sp"  />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

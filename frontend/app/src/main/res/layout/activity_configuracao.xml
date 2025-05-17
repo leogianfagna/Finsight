@@ -20,12 +20,12 @@
 
     <LinearLayout
         android:layout_width="220dp"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_marginTop="20dp"
-        android:padding="8dp"
         android:background="@drawable/borda_azul"
+        android:gravity="center_vertical"
+        android:padding="2dp"
+        android:layout_marginTop="20dp"
         >
 
         <ImageView
@@ -33,6 +33,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:src="@drawable/ic_person"
+            android:layout_marginStart="7dp"
             android:contentDescription="@string/cone_de_usu_rio"
             app:tint="@color/azul_claro" />
 
@@ -40,16 +41,16 @@
             android:id="@+id/ic_user"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="0dp"
+            android:layout_marginStart="10dp"
             android:layout_weight="1"
-            android:background="@drawable/borda_azul"
             android:padding="10dp"
             android:gravity="center_vertical"
             android:text="@string/UserName"
             android:textColor="@color/white"
-            android:textSize="21sp"
+            android:textSize="27dp"
             android:textStyle="bold" />
     </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"

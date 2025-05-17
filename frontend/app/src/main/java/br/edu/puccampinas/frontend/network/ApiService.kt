@@ -1,5 +1,6 @@
 package br.edu.puccampinas.frontend.network
 
+import br.edu.puccampinas.frontend.model.AcaoSugestao
 import br.edu.puccampinas.frontend.model.AcaoTicker
 import br.edu.puccampinas.frontend.model.AddTickerRequest
 import br.edu.puccampinas.frontend.model.BalanceResponse
@@ -72,4 +73,7 @@ interface ApiService {
 
     @GET("get_account_future_balance/")
     fun updateFutureBalance(@Query("id") id: String): Call<Void>
+
+    @GET("get_acoes_com_valorizacao/")
+    fun getAcoesValorizadas(): Call<List<AcaoSugestao>>
 }

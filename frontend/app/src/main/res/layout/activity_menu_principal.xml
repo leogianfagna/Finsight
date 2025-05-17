@@ -9,258 +9,224 @@
     android:padding="24dp"
     tools:context=".MenuPrincipal">
 
-
     <LinearLayout
-        android:layout_width="220dp"
-        android:layout_height="60dp"
-        android:orientation="horizontal"
-        android:background="@drawable/borda_azul"
-        android:gravity="center_vertical"
-        android:padding="8dp"
-        android:layout_marginTop="5dp"
-        >
-
-        <ImageView
-            android:id="@+id/ic_user_icon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/ic_person"
-            android:contentDescription="@string/cone_de_usu_rio"
-            app:tint="@color/azul_claro" />
-
-        <TextView
-            android:id="@+id/ic_user"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_weight="1"
-            android:background="@drawable/borda_azul"
-            android:padding="10dp"
-            android:gravity="center_vertical"
-            android:text="@string/UserName"
-            android:textColor="@color/white"
-            android:textSize="17dp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="120dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="244dp"
-        android:layout_marginTop="-60dp"
-        android:background="@drawable/borda_azul"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="8dp">
-
-
-        <ImageButton
-            android:id="@+id/btn_settings"
-            android:layout_width="36dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="0dp"
-            android:background="@drawable/bg_white_circle"
-            android:src="@drawable/settings"
-
-            android:scaleType="centerInside"/>
-
-
-        <ImageButton
-            android:id="@+id/btn_notifications"
-            android:layout_width="36dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:background="@drawable/bg_white_circle"
-            android:src="@drawable/notifications"
-            android:scaleType="centerInside"
-
-            />
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/SaldoText"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="15dp"
-        android:drawablePadding="10dp"
-        android:hint="@string/saldo_em_conta"
-        android:paddingStart="15dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:textSize="20sp"
-        android:layout_marginBottom="16dp"
-        android:textStyle="bold"
-        tools:ignore="RtlSymmetry" />
-
-    <TextView
-        android:id="@+id/Saldo"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="-50dp"
-        android:text="@string/Saldo"
-        android:layout_marginStart="15dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:textSize="35sp"
-        android:textStyle="bold"
-        />
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/borda_azul"
-        android:backgroundTint="#333131"
-        android:paddingStart="15dp"
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        tools:ignore="RtlSymmetry">
-
-        <TextView
-            android:id="@+id/previsao"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text="@string/PrevisaoInvest"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/SaldoFuturo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="00dp"
-            android:gravity="center_vertical"
-
-            android:text="@string/SaldoFut"
-            android:textColor="@color/azul_claro"
-            android:textSize="30sp"
-            android:textStyle="bold"/>
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:orientation="vertical"
-        android:padding="16dp"
         android:layout_weight="1"
-        android:background="@drawable/borda_azul"
-        android:backgroundTint="#333131">
+        android:fillViewport="true"
+        android:orientation="vertical">
 
-        <!-- Título -->
-        <TextView
-            android:id="@+id/AssistenteFinanceiro"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/TextApres"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="8dp"/>
-
-        <!-- Botões lado a lado -->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="220dp"
+            android:layout_height="60dp"
             android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginTop="25dp">
+            android:background="@drawable/borda_azul"
+            android:gravity="center_vertical"
+            android:padding="2dp"
+            android:layout_marginTop="5dp"
+            >
 
-            <Button
-                android:id="@+id/Oportunidades"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-                android:layout_weight="1"
-                android:text="@string/oportunidades"
-                android:textColor="@color/white"
-                android:textSize="11sp"
-                android:textStyle="bold"
-                android:backgroundTint="@color/azul_claro"
-                android:layout_marginEnd="8dp"/>
+            <ImageView
+                android:id="@+id/ic_user_icon"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_person"
+                android:layout_marginStart="7dp"
+                android:contentDescription="@string/cone_de_usu_rio"
+                app:tint="@color/azul_claro" />
 
-            <Button
-                android:id="@+id/Avaliar"
+            <TextView
+                android:id="@+id/ic_user"
                 android:layout_width="0dp"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:layout_weight="1"
-                android:text="@string/avaliar"
+                android:padding="10dp"
+                android:gravity="center_vertical"
+                android:text="@string/UserName"
                 android:textColor="@color/white"
-                android:textSize="11sp"
-                android:textStyle="bold"
-                android:backgroundTint="@color/azul_claro"
-                android:layout_marginStart="8dp"/>
+                android:textSize="27dp"
+                android:textStyle="bold" />
         </LinearLayout>
 
-        <!-- Próxima COM -->
-        <TextView
-            android:id="@+id/InformacaoDataCom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/proxima_com"
-            android:layout_marginTop="30dp"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="4dp"/>
+        <LinearLayout
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="244dp"
+            android:layout_marginTop="-60dp"
+            android:background="@drawable/borda_azul"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="8dp">
 
-        <!-- Nome da Empresa -->
+
+            <ImageButton
+                android:id="@+id/btn_settings"
+                android:layout_width="36dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:background="@drawable/bg_white_circle"
+                android:src="@drawable/settings"
+
+                android:scaleType="centerInside"/>
+
+
+            <ImageButton
+                android:id="@+id/btn_notifications"
+                android:layout_width="36dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/bg_white_circle"
+                android:src="@drawable/notifications"
+                android:scaleType="centerInside"
+
+                />
+
+        </LinearLayout>
+
         <TextView
-            android:id="@+id/NomeEmpesa"
-            android:layout_width="wrap_content"
+            android:id="@+id/SaldoText"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/nome_da_empresa"
-            android:textColor="@color/azul_claro"
+            android:layout_marginTop="15dp"
+            android:hint="@string/saldo_em_conta"
+            android:paddingStart="15dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginBottom="8dp"/>
+            tools:ignore="RtlSymmetry" />
 
-        <!-- Linha: Dividendo + Data -->
+        <TextView
+            android:id="@+id/Saldo"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="@string/Saldo"
+            android:layout_marginStart="15dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/borda_azul"
+            android:backgroundTint="#333131"
+            android:paddingStart="15dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            tools:ignore="RtlSymmetry">
+
+            <TextView
+                android:id="@+id/previsao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="@string/PrevisaoInvest"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/SaldoFuturo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="00dp"
+                android:gravity="center_vertical"
+                android:text="@string/SaldoFut"
+                android:textColor="@color/azul_claro"
+                android:textSize="30sp"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="30dp">
+            android:layout_marginTop="30dp"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@drawable/borda_azul"
+            android:backgroundTint="#333131">
 
+            <!-- Título -->
             <TextView
-                android:id="@+id/DividendoPago"
+                android:id="@+id/AssistenteFinanceiro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/dividendo_pago"
+                android:text="@string/TextApres"
                 android:textColor="@color/white"
-                android:textSize="15sp"
-                android:textStyle="bold"/>
+                android:textSize="21sp"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="8dp"/>
 
+            <!-- Botões lado a lado -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="25dp">
+
+
+
+                <Button
+                    android:id="@+id/Avaliar"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:text="@string/avaliar"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:backgroundTint="@color/azul_claro"
+                    android:layout_marginEnd="8dp"/>
+
+                <Button
+                    android:id="@+id/Sugestoes"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:text="@string/sugest_es"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:backgroundTint="@color/azul_claro"
+                    android:layout_marginStart="8dp"/>
+            </LinearLayout>
+
+            <!-- Próxima COM -->
             <TextView
-                android:id="@+id/data"
+                android:id="@+id/InformacaoDataCom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/data"
+                android:text="@string/proxima_com"
+                android:layout_marginTop="30dp"
                 android:textColor="@color/white"
-                android:layout_marginStart="80dp"
-                android:textSize="15sp"
-                android:textStyle="bold"/>
-        </LinearLayout>
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="4dp"/>
 
-        <!-- Botão Avaliação do Papel -->
-        <Button
-            android:id="@+id/AvaliacaoPapel"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="0dp"
-            android:text="@string/avaliacao_do_papel"
-            android:textColor="@color/white"
-            android:textSize="11sp"
-            android:textStyle="bold"
-            android:backgroundTint="@color/azul_claro"/>
+            <!-- Nome da Empresa -->
+            <TextView
+                android:id="@+id/NomeEmpesa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nome_da_empresa"
+                android:textColor="@color/azul_claro"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+
     </LinearLayout>
-
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/menu_inferior"

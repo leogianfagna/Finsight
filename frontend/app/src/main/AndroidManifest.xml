@@ -29,7 +29,7 @@
             android:name=".AvaliarAcoes"
             android:exported="false" />
         <activity
-            android:name=".Oportunidades"
+            android:name=".Sugestoes"
             android:exported="false" />
         <activity
             android:name=".Create_account"

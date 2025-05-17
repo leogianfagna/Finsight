@@ -70,7 +70,7 @@ class MenuPrincipal : AppCompatActivity() {
         carregarAcoesDoBackend()
 
         // Ações dos botões principais
-        binding.Oportunidades.setOnClickListener { navegarTelaOportunidades() }
+        binding.Sugestoes.setOnClickListener { navegarTelaSugestoes() }
         binding.Avaliar.setOnClickListener { navegarTelaAvaliar() }
         binding.btnGraph.setOnClickListener { navegarTelaCalendario() }
         binding.btnWallet.setOnClickListener { navegarTelaCarteira() }
@@ -194,10 +194,8 @@ class MenuPrincipal : AppCompatActivity() {
         val formatterEntrada = SimpleDateFormat("yyyy-MM-dd", Locale.US)
         val formatterSaida = SimpleDateFormat("dd/MM/yyyy", Locale("pt", "BR"))
 
-        // Ordena as datas (mais recente por último)
         val diasOrdenados = mapaAcoesPorData.toSortedMap(compareBy { it })
 
-        // Pega a última data (mais recente)
         val dataMaisRecente = diasOrdenados.keys.firstOrNull()
 
         if (dataMaisRecente != null) {
@@ -209,18 +207,16 @@ class MenuPrincipal : AppCompatActivity() {
                 "Erro ao formatar"
             }
 
-            // Pega os tickers associados a essa data
             val tickers = diasOrdenados[dataMaisRecente]?.joinToString(", ") ?: "Sem ações"
 
-            // Exibe na TextView
             binding.NomeEmpesa.text = "$dataFormatada: $tickers"
         } else {
             binding.NomeEmpesa.text = "Sem dados"
         }
     }
 
-    private fun navegarTelaOportunidades() {
-        startActivity(Intent(this, Oportunidades::class.java))
+    private fun navegarTelaSugestoes() {
+        startActivity(Intent(this, Sugestoes::class.java))
     }
 
     private fun navegarTelaAvaliar() {

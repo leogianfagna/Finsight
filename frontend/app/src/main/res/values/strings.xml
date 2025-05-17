@@ -6,8 +6,8 @@
     <string name="hint_entrar">Entrar</string>
     <string name="esqueci_senha">Esqueci minha senha</string>
     <string name="cadastrar">Não tem uma conta? Cadastre-se aqui</string>
-    <string name="cadastra_se">Cadastra-se</string>
-    <string name="cadastra_se_com_suas_informa_es_abaixo">Cadastra-se com suas informações abaixo:</string>
+    <string name="cadastra_se">Cadastre-se</string>
+    <string name="cadastra_se_com_suas_informa_es_abaixo">Cadastre-se com suas informações abaixo:</string>
     <string name="nome_completo">Nome Completo</string>
     <string name="digite_seu_nome_completo">Digite seu nome completo</string>
     <string name="cpf">CPF</string>
@@ -23,7 +23,6 @@
     <string name="PrevisaoInvest">Previsão do investimento</string>
     <string name="SaldoFut">R$00.00</string>
     <string name="TextApres">Seu assistente financeiro</string>
-    <string name="oportunidades">Oportunidades</string>
     <string name="avaliar">Avaliar</string>
     <string name="sugest_es">Sugestões</string>
     <string name="sugestoes">Sugestões</string>
