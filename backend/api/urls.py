@@ -26,6 +26,8 @@ urlpatterns = [
     path('get_future_balance/', views.get_future_balance_by_id, name='get_future_balance_by_id'),
     path('grafico/', views.gerar_grafico_acao, name='gerar_grafico_acao'),
     path('get_acoes/', views.get_acoes, name = 'get_acoes'),
+    path('get_account_future_balance/', views.get_account_future_balance, name='get_account_future_balance'),
+
 ]
 
 if settings.DEBUG:

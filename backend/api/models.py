@@ -10,6 +10,7 @@ load_dotenv()
 client = pymongo.MongoClient(os.getenv("MONGODB_CONNECTION", default=""))
 db = client['users']
 collection = db['users']
+collection_acoes = db['acoes']
 
 class User(models.Model):
     full_name = models.CharField(max_length=255)
@@ -80,7 +81,14 @@ class User(models.Model):
 
             quantity_int = int(quantity) 
 
-            obtained_info = [ticker.upper(), quantity_int, price, date_str]
+            acao_data = collection_acoes.find_one({"ticker": f"{ticker.upper()}.SA"})
+            if not acao_data or 'ultimo_preco' not in acao_data:
+                future_price = None
+            else:
+                future_price = round(float(acao_data['ultimo_preco']), 2)
+
+
+            obtained_info = [ticker.upper(),price, quantity_int, date_str, future_price]
 
             collection.update_one(
                 {"username": username},
@@ -96,21 +104,19 @@ class User(models.Model):
 
     
     @staticmethod
-    def delete_user_ticker(username, ticker, price, quantity, date):
+    def delete_user_ticker(username, ticker, price, quantity, date, future_price):
         user_data = collection.find_one({"username": username})
         
         if user_data:
             collection.update_one(
                 {"username": username},
                 {"$pull": {
-                    "obtained_tickers": [ticker, float(price), float(quantity), date]
+                    "obtained_tickers": [ticker, float(price), int(float(quantity)), date, float(future_price)]
                 }}
             )
             return "Ticker removed successfully"
         else:
             return "User not found"
-
-
         
     @staticmethod
     def clear_user_tickers(username):

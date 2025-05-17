@@ -20,7 +20,7 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 client = pymongo.MongoClient(os.getenv("MONGODB_CONNECTION", default=""))
 db = client['users']
 collection = db['users']
-
+collection_acoes = db['acoes']
 
 # Manipulação de usuários
 @csrf_exempt
@@ -121,9 +121,10 @@ def delete_user_ticker(request):
     price = request.GET.get('price')
     quantity = request.GET.get('quantity')
     date = request.GET.get('date')
+    future_price = request.GET.get('future_price')
 
     if username and ticker and price and quantity and date:
-        result = User.delete_user_ticker(username, ticker, price, quantity, date)
+        result = User.delete_user_ticker(username, ticker, price, quantity, date, future_price)
         if result == "Ticker removed successfully":
             return JsonResponse({"message": "Ticker removed successfully"})
         else:
@@ -358,9 +359,16 @@ def gerar_grafico_acao(request):
         return JsonResponse({"error": "Ticker and data_com are required"}, status=400)
 
     try:
-        fig = previsao_com_ajuste_curva(ticker, data_com)
+        fig, ultimo_preco = previsao_com_ajuste_curva(ticker, data_com)
         if fig is None:
             return JsonResponse({"error": "Erro ao gerar previsão."}, status=500)
+
+        ultimo_preco = round(ultimo_preco, 2) 
+        collection_acoes.update_one(
+            {"ticker": ticker},
+            {"$set": {"ultimo_preco": ultimo_preco}},
+            upsert=True
+        )
 
         buf = io.BytesIO()
         canvas = FigureCanvas(fig)
@@ -379,3 +387,41 @@ def get_acoes(request):
         return JsonResponse(acoes, safe=False)
     except Exception as e:
         return JsonResponse({"message": str(e)}, status=500)
+
+def get_account_future_balance(request):
+    user_id = request.GET.get('id')
+    
+    if user_id:
+        try:
+            user_id = ObjectId(user_id)
+            
+            user_data = collection.find_one({"_id": user_id}, {"_id": 1, "username": 1})
+            
+            if not user_data:
+                return JsonResponse({"message": "User not found"}, status=404)
+
+            user = User(id=user_id, username=user_data['username'])
+
+            username = user_data['username']
+
+        except Exception as e:
+            return JsonResponse({"message": f"Error retrieving user: {str(e)}"}, status=500)
+
+        try:
+            username_tickers = User.get_user_tickers(username) 
+            total_balance = 0
+
+            for ticker_list in username_tickers:
+                total_balance += ticker_list[4] * ticker_list[2]
+
+            total_balance = round(total_balance, 2)
+
+            collection.update_one({"_id": user_id}, {"$set": {"future_balance": total_balance}})
+
+            return JsonResponse({"message": "Data retrieved and saved successfully", "future_balance": total_balance})
+        
+        except Exception as e:
+            return JsonResponse({"message": f"Error calculating balance: {str(e)}"}, status=500)
+
+    else:
+        return JsonResponse({"message": "User ID parameter not provided"}, status=400)

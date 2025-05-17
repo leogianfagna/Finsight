@@ -163,4 +163,4 @@ def previsao_com_ajuste_curva(codigo_acao, data_com_str):
 
     fig = plt.gcf()  # pega a figura atual
     plt.close()
-    return fig
+    return fig, preco_ultimo
