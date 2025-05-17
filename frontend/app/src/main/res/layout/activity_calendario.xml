@@ -43,6 +43,7 @@
         android:padding="16dp"
         android:orientation="vertical"
         android:gravity="center"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="16dp">
 
         <!-- Navegação entre meses -->
@@ -114,38 +115,27 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/hist_rico"
+                android:text="@string/proximas_com"
                 android:textSize="16sp"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp"/>
 
             <LinearLayout
+                android:id="@+id/historico_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@color/darkgray"
-                android:padding="12dp">
+                android:padding="8dp"
+                android:layout_marginTop="16dp"
+                />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="GGBR4"
-                    android:textSize="16sp"
-                    android:textColor="@color/white"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="R$1,56"
-                    android:textSize="14sp"
-                    android:textColor="@color/gray"/>
-            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
