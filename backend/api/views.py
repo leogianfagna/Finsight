@@ -14,7 +14,8 @@ from machine_learning.data_com import previsao_com_ajuste_curva
 from django.http import HttpResponse
 import io
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-
+from bson import json_util
+import json
 
 # Conexão com o MongoDB
 client = pymongo.MongoClient(os.getenv("MONGODB_CONNECTION", default=""))
@@ -25,21 +26,29 @@ collection_acoes = db['acoes']
 # Manipulação de usuários
 @csrf_exempt
 def add_user(request):
-    full_name = request.GET.get('full_name')
-    username = request.GET.get('username')
-    password = request.GET.get('password')
-    cpf = request.GET.get('cpf')
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body.decode('utf-8'))
 
-    if username and password:
-        result = User.add_user(full_name, username, password, cpf)
-        
-        # Checa se já existe um username com esse nome
-        if result == "User registred successfully":
-            return JsonResponse({"message": "User registered successfully"})
-        else:
-            return JsonResponse({"message": result}, status=400)
+            full_name = data.get('full_name')
+            username = data.get('username')
+            password = data.get('password')
+            cpf = data.get('cpf')
+
+            if username and password:
+                result = User.add_user(full_name, username, password, cpf)
+
+                if result == "User registred successfully":
+                    return JsonResponse({"message": "Usuário cadastrado com sucesso"})
+                else:
+                    return JsonResponse({"message": result}, status=400)
+            else:
+                return JsonResponse({"message": "Username and password are required"}, status=400)
+
+        except json.JSONDecodeError:
+            return JsonResponse({"message": "Invalid JSON"}, status=400)
     else:
-        return JsonResponse({"message": "Username and password are required"}, status=400)
+        return JsonResponse({"message": "Method not allowed"}, status=405)
 
 def get_all_users(request):
     users = User.get_all_users()
@@ -363,10 +372,23 @@ def gerar_grafico_acao(request):
         if fig is None:
             return JsonResponse({"error": "Erro ao gerar previsão."}, status=500)
 
-        ultimo_preco = round(ultimo_preco, 2) 
+        csv_dir = os.path.join(os.path.dirname(__file__), '..', '..', 'dados')
+        csv_dir = os.path.abspath(csv_dir)
+        csv_file = os.path.join(csv_dir, f"{ticker.upper()}.csv")
+
+        if not os.path.exists(csv_file):
+            return JsonResponse({"error": f"CSV file not found for {ticker}"}, status=404)
+
+        df = pd.read_csv(csv_file, parse_dates=['Date'])
+        last_row = df.sort_values(by='Date').iloc[-1]
+        preco_atual = round(float(last_row['Close']), 2)
+
         collection_acoes.update_one(
             {"ticker": ticker},
-            {"$set": {"ultimo_preco": ultimo_preco}},
+            {"$set": {
+                "ultimo_preco": round(ultimo_preco, 2),
+                "preco_atual": preco_atual
+            }},
             upsert=True
         )
 
@@ -425,3 +447,29 @@ def get_account_future_balance(request):
 
     else:
         return JsonResponse({"message": "User ID parameter not provided"}, status=400)
+
+@csrf_exempt
+def get_acoes_com_valorizacao(request):
+    try:
+        documentos = collection_acoes.find()
+
+        acoes_valorizadas = []
+        for doc in documentos:
+            ultimo_preco = doc.get("ultimo_preco")
+            preco_atual = doc.get("preco_atual")
+
+            if ultimo_preco is not None and preco_atual is not None:
+                diferenca = ultimo_preco - preco_atual
+                if diferenca > 0:
+                    acoes_valorizadas.append({
+                        "ticker": doc.get("ticker"),
+                        "data_com": doc.get("data_com"),
+                        "ultimo_preco": f"{ultimo_preco:.2f}",
+                        "preco_atual": f"{preco_atual:.2f}"
+                    })
+
+        response_data = json.loads(json_util.dumps(acoes_valorizadas))
+        return JsonResponse(response_data, safe=False, status=200)
+
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)

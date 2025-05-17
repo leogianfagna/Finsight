@@ -27,7 +27,7 @@ urlpatterns = [
     path('grafico/', views.gerar_grafico_acao, name='gerar_grafico_acao'),
     path('get_acoes/', views.get_acoes, name = 'get_acoes'),
     path('get_account_future_balance/', views.get_account_future_balance, name='get_account_future_balance'),
-
+    path('get_acoes_com_valorizacao/', views.get_acoes_com_valorizacao, name='get_acoes_com_valorizacao'),
 ]
 
 if settings.DEBUG:
