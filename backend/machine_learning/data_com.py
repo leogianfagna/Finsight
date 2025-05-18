@@ -40,7 +40,7 @@ def obter_curva_media_normalizada(ticker_dividend, ticker_history, count_days=40
 
 
 def previsao_com_ajuste_curva(codigo_acao, data_com_str): 
-    nome_arquivo = fr"dados/{codigo_acao}.csv"
+    nome_arquivo = fr"backend/data/{codigo_acao}.csv"
 
     if not os.path.exists(nome_arquivo):
         print(f"Arquivo não encontrado. Baixando os dados de {codigo_acao}...")
