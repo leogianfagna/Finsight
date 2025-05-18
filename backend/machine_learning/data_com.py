@@ -38,7 +38,6 @@ def obter_curva_media_normalizada(ticker_dividend, ticker_history, count_days=40
 
     return media
 
-
 def previsao_com_ajuste_curva(codigo_acao, data_com_str): 
     nome_arquivo = fr"backend/data/{codigo_acao}.csv"
 
@@ -91,7 +90,7 @@ def previsao_com_ajuste_curva(codigo_acao, data_com_str):
     # Concatenar os componentes gerados no PCA com o volume padronizado (ele não passa por PCA)
     X_final = np.hstack([X_pca, X_vol_scaled])
 
-    # Regressão linear
+    # Treinar modelo de regressão linear com dados históricos (X_final e y), para ser utilizada posteriormente para cada dia
     lr = LinearRegression()
     lr.fit(X_final, y)
 
@@ -101,7 +100,8 @@ def previsao_com_ajuste_curva(codigo_acao, data_com_str):
     datas_previstas = []
     precos_previstos = []
 
-    # Simular cada dia de mercado
+    # Simular cada dia de mercado. Os parâmetros são valores do dia anterior com uma margem de volatibilidade, que são normalizados
+    # e usados na regressão linear já treinada. Esses valores são salvos para a próxima iteração e criar estatísticas mais reais
     while data_atual < data_com:
         open_sim = ultimo_dia['Close']
         ultimo_dia['High'] = ultimo_dia['High'] * (1 + np.random.uniform(-0.02, 0.02))
@@ -121,7 +121,9 @@ def previsao_com_ajuste_curva(codigo_acao, data_com_str):
         X_pca_novo = pca.transform(X_base_novo_scaled)
         X_input = np.hstack([X_pca_novo, X_vol_novo_scaled])
 
-        preco_previsto = lr.predict(X_input)[0]
+        # Prevê o preço utilizando o modelo de regressão já treinado
+        preco_previsto_array = lr.predict(X_input)
+        preco_previsto = preco_previsto_array[0]
 
         ultimo_dia['Close'] = preco_previsto
         ultimo_dia['Open'] = open_sim
@@ -155,11 +157,11 @@ def previsao_com_ajuste_curva(codigo_acao, data_com_str):
     max_dias_curva = len(curva_media)
 
     for dia in range(1, max_dias_curva):
-        data_ajuste = data_com + pd.Timedelta(days=dia)
+        dia_previsao = data_com + pd.Timedelta(days=dia)
         fator_ajuste = curva_media.get(dia, 1.0)
         preco_ajustado = preco_ultimo * fator_ajuste
 
-        datas_apos.append(data_ajuste)
+        datas_apos.append(dia_previsao)
         precos_apos.append(preco_ajustado)
 
     df_previsao_ate_com = pd.DataFrame({'Data': datas_previstas, 'Preco_Previsto': precos_previstos})
