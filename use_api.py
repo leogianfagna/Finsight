@@ -105,6 +105,11 @@ def get_account_balance(username):
     response = requests.get(url, params=params)
     print(f"Data Response: {response.json()}")
 
+def get_grafico(ticker_name, date_com):
+    url = f"{base_url}gerar_grafico_acao/"
+    params = {'ticker': ticker_name, 'data_com': date_com}
+    response = requests.get(url, params=params)
+    print(f"Data Response: {response.json()}")
+
 if __name__ == "__main__":
-    get_account_balance("newbase")
-    get_mean_price("newbase")
+    get_grafico("PETR4.SA", "2025-05-26")

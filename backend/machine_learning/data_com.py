@@ -51,8 +51,10 @@ def previsao_com_ajuste_curva(codigo_acao, data_com_str):
         print(f"Arquivo {nome_arquivo} encontrado. Carregando os dados...")
         dados = pd.read_csv(nome_arquivo, parse_dates=["Date"], index_col="Date")
 
-    data_com = pd.to_datetime(data_com_str).tz_localize(None)  # remove timezone
+    # Próxima data-com preparada (timezone removido)
+    data_com = pd.to_datetime(data_com_str).tz_localize(None)
 
+    # Preparar histórico de dividendos
     ticker_dividend = dados["Dividends"]
     ticker_dividend = ticker_dividend[ticker_dividend > 0]
 
@@ -62,33 +64,44 @@ def previsao_com_ajuste_curva(codigo_acao, data_com_str):
 
     curva_media = obter_curva_media_normalizada(ticker_dividend, dados)
 
+    # Criação do rótulo: fechamento do dia seguinte
+    # Criar uma nova coluna chamada "Label" que será o valor de "Close" (nosso rótulo)
+    # Método shift() move a coluna. Está movendo tudo para cima pois queremos prever o fechamento do dia seguinte
+    # Dropamos a última linha que vira valor nulo (já que subimos uma posição para cima)
     dados.dropna(inplace=True)
     dados['Label'] = dados['Close'].shift(-1)
     dados.dropna(inplace=True)
 
+    # Nossos coeficientes em dataframes
+    # X_base e X_volume divididos pois 'Open', 'High' e 'Low' são fortemente correlacionadas e se tornarão uma razão só
     X_base = dados[['Open', 'High', 'Low']]
     X_volume = dados[['Volume']]
     y = dados['Label']
 
+    # Normalizar os dados (da base e volume de forma separada)
     scaler_base = StandardScaler()
     X_base_scaled = scaler_base.fit_transform(X_base)
-
     scaler_vol = StandardScaler()
     X_vol_scaled = scaler_vol.fit_transform(X_volume)
 
+    # Aplicar PCA apenas em Open, High e Low
     pca = PCA(n_components=2)
     X_pca = pca.fit_transform(X_base_scaled)
 
+    # Concatenar os componentes gerados no PCA com o volume padronizado (ele não passa por PCA)
     X_final = np.hstack([X_pca, X_vol_scaled])
 
+    # Regressão linear
     lr = LinearRegression()
     lr.fit(X_final, y)
 
+    # Projetar os preços diários dos ativos até a data COM
     ultimo_dia = dados.iloc[-1].copy()
-    data_atual = pd.to_datetime(dados.index[-1]).tz_localize(None)  # remove timezone
+    data_atual = pd.to_datetime(dados.index[-1]).tz_localize(None)
     datas_previstas = []
     precos_previstos = []
 
+    # Simular cada dia de mercado
     while data_atual < data_com:
         open_sim = ultimo_dia['Close']
         ultimo_dia['High'] = ultimo_dia['High'] * (1 + np.random.uniform(-0.02, 0.02))
@@ -120,10 +133,25 @@ def previsao_com_ajuste_curva(codigo_acao, data_com_str):
         datas_previstas.append(data_atual)
         precos_previstos.append(preco_previsto)
 
+    # Pós data com o preço cai, equivalente ao preço pago de proventos. Essa queda precisa ser debitada do valor do último dia para
+    # ser inserida e prever o PÓS DATA COM. Prever com um algoritmo quanto será pago
+    df_pgto_dividendo = pd.read_csv(nome_arquivo, parse_dates=["Date"], index_col="Date")
+    df_pgto_dividendo = df_pgto_dividendo[~((df_pgto_dividendo['Dividends'] == 0) | (df_pgto_dividendo['Dividends'].isna()))]
+
+    ultimos_5_dividend = df_pgto_dividendo.tail(5).copy()
+
+    # Calcula a porcentagem que o dividendo representa do fechamento
+    ultimos_5_dividend["Pct_Dividendo_Close"] = (ultimos_5_dividend["Dividends"] / ultimos_5_dividend["Close"]) * 100
+    media_yield_final = ultimos_5_dividend["Pct_Dividendo_Close"].mean()
+
+    # Ajustar no preço de abertura pós data com a diferença desse valor pago de provento
     preco_ultimo = precos_previstos[-1] if precos_previstos else dados.iloc[-1]['Close']
+    preco_ultimo = preco_ultimo * ((100 - media_yield_final)/100)
+
+    # Código para gerar df pós data com, resgata o último preço previsto PRÉ DATA COM em "preco_ultimo" como ponto de partida
+    # Após esse valor de partida, multiplica ele pelo "fator_ajuste", que é o ponto da curva normalizada, resultando em um ponto no gráfico
     datas_apos = []
     precos_apos = []
-
     max_dias_curva = len(curva_media)
 
     for dia in range(1, max_dias_curva):
@@ -136,12 +164,12 @@ def previsao_com_ajuste_curva(codigo_acao, data_com_str):
 
     df_previsao_ate_com = pd.DataFrame({'Data': datas_previstas, 'Preco_Previsto': precos_previstos})
     df_previsao_apos_com = pd.DataFrame({'Data': datas_apos, 'Preco_Previsto': precos_apos})
-
     df_previsao_completa = pd.concat([df_previsao_ate_com, df_previsao_apos_com], ignore_index=True).set_index('Data')
 
     plt.figure(figsize=(14, 7))
     plt.plot(df_previsao_completa.index, df_previsao_completa['Preco_Previsto'], marker='o', label="Previsão Completa")
     plt.axvline(x=data_com, color='red', linestyle='--', label="Data COM")
+    plt.axhline(y=df_previsao_ate_com.iloc[-1]['Preco_Previsto'], color='green', linestyle=':', label="Valor de lucro real")
     plt.title(f"Previsão com ajuste via curva normalizada para {codigo_acao}")
     plt.xlabel("Data")
     plt.ylabel("Preço previsto")
