@@ -372,7 +372,7 @@ def gerar_grafico_acao(request):
         if fig is None:
             return JsonResponse({"error": "Erro ao gerar previsão."}, status=500)
 
-        csv_dir = os.path.join(os.path.dirname(__file__), '..', '..', 'dados')
+        csv_dir = os.path.join(os.path.dirname(__file__), '..', '..', 'backend/data')
         csv_dir = os.path.abspath(csv_dir)
         csv_file = os.path.join(csv_dir, f"{ticker.upper()}.csv")
 

@@ -7,10 +7,10 @@ TICKERS = ["VALE3.SA", "CMIN3.SA", "BRAP4.SA", "GGBR4.SA", "PETR4.SA", "RECV3.SA
            "TAEE11.SA", "CPFE3.SA", "MRFG3.SA", "JBSS3.SA", "VIVT3.SA", "BBSE3.SA", "LEVE3.SA", "POMO4.SA"]
 DATA_INICIO = "2020-01-01"
 DATA_FIM = "2025-05-10"
-PASTA_DADOS = "dados"
+DATA_PATH = "backend/data"
 
 # Cria a pasta se não existir
-os.makedirs(PASTA_DADOS, exist_ok=True)
+os.makedirs(DATA_PATH, exist_ok=True)
 
 # Função para baixar ou carregar dados
 def obter_dados(ticker_str):
@@ -20,12 +20,12 @@ def obter_dados(ticker_str):
         df = ticker.history(start=DATA_INICIO, end=DATA_FIM)
         if df.empty:
             raise ValueError("Dados retornados estão vazios.")
-        caminho_csv = os.path.join(PASTA_DADOS, f"{ticker_str}.csv")
+        caminho_csv = os.path.join(DATA_PATH, f"{ticker_str}.csv")
         df.to_csv(caminho_csv)
         print(f"✅ Dados de {ticker_str} salvos em CSV.")
     except Exception as e:
         print(f"⚠️ Erro ao baixar dados de {ticker_str}: {e}")
-        caminho_csv = os.path.join(PASTA_DADOS, f"{ticker_str}.csv")
+        caminho_csv = os.path.join(DATA_PATH, f"{ticker_str}.csv")
         if os.path.exists(caminho_csv):
             print(f"📂 Carregando dados salvos localmente para {ticker_str}.")
             df = pd.read_csv(caminho_csv, index_col=0, parse_dates=True)
@@ -43,7 +43,7 @@ def obter_dividendos(ticker_str):
         if dividendos.empty:
             print(f"⚠️ Nenhum dividendo registrado para {ticker_str}.")
         else:
-            caminho_divs = os.path.join(PASTA_DADOS, f"{ticker_str}_dividendos.csv")
+            caminho_divs = os.path.join(DATA_PATH, f"{ticker_str}_dividendos.csv")
             dividendos.to_csv(caminho_divs)
             print(f"✅ Dividendos de {ticker_str} salvos.")
         return dividendos

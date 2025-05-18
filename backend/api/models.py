@@ -55,7 +55,7 @@ class User(models.Model):
         if not user_data:
             return "User not found"
 
-        csv_dir = os.path.join(os.path.dirname(__file__), '..', '..', 'dados')
+        csv_dir = os.path.join(os.path.dirname(__file__), '..', '..', 'backend/data')
         csv_dir = os.path.abspath(csv_dir)
         csv_file = os.path.join(csv_dir, f"{ticker.upper()}.SA.csv")
 
