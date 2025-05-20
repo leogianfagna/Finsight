@@ -131,7 +131,12 @@ def previsao_com_ajuste_curva(codigo_acao, data_com_str):
         ultimo_dia['Low'] = low_sim
         ultimo_dia['Volume'] = volume_sim
 
-        data_atual += pd.Timedelta(days=1)
+        # Avança para o próximo dia útil (pula finais de semana)
+        while True:
+            data_atual += pd.Timedelta(days=1)
+            if data_atual.weekday() < 5:
+                break
+
         datas_previstas.append(data_atual)
         precos_previstos.append(preco_previsto)
 
@@ -156,13 +161,22 @@ def previsao_com_ajuste_curva(codigo_acao, data_com_str):
     precos_apos = []
     max_dias_curva = len(curva_media)
 
-    for dia in range(1, max_dias_curva):
-        dia_previsao = data_com + pd.Timedelta(days=dia)
-        fator_ajuste = curva_media.get(dia, 1.0)
+    dia_previsao = data_com
+    dias_adicionados = 0
+    dias_uteis_adicionados = 0
+
+    while dias_uteis_adicionados < max_dias_curva:
+        dia_previsao += pd.Timedelta(days=1)
+        if dia_previsao.weekday() >= 5:
+            continue  
+
+        fator_ajuste = curva_media.get(dias_uteis_adicionados + 1, 1.0)
         preco_ajustado = preco_ultimo * fator_ajuste
 
         datas_apos.append(dia_previsao)
         precos_apos.append(preco_ajustado)
+
+        dias_uteis_adicionados += 1
 
     df_previsao_ate_com = pd.DataFrame({'Data': datas_previstas, 'Preco_Previsto': precos_previstos})
     df_previsao_apos_com = pd.DataFrame({'Data': datas_apos, 'Preco_Previsto': precos_apos})
