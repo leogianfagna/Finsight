@@ -191,7 +191,7 @@ def previsao_com_ajuste_curva(codigo_acao, data_com_str):
     plt.ylabel("Preço previsto")
     plt.grid(True)
     plt.legend()
-    plt.tight_layout()
+    plt.tight_layout() 
 
     # Cria diretório se não existir
     # Define o caminho completo do arquivo
