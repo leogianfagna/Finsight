@@ -19,62 +19,82 @@ import json
 from services.user_service import UserService, ExtendedUserService
 from repositories.user_repository import UserRepository
 
-# Instanciar o repositório concreto
+# Dependência injetada
 user_repository = UserRepository()
-
-# Instanciar os serviços injetando o repositório
 user_service = UserService(user_repository)
 extended_user_service = ExtendedUserService(user_repository)
 
+def is_invalid_credential(username, password):
+    return not username or not password
+
 @csrf_exempt
 def add_user(request):
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body.decode('utf-8'))
+    if request.method != 'POST':
+        return method_not_allowed()
 
-            full_name = data.get('full_name')
-            username = data.get('username')
-            password = data.get('password')
-            cpf = data.get('cpf')
+    try:
+        data = parse_request_body(request)
+        full_name = data.get('full_name')
+        username = data.get('username')
+        password = data.get('password')
+        cpf = data.get('cpf')
 
-            if not username or not password:
-                return JsonResponse({"message": "Username and password are required"}, status=400)
+        if is_invalid_credential(username, password):
+            return missing_credentials_response()
 
-            result = user_service.register_user(full_name, username, password, cpf)
-            status = 201 if result["success"] else 400
-            return JsonResponse({"message": result["message"]}, status=status)
+        result = user_service.register_user(full_name, username, password, cpf)
+        return JsonResponse({"message": result["message"]}, status=201 if result["success"] else 400)
 
-        except json.JSONDecodeError:
-            return JsonResponse({"message": "Invalid JSON"}, status=400)
+    except json.JSONDecodeError:
+        return invalid_json_response()
 
-    return JsonResponse({"message": "Method not allowed"}, status=405)
+@csrf_exempt
+def add_user_with_contact(request):
+    if request.method != 'POST':
+        return method_not_allowed()
+
+    try:
+        data = parse_request_body(request)
+        full_name = data.get('full_name')
+        username = data.get('username')
+        password = data.get('password')
+        cpf = data.get('cpf')
+        email = data.get('email')
+        phone = data.get('phone')
+
+        if is_invalid_credential(username, password):
+            return missing_credentials_response()
+
+        result = extended_user_service.register_user_with_contact(full_name, username, password, cpf, email, phone)
+        return JsonResponse({"message": result["message"]}, status=201 if result["success"] else 400)
+
+    except json.JSONDecodeError:
+        return invalid_json_response()
 
 def get_all_users(request):
     users = user_service.list_users()
-    user_list = [{"id": str(u.get("_id")), "username": u.get("username"), "password": u.get("password")} for u in users]
-    return JsonResponse(user_list, safe=False)
+    formatted_users = format_user_list(users)
+    return JsonResponse(formatted_users, safe=False)
 
 @csrf_exempt
 def update_user(request):
     username = request.GET.get('username')
     password = request.GET.get('password')
 
-    if not username or not password:
-        return JsonResponse({"message": "Invalid data"}, status=400)
+    if is_invalid_credential(username, password):
+        return invalid_data_response()
 
     result = user_service.update_user(username, password)
-    status = 200 if result["success"] else 404
-    return JsonResponse({"message": result["message"]}, status=status)
+    return JsonResponse({"message": result["message"]}, status=200 if result["success"] else 404)
 
 def delete_user(request):
     username = request.GET.get('username')
 
     if not username:
-        return JsonResponse({"message": "Invalid data"}, status=400)
+        return invalid_data_response()
 
     result = user_service.delete_user(username)
-    status = 200 if result["success"] else 404
-    return JsonResponse({"message": result["message"]}, status=status)
+    return JsonResponse({"message": result["message"]}, status=200 if result["success"] else 404)
 
 def get_user_tickers(request):
     username = request.GET.get('username')
@@ -89,33 +109,27 @@ def get_user_tickers(request):
 
     return JsonResponse({"username": username, "tickers": tickers})
 
-@csrf_exempt
-def add_user_with_contact(request):
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body.decode('utf-8'))
-
-            full_name = data.get('full_name')
-            username = data.get('username')
-            password = data.get('password')
-            cpf = data.get('cpf')
-            email = data.get('email')
-            phone = data.get('phone')
-
-            if not username or not password:
-                return JsonResponse({"message": "Username and password are required"}, status=400)
-
-            result = extended_user_service.register_user_with_contact(full_name, username, password, cpf, email, phone)
-            status = 201 if result["success"] else 400
-            return JsonResponse({"message": result["message"]}, status=status)
-
-        except json.JSONDecodeError:
-            return JsonResponse({"message": "Invalid JSON"}, status=400)
-
-    return JsonResponse({"message": "Method not allowed"}, status=405)
-
 def process_registration(service):
     return service.register_user("Maria", "maria123", "senha", "12345678900")
+
+def parse_request_body(request):
+    return json.loads(request.body.decode('utf-8'))
+
+def format_user_list(users):
+    return [{"id": str(user.get("_id")), "username": user.get("username"), "password": user.get("password")} for user in users]
+
+def method_not_allowed():
+    return JsonResponse({"message": "Method not allowed"}, status=405)
+
+def invalid_json_response():
+    return JsonResponse({"message": "Invalid JSON"}, status=400)
+
+def missing_credentials_response():
+    return JsonResponse({"message": "Username and password are required"}, status=400)
+
+def invalid_data_response():
+    return JsonResponse({"message": "Invalid data"}, status=400)
+
 
 
 
