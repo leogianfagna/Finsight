@@ -16,14 +16,16 @@ import io
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from bson import json_util
 import json
+from services.user_service import UserService, ExtendedUserService
+from repositories.user_repository import UserRepository
 
-# Conexão com o MongoDB
-client = pymongo.MongoClient(os.getenv("MONGODB_CONNECTION", default=""))
-db = client['users']
-collection = db['users']
-collection_acoes = db['acoes']
+# Instanciar o repositório concreto
+user_repository = UserRepository()
 
-# Manipulação de usuários
+# Instanciar os serviços injetando o repositório
+user_service = UserService(user_repository)
+extended_user_service = ExtendedUserService(user_repository)
+
 @csrf_exempt
 def add_user(request):
     if request.method == 'POST':
@@ -35,71 +37,120 @@ def add_user(request):
             password = data.get('password')
             cpf = data.get('cpf')
 
-            if username and password:
-                result = User.add_user(full_name, username, password, cpf)
-
-                if result == "User registred successfully":
-                    return JsonResponse({"message": "Usuário cadastrado com sucesso"})
-                else:
-                    return JsonResponse({"message": result}, status=400)
-            else:
+            if not username or not password:
                 return JsonResponse({"message": "Username and password are required"}, status=400)
+
+            result = user_service.register_user(full_name, username, password, cpf)
+            status = 201 if result["success"] else 400
+            return JsonResponse({"message": result["message"]}, status=status)
 
         except json.JSONDecodeError:
             return JsonResponse({"message": "Invalid JSON"}, status=400)
-    else:
-        return JsonResponse({"message": "Method not allowed"}, status=405)
+
+    return JsonResponse({"message": "Method not allowed"}, status=405)
 
 def get_all_users(request):
-    users = User.get_all_users()
-    user_list = []
-
-    for user in users:
-        user_list.append({
-            "id": str(user.get("_id")),  
-            "username": user.get("username"),
-            "password": user.get("password")
-        })
-
+    users = user_service.list_users()
+    user_list = [{"id": str(u.get("_id")), "username": u.get("username"), "password": u.get("password")} for u in users]
     return JsonResponse(user_list, safe=False)
 
 @csrf_exempt
 def update_user(request):
     username = request.GET.get('username')
     password = request.GET.get('password')
-    
-    if username and password:
-        User.update_user(username, password)
-        return JsonResponse({"message": "User updated successfully"})
-    else:
+
+    if not username or not password:
         return JsonResponse({"message": "Invalid data"}, status=400)
+
+    result = user_service.update_user(username, password)
+    status = 200 if result["success"] else 404
+    return JsonResponse({"message": result["message"]}, status=status)
 
 def delete_user(request):
     username = request.GET.get('username')
-    
-    if username:
-        User.delete_user(username)
-        return JsonResponse({"message": "User deleted successfully"})
-    else:
+
+    if not username:
         return JsonResponse({"message": "Invalid data"}, status=400)
 
-# Manipulação de papéis na conta do usuário
+    result = user_service.delete_user(username)
+    status = 200 if result["success"] else 404
+    return JsonResponse({"message": result["message"]}, status=status)
+
 def get_user_tickers(request):
     username = request.GET.get('username')
     ticker_type = request.GET.get('ticker_type')
 
-    if username:
-        if ticker_type == "wishlist":
-            tickers = User.get_user_wishlist_tickers(username)
-        else:
-            tickers = User.get_user_tickers(username)
-
-        if tickers is not None:
-            return JsonResponse({"username": username, "tickers": tickers})
-        else:
-            return JsonResponse({"message": "User not found"}, status=404)
-    else:
+    if not username:
         return JsonResponse({"message": "Username is required"}, status=400)
+
+    tickers = user_service.get_tickers(username, ticker_type)
+    if tickers is None:
+        return JsonResponse({"message": "User not found"}, status=404)
+
+    return JsonResponse({"username": username, "tickers": tickers})
+
+@csrf_exempt
+def add_user_with_contact(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body.decode('utf-8'))
+
+            full_name = data.get('full_name')
+            username = data.get('username')
+            password = data.get('password')
+            cpf = data.get('cpf')
+            email = data.get('email')
+            phone = data.get('phone')
+
+            if not username or not password:
+                return JsonResponse({"message": "Username and password are required"}, status=400)
+
+            result = extended_user_service.register_user_with_contact(full_name, username, password, cpf, email, phone)
+            status = 201 if result["success"] else 400
+            return JsonResponse({"message": result["message"]}, status=status)
+
+        except json.JSONDecodeError:
+            return JsonResponse({"message": "Invalid JSON"}, status=400)
+
+    return JsonResponse({"message": "Method not allowed"}, status=405)
+
+def process_registration(service):
+    return service.register_user("Maria", "maria123", "senha", "12345678900")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
 def add_user_ticker(request):
     if request.method != 'GET':
