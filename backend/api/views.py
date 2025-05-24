@@ -18,6 +18,8 @@ from bson import json_util
 import json
 from services.user_service import UserService, ExtendedUserService
 from repositories.user_repository import UserRepository
+from services.strategies import BasicRegistrationStrategy, ExtendedRegistrationStrategy
+from services.user_facade import UserFacade
 
 # Dependência injetada
 user_repository = UserRepository()
@@ -38,11 +40,18 @@ def add_user(request):
         username = data.get('username')
         password = data.get('password')
         cpf = data.get('cpf')
+        email = data.get('email')
+        phone = data.get('phone')
 
         if is_invalid_credential(username, password):
             return missing_credentials_response()
 
-        result = user_service.register_user(full_name, username, password, cpf)
+        if email and phone:
+            strategy = ExtendedRegistrationStrategy(email, phone)
+        else:
+            strategy = BasicRegistrationStrategy()
+
+        result = strategy.register(full_name, username, password, cpf)
         return JsonResponse({"message": result["message"]}, status=201 if result["success"] else 400)
 
     except json.JSONDecodeError:
@@ -72,9 +81,8 @@ def add_user_with_contact(request):
         return invalid_json_response()
 
 def get_all_users(request):
-    users = user_service.list_users()
-    formatted_users = format_user_list(users)
-    return JsonResponse(formatted_users, safe=False)
+    users = UserFacade.list_all_users()
+    return JsonResponse(users, safe=False)
 
 @csrf_exempt
 def update_user(request):
