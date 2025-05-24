@@ -9,6 +9,9 @@ import matplotlib
 import matplotlib.pyplot as plt
 matplotlib.use('Agg')
 from django.conf import settings
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsRegressor
 
 def obter_curva_media_normalizada(ticker_dividend, ticker_history, count_days=40, total_dates=5):
     curvas_normalizadas = []
@@ -89,6 +92,8 @@ def previsao_com_ajuste_curva(codigo_acao, data_com_str):
 
     # Concatenar os componentes gerados no PCA com o volume padronizado (ele não passa por PCA)
     X_final = np.hstack([X_pca, X_vol_scaled])
+
+    avaliar_modelos_regressao(X_final, y)
 
     # Treinar modelo de regressão linear com dados históricos (X_final e y), para ser utilizada posteriormente para cada dia
     lr = LinearRegression()
@@ -207,3 +212,56 @@ def previsao_com_ajuste_curva(codigo_acao, data_com_str):
     fig = plt.gcf()  # pega a figura atual
     plt.close()
     return fig, preco_ultimo
+
+
+def avaliar_modelos_regressao(X, y, test_size=0.2, random_state=42):
+    # Separar os dados em treino e teste
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=test_size, random_state=random_state
+    )
+
+    # Regressão Linear
+    lr = LinearRegression()
+    lr.fit(X_train, y_train)
+    y_pred_lr = lr.predict(X_test)
+
+    mae_lr = mean_absolute_error(y_test, y_pred_lr)
+    rmse_lr = np.sqrt(mean_squared_error(y_test, y_pred_lr))
+    r2_lr = r2_score(y_test, y_pred_lr)
+
+    print("\n📈 Regressão Linear:")
+    print(f"MAE:  {mae_lr:.4f}")
+    print(f"RMSE: {rmse_lr:.4f}")
+    print(f"R²:   {r2_lr:.4f}")
+
+    # Buscar melhor KNN
+    n_train = len(X_train)
+    max_k = int(np.sqrt(n_train))
+    best_rmse = float("inf")
+    best_model = None
+    best_params = {}
+
+    print("\n🔍 Comparando com KNN:")
+    for weights in ['uniform', 'distance']:
+        for k in range(1, max_k + 1):
+            knn = KNeighborsRegressor(n_neighbors=k, weights=weights)
+            knn.fit(X_train, y_train)
+            y_pred_knn = knn.predict(X_test)
+
+            rmse = np.sqrt(mean_squared_error(y_test, y_pred_knn))
+
+            if rmse < best_rmse:
+                best_rmse = rmse
+                best_model = knn
+                best_params = {'k': k, 'weights': weights}
+
+    # Avaliar melhor KNN
+    y_pred_best_knn = best_model.predict(X_test)
+    mae_knn = mean_absolute_error(y_test, y_pred_best_knn)
+    r2_knn = r2_score(y_test, y_pred_best_knn)
+
+    print(f"\n✅ Melhor KNN -> k={best_params['k']}, weights={best_params['weights']}")
+    print(f"MAE:  {mae_knn:.4f}")
+    print(f"RMSE: {best_rmse:.4f}")
+    print(f"R²:   {r2_knn:.4f}")
+    
