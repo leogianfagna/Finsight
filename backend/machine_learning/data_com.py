@@ -13,11 +13,16 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsRegressor
 
+# Retorna um serie de valores que representam a média de todas as curvas normalizadas
+# Resgata cada curva de cada pós data COM em um array e insere em um dataframe. Cada coluna é um dia e cada linha é uma curva das ex-datas
+# Calcula a média de cada coluna com df_curvas.mean(), retornando apenas uma linha que será a curva normalizada para as 5 datas
 def obter_curva_media_normalizada(ticker_dividend, ticker_history, count_days=40, total_dates=5):
     curvas_normalizadas = []
 
+    # Resgatar um array que representa a curva normalizada de apenas uma data com
+    # Normaliza com base de um, ou seja, divide cada valor pelo preco_base (valor do primeiro dia)
     for i in range(1, total_dates + 1):
-        ex_date = pd.to_datetime(ticker_dividend.index[-i]).tz_localize(None)  # remove timezone
+        ex_date = pd.to_datetime(ticker_dividend.index[-i]).tz_localize(None)
         valor_provento = ticker_dividend.iloc[-i]
 
         start_date = ex_date
@@ -38,7 +43,6 @@ def obter_curva_media_normalizada(ticker_dividend, ticker_history, count_days=40
     df_curvas = df_curvas.dropna(axis=1)
 
     media = df_curvas.mean()
-
     return media
 
 def previsao_com_ajuste_curva(codigo_acao, data_com_str): 
