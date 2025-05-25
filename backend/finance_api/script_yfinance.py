@@ -6,7 +6,7 @@ import os
 TICKERS = ["VALE3.SA", "CMIN3.SA", "BRAP4.SA", "GGBR4.SA", "PETR4.SA", "RECV3.SA", "CMIG4.SA",
            "TAEE11.SA", "CPFE3.SA", "MRFG3.SA", "JBSS3.SA", "VIVT3.SA", "BBSE3.SA", "LEVE3.SA", "POMO4.SA"]
 DATA_INICIO = "2020-01-01"
-DATA_FIM = "2025-05-10"
+DATA_FIM = "2025-05-25"
 DATA_PATH = "backend/data"
 
 # Cria a pasta se não existir
